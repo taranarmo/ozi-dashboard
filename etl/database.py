@@ -4,7 +4,7 @@ HOST="34.32.52.216"
 PORT="5432"
 DBNAME="as_stats"
 USER="as_stats"
-PASSWORD='2Z£D9!6X(j|sHI2Sv$rW'
+PASSWORD='...'
 
 def get_db_connection(password):
     connection_string = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"

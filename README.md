@@ -19,6 +19,7 @@ ssh to the gcp compute engine instance
 ssh-keygen -t ed25519 -C "your_email@example.com"
 cat .ssh/id_ed25519.pub
 ```
+
 copy output to github - add it as a new ssh-keys
 ```
 git clone git@github.com:ilja-vladi/as-stats.git
