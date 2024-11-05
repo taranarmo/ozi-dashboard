@@ -1,5 +1,31 @@
 # as-stats
 
+1. Create Postgres instance on GCP, name it `asn-stats`
+2. Generate strong password for user `postgres`, save it to the clipboard
+3. Go to `asn-stats`'s console
+4. Download code by cloning Git Repository
+```
+  git clone https://github.com/ilja-vladi/as-stats.git
+  cd as-stats/etl
+```
+5. Create database and user for asn_stats project
+```
+  cat setup_database.sql | gcloud sql connect asn-stats --user=postgres
+  # use postgres password from step 2. 
+```
+5. Generate strong password for asn_stats user
+```
+  gcloud sql users set-password asn-stats --instance=asn-stats --password="put-your-password-here"
+```
+7. Create DB schema
+```
+  cat as-stats/etl/database_schema.sql | gcloud sql connect asn-stats --user=asn_stats
+```
+
+
+
+## OLD - To Sort
+
 - create compute engine at GCP (assure that cloud-sql api is enabled)
 - ssh to this instance
 - run following commands there:
@@ -7,6 +33,7 @@
   ```
   sudo apt-get update
   sudo apt-get install postgresql-client
+  sudo apt-get install pip
 
   psql "host=127.0.0.1 port=5432 sslmode=disable dbname=as_stats user=as_stats"
   ```

@@ -47,7 +47,7 @@ CREATE TABLE dwh.asn (
 );
 
 CREATE TRIGGER set_timestamps_trigger_asn
-BEFORE INSERT OR UPDATE ON dwh.country
+BEFORE INSERT OR UPDATE ON dwh.asn
 FOR EACH ROW
 EXECUTE FUNCTION dwh.set_timestamps();
 
@@ -56,8 +56,6 @@ CREATE TABLE dwh.country_stat (
     created TIMESTAMP,
     updated TIMESTAMP,
     cs_id SERIAL PRIMARY KEY,
-    cs_created TIMESTAMP,
-    cs_updated TIMESTAMP,
     cs_country_iso2 VARCHAR(2),
     cs_stats_date TIMESTAMP,
     cs_v4_prefixes_ris INTEGER,
