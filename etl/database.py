@@ -39,9 +39,6 @@ def insert_country_stats_to_db(country_iso2, stats, save_sql_to_file=False):
                 f"{item['v4_prefixes_stats'] if item['v4_prefixes_stats'] else 'NULL'}, "
                 f"{item['v6_prefixes_stats'] if item['v6_prefixes_stats'] else 'NULL'}, "
                 f"{item['asns_stats'] if item['asns_stats'] else 'NULL'} ),")
-        # sql += (f"\n('{country_iso2}', '{item['stats_date'][:10]}', {item['v4_prefixes_ris']}"
-        #         f"{item['v6_prefixes_ris']}, {item['asns_ris']}, {item['v4_prefixes_stats']}, "
-        #         f"{item['v6_prefixes_stats']}, {item['asns_stats']}),")
     sql = sql[:-1] + ";"
 
     if save_sql_to_file:

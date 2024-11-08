@@ -57,4 +57,10 @@ cd as-stats
 ## TODO
 - 5min stats instead of daily
 - index connectivity - load neighbours
-- ...
+- 
+
+## Conference
+data insights for countries with 'risky internet', comparition
+connectivity index, reliability(?) index - how many asns guaranty connections to the outside
+proposal for presentation
+show riskis of "чебурнотизация" for different countries
