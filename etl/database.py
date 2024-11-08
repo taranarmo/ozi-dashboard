@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import create_engine
 
 HOST="34.32.52.216"
@@ -11,17 +13,22 @@ def get_db_connection(password):
     engine = create_engine(connection_string)
     return engine.connect()
 
-def insert_country_asns_to_db(country_iso2, list_of_asns):
-    connection = get_db_connection(PASSWORD)
+def insert_country_asns_to_db(country_iso2, list_of_asns, save_sql_to_file=False):
+    # connection = get_db_connection(PASSWORD)
     sql= "INSERT INTO dwh.asn(a_country_iso2, a_ripe_id)\nVALUES"
     for asn in list_of_asns:
         sql += f"\n('{country_iso2}', {asn}),"
     sql = sql[:-1] + ";"
-    print(sql)
-    connection.execute(sql)
 
-def insert_country_stats_to_db(country_iso2, stats):
-    connection = get_db_connection(PASSWORD)
+    if save_sql_to_file:
+        filename = "sql/country_asns_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        with open(filename, 'w') as f:
+            print(sql, file=f)
+
+    # connection.execute(sql)
+
+def insert_country_stats_to_db(country_iso2, stats, save_sql_to_file=False):
+    # connection = get_db_connection(PASSWORD)
     sql= ("INSERT INTO dwh.country_stat(cs_country_iso2, cs_stats_date, cs_v4_prefixes_ris, cs_v6_prefixes_ris,"
           " cs_asns_ris, cs_v4_prefixes_stats, cs_v6_prefixes_stats, cs_asns_stats )\nVALUES ")
     for item in stats:
@@ -29,5 +36,10 @@ def insert_country_stats_to_db(country_iso2, stats):
                 f"{item['v6_prefixes_ris']}, {item['asns_ris']}, {item['v4_prefixes_stats']}, "
                 f"{item['v6_prefixes_stats']}, {item['asns_stats']}),")
     sql = sql[:-1] + ";"
-    print(sql)
-    connection.execute(sql)
+
+    if save_sql_to_file:
+        filename = "sql/country_stats_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        with open(filename, 'w') as f:
+            print(sql, file=f)
+
+    # connection.execute(sql)

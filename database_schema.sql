@@ -30,7 +30,10 @@ CREATE TABLE dwh.country (
     c_id SERIAL PRIMARY KEY,
     c_iso2 VARCHAR(2),
     cname VARCHAR(32)
+--  add is_ex_soviet
 );
+
+-- table country_group
 
 CREATE TRIGGER set_timestamps_trigger_country
 BEFORE INSERT OR UPDATE ON dwh.country

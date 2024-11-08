@@ -1,5 +1,5 @@
-from etl.database import insert_country_asns_to_db, insert_country_stats_to_db
-from etl.ripe_api import get_country_resource_list, get_country_resource_stats
+from database import insert_country_asns_to_db, insert_country_stats_to_db
+from ripe_api import get_country_resource_list, get_country_resource_stats
 
 EX_SOVIET_COUNTRIES = {
     "AM": "Armenia", "AZ": "Azerbaijan", "BY": "Belarus", "EE": "Estonia", "GE": "Georgia", "KZ": "Kazakhstan",
@@ -26,11 +26,11 @@ def get_stats_for_country(country_iso2):
 def main():
     for iso2 in EX_SOVIET_COUNTRIES:
         asns = get_list_of_asns_for_country(iso2)
-        insert_country_asns_to_db(iso2, asns)
+        insert_country_asns_to_db(iso2, asns, True)
 
         stats = get_stats_for_country(iso2)
-        insert_country_stats_to_db(iso2, stats)
-    # print("Done")
+        insert_country_stats_to_db(iso2, stats, True)
+    print("Done")
 
 if __name__ == "__main__":
     main()
