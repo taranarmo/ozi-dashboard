@@ -52,3 +52,9 @@ copy output to github - add it as a new ssh-keys
 git clone git@github.com:ilja-vladi/as-stats.git
 cd as-stats
 ```
+
+
+## TODO
+- 5min stats instead of daily
+- index connectivity - load neighbours
+- ...
