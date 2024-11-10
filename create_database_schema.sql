@@ -1,13 +1,17 @@
 CREATE SCHEMA IF NOT EXISTS source;
 CREATE SCHEMA IF NOT EXISTS data;
 
-CREATE OR REPLACE FUNCTION update_timestamp()
+CREATE OR REPLACE FUNCTION data.set_timestamps()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updated = CURRENT_TIMESTAMP;
+    IF (TG_OP = 'INSERT') THEN
+        NEW.created := CURRENT_TIMESTAMP;
+    END IF;
+    NEW.updated := CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
 
 DROP TABLE IF EXISTS data.country;
 CREATE TABLE data.country (
@@ -17,10 +21,11 @@ CREATE TABLE data.country (
     c_iso2 VARCHAR(2) NOT NULL,
     c_name VARCHAR(32) NOT NULL
 );
-CREATE TRIGGER set_updated_field_in_table_country
-BEFORE UPDATE ON data.country
+CREATE TRIGGER trigger_set_timestamps_country
+BEFORE INSERT OR UPDATE ON data.country
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION data.set_timestamps();
+
 
 DROP TABLE IF EXISTS data.country_group;
 CREATE TABLE data.country_group (
@@ -30,10 +35,11 @@ CREATE TABLE data.country_group (
     cg_code VARCHAR(6) NOT NULL,
     cg_name VARCHAR(32) NOT NULL
 );
-CREATE TRIGGER set_updated_field_in_table_country_group
-BEFORE UPDATE ON data.country_group
+CREATE TRIGGER trigger_set_timestamps_country_group
+BEFORE INSERT OR UPDATE ON data.country_group
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION data.set_timestamps();
+
 
 DROP TABLE IF EXISTS data.country_country_group;
 CREATE TABLE data.country_country_group (
@@ -45,10 +51,11 @@ CREATE TABLE data.country_country_group (
     FOREIGN KEY (c_id) REFERENCES data.country(c_id) ON DELETE CASCADE,
     FOREIGN KEY (cg_id) REFERENCES data.country_group(cg_id) ON DELETE CASCADE
 );
-CREATE TRIGGER set_updated_field_in_table_country_group
-BEFORE UPDATE ON data.country_group
+CREATE TRIGGER trigger_set_timestamps_country_country_group
+BEFORE INSERT OR UPDATE ON data.country_country_group
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION data.set_timestamps();
+
 
 DROP TABLE IF EXISTS data.asn;
 CREATE TABLE data.asn (
@@ -58,10 +65,10 @@ CREATE TABLE data.asn (
     a_country_iso2 VARCHAR(2) NOT NULL,
     a_ripe_id INTEGER NOT NULL
 );
-CREATE TRIGGER set_updated_field_in_table_asn
-BEFORE UPDATE ON data.asn
+CREATE TRIGGER trigger_set_timestamps_asn
+BEFORE INSERT OR UPDATE ON data.asn
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION data.set_timestamps();
 
 
 DROP TABLE IF EXISTS data.country_stat;
@@ -79,10 +86,10 @@ CREATE TABLE data.country_stat (
     cs_v6_prefixes_stats INTEGER,
     cs_asns_stats INTEGER
 );
-CREATE TRIGGER set_updated_field_in_table_country_stat
-BEFORE UPDATE ON data.country_stat
+CREATE TRIGGER trigger_set_timestamps_country_stat
+BEFORE INSERT OR UPDATE ON data.country_stat
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION data.set_timestamps();
 
 
 DROP TABLE IF EXISTS source.ripe_api_load;
@@ -93,9 +100,8 @@ CREATE TABLE source.ripe_api_load (
     r_url_used VARCHAR,
     r_response JSONB
 );
-CREATE TRIGGER set_updated_field_in_table_ripe_api_load
-BEFORE UPDATE ON input.ripe_api_load
+CREATE TRIGGER trigger_set_timestamps_ripe_api_load
+BEFORE INSERT OR UPDATE ON source.ripe_api_load
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
-
+EXECUTE FUNCTION data.set_timestamps();
 
