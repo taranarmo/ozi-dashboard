@@ -1,4 +1,5 @@
-echo "WARNING: this script will drop asn_stats database and re-create it. Type 'confirm' to proceed..."
+echo "WARNING: this script will drop asn_stats database and re-create it."
+echo "         type 'confirm' to proceed..."
 read user_input
 
 if [ "$user_input" == "confirm" ]; then

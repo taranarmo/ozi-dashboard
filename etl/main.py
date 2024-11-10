@@ -1,4 +1,4 @@
-from database import insert_country_asns_to_db, insert_country_stats_to_db
+from etl.database import insert_country_asns_to_db, insert_country_stats_to_db
 from ripe_api import get_country_resource_list, get_country_resource_stats
 
 EX_SOVIET_COUNTRIES = {
