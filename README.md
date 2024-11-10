@@ -16,6 +16,10 @@
   ./init_database.sh
   
 ```
+## TMP
+```
+cat sql/*.sql | gcloud sql connect asn-stats2 --user=asn_stats
+```
 
 ## TODO
 - 5min stats instead of daily

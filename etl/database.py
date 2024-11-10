@@ -15,7 +15,7 @@ def get_db_connection(password):
 
 def insert_country_asns_to_db(country_iso2, list_of_asns, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)
-    sql= "INSERT INTO dwh.asn(a_country_iso2, a_ripe_id)\nVALUES"
+    sql= "INSERT INTO data.asn(a_country_iso2, a_ripe_id)\nVALUES"
     for asn in list_of_asns:
         sql += f"\n('{country_iso2}', {asn}),"
     sql = sql[:-1] + ";"
@@ -29,7 +29,7 @@ def insert_country_asns_to_db(country_iso2, list_of_asns, save_sql_to_file=False
 
 def insert_country_stats_to_db(country_iso2, stats, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)
-    sql= ("INSERT INTO dwh.country_stat(cs_country_iso2, cs_stats_date, cs_v4_prefixes_ris, cs_v6_prefixes_ris,"
+    sql= ("INSERT INTO data.country_stat(cs_country_iso2, cs_stats_date, cs_v4_prefixes_ris, cs_v6_prefixes_ris,"
           " cs_asns_ris, cs_v4_prefixes_stats, cs_v6_prefixes_stats, cs_asns_stats )\nVALUES ")
     for item in stats:
         sql +=  (f"\n('{country_iso2}', '{item['stats_date']}', "
