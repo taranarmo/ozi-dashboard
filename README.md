@@ -9,7 +9,7 @@
 ```
 5. Create database and user for asn_stats project
 ```
-  cd as-stats/scripts
+  cd as-stats
   # when asked for password use postgres password from step 2. 
   ./init_database.sh
   

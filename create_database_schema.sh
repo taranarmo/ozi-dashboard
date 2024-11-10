@@ -10,4 +10,4 @@ else
 fi
 
 source config.sh
-cat create_database_schema.sql | gcloud sql connect $DATABASE_INSTANCE --user=$DATABASE_USER --password=DATABASE_PASSWORD
+cat create_database_schema.sql | gcloud sql connect $DATABASE_INSTANCE --user=$DATABASE_USER
