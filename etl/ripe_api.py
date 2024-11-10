@@ -20,9 +20,9 @@ def get_country_resource_list(country_iso2, copy_to_file=False):
         save_data_to_file(data, "country_resource_list_{}".format(country_iso2))
     return data
 
-def get_country_resource_stats(country_iso2, start_time, copy_to_file=False):
+def get_country_resource_stats(country_iso2, resolution, start_time, copy_to_file=False):
     response = requests.get(api_url.format("country-resource-stats"),
-                            {"resource": country_iso2, "starttime": start_time, "resolution": "1d"})
+                            {"resource": country_iso2, "starttime": start_time, "resolution": resolution})
     try:
         data = loads(response.text)
     except Exception as e:

@@ -7,6 +7,7 @@ EX_SOVIET_COUNTRIES = {
     "TM": "Turkmenistan", "UA": "Ukraine", "UZ": "Uzbekistan"
 }
 
+STATS_RESOLUTION = '1d'
 
 def get_list_of_asns_for_country(country_iso2):
     print(f"Getting ASNs", end=" ... ")
@@ -17,7 +18,7 @@ def get_list_of_asns_for_country(country_iso2):
 
 def get_stats_for_country(country_iso2):
     print("Getting historical stats", end=' ... ')
-    d = get_country_resource_stats(country_iso2, '2014-01-01T12:00', copy_to_file=True)
+    d = get_country_resource_stats(country_iso2, STATS_RESOLUTION, '2014-01-01T12:00', copy_to_file=True)
     stats = d['data']['stats']
     print("stats for {} days found".format(len(stats)))
     return stats
@@ -30,7 +31,7 @@ def main():
         insert_country_asns_to_db(iso2, asns, True)
 
         stats = get_stats_for_country(iso2)
-        insert_country_stats_to_db(iso2, stats, True)
+        insert_country_stats_to_db(iso2, STATS_RESOLUTION, stats, True)
     print("Done")
 
 if __name__ == "__main__":
