@@ -1,4 +1,5 @@
 -- Step 1: Create the database if it doesn't exist
+DROP DATABASE asn_stats;
 CREATE DATABASE asn_stats;
 
 -- Step 2: Switch to the 'asn_stats' database before proceeding.
