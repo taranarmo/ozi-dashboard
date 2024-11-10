@@ -1,4 +1,4 @@
-echo "WARNING: this script will drop asn-stats database and re-create it."
+echo "WARNING: this script will drop asn_stats database and re-create it."
 echo "Type 'confirm' to proceed..."
 
 read user_input
@@ -10,3 +10,4 @@ else
 fi
 
 source config.sh
+cat init_database.sql | gcloud sql connect $DATABASE_INSTANCE --user=postgres

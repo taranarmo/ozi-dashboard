@@ -1,25 +1,26 @@
 # as-stats
 
-1. Create Postgres instance on GCP, name it `asn-stats`
-2. Generate strong password for user `postgres`, save it to the clipboard
+1. Create Postgres instance on GCP, name it `asn_stats`
+2. Use strong password for user `postgres` while creating DB, save it to the clipboard
 3. Go to `asn-stats`'s console
 4. Download code by cloning Git Repository
 ```
   git clone https://github.com/ilja-vladi/as-stats.git
-  cd as-stats/etl
 ```
 5. Create database and user for asn_stats project
 ```
-  cat setup_database.sql | gcloud sql connect asn-stats --user=postgres
-  # use postgres password from step 2. 
+  cd as-stats/scripts
+  # when asked for password use postgres password from step 2. 
+  ./init_database.sh
+  
 ```
-5. Generate strong password for asn_stats user
+6. Generate strong password for asn_stats user
 ```
-  gcloud sql users set-password asn-stats --instance=asn-stats --password="put-your-password-here"
+  gcloud sql users set-password asn_stats --instance=asn_stats --password="put-your-password-here"
 ```
 7. Create DB schema
 ```
-  cat as-stats/etl/database_schema.sql | gcloud sql connect asn-stats --user=asn_stats
+  cat as-stats/create_database_schema.sql | gcloud sql connect asn-stats --user=asn_stats
 ```
 
 
