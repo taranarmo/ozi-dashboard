@@ -18,10 +18,12 @@ def get_list_of_asns_for_country(country_iso2):
 def get_stats_for_country(country_iso2, date_from, date_to, resolution):
     print(f"Getting historical stats {country_iso2}, {resolution}, {date_from}, {date_to}", end=' ... ')
     d = get_country_resource_stats(country_iso2, resolution, date_from, date_to, copy_to_file=True)
-    stats = d['data']['stats']
-    print(f"{len(stats)} records found")
-    return stats
-
+    if d:
+        stats = d['data']['stats']
+        print(f"{len(stats)} records found")
+        return stats
+    else:
+        return None
 
 def main():
     task_map = {
@@ -44,16 +46,19 @@ def main():
 
 def etl_task1_load_list_of_asns_for_country(iso2):
     asns = get_list_of_asns_for_country(iso2)
-    insert_country_asns_to_db(iso2, asns, True)
+    if asns:
+        insert_country_asns_to_db(iso2, asns, True)
 
 def etl_task2_load_1d_stats_for_country(iso2):
     stats = get_stats_for_country(iso2, '2014-01-01', '2025-01-01', '1d')
-    insert_country_stats_to_db(iso2, '1d', stats, True)
+    if stats:
+        insert_country_stats_to_db(iso2, '1d', stats, True)
 
 def etl_task3_load_5m_stats_for_country(iso2):
     for year in range(2019, 2025):
         stats = get_stats_for_country(iso2, f"{year}-01-01", f'{year + 1}-01-01', '5m')
-        insert_country_stats_to_db(iso2, '5m', stats, True)
+        if stats:
+            insert_country_stats_to_db(iso2, '5m', stats, True)
 
 
 if __name__ == "__main__":

@@ -105,3 +105,15 @@ BEFORE INSERT OR UPDATE ON source.ripe_api_load
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
+
+-- View for stats with resolution '1d'
+CREATE OR REPLACE VIEW data.v_country_stat_1d AS
+SELECT *
+  FROM data.country_stat
+ WHERE cs_stats_resolution = '1d';
+
+-- View for stats with resolution '5m'
+CREATE OR REPLACE VIEW data.v_country_stat_5m AS
+SELECT *
+  FROM data.country_stat
+ WHERE cs_stats_resolution = '5m';
