@@ -77,7 +77,7 @@ CREATE TABLE data.country_stat (
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     cs_id SERIAL PRIMARY KEY,
     cs_country_iso2 VARCHAR(2) NOT NULL,
-    cs_stats_date TIMESTAMP NOT NULL,
+    cs_stats_timestamp TIMESTAMP NOT NULL,
     cs_stats_resolution VARCHAR(4) NOT NULL,
     cs_v4_prefixes_ris INTEGER,
     cs_v6_prefixes_ris INTEGER,
