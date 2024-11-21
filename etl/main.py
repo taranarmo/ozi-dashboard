@@ -14,7 +14,7 @@ def get_list_of_asns_for_country(country_iso2):
 
 def get_stats_for_country(country_iso2, date_from, date_to, resolution):
     print("Getting historical stats", end=' ... ')
-    d = get_country_resource_stats(country_iso2, resolution, '2014-01-01T12:00', copy_to_file=True)
+    d = get_country_resource_stats(country_iso2, resolution, date_from, date_to, copy_to_file=True)
     stats = d['data']['stats']
     print("stats for {} days found".format(len(stats)))
     return stats
