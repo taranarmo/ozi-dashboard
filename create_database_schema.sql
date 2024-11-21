@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS source;
---CREATE SCHEMA IF NOT EXISTS data;
+CREATE SCHEMA IF NOT EXISTS data;
 
-CREATE OR REPLACE FUNCTION set_timestamps()
+CREATE OR REPLACE FUNCTION data.set_timestamps()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT') THEN
@@ -13,8 +13,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-DROP TABLE IF EXISTS country;
-CREATE TABLE country (
+DROP TABLE IF EXISTS data.country;
+CREATE TABLE data.country (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     c_id SERIAL PRIMARY KEY,
@@ -22,13 +22,13 @@ CREATE TABLE country (
     c_name VARCHAR(32) NOT NULL
 );
 CREATE TRIGGER trigger_set_timestamps_country
-BEFORE INSERT OR UPDATE ON country
+BEFORE INSERT OR UPDATE ON data.country
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 
 
-DROP TABLE IF EXISTS country_group;
-CREATE TABLE country_group (
+DROP TABLE IF EXISTS data.country_group;
+CREATE TABLE data.country_group (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     cg_id SERIAL PRIMARY KEY,
@@ -36,29 +36,29 @@ CREATE TABLE country_group (
     cg_name VARCHAR(32) NOT NULL
 );
 CREATE TRIGGER trigger_set_timestamps_country_group
-BEFORE INSERT OR UPDATE ON country_group
+BEFORE INSERT OR UPDATE ON data.country_group
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 
 
-DROP TABLE IF EXISTS country_country_group;
-CREATE TABLE country_country_group (
+DROP TABLE IF EXISTS data.country_country_group;
+CREATE TABLE data.country_country_group (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     c_id INT NOT NULL,
     cg_id INT NOT NULL,
     PRIMARY KEY (c_id, cg_id),
-    FOREIGN KEY (c_id) REFERENCES country(c_id) ON DELETE CASCADE,
-    FOREIGN KEY (cg_id) REFERENCES country_group(cg_id) ON DELETE CASCADE
+    FOREIGN KEY (c_id) REFERENCES data.country(c_id) ON DELETE CASCADE,
+    FOREIGN KEY (cg_id) REFERENCES data.country_group(cg_id) ON DELETE CASCADE
 );
 CREATE TRIGGER trigger_set_timestamps_country_country_group
-BEFORE INSERT OR UPDATE ON country_country_group
+BEFORE INSERT OR UPDATE ON data.country_country_group
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 
 
-DROP TABLE IF EXISTS asn;
-CREATE TABLE asn (
+DROP TABLE IF EXISTS data.asn;
+CREATE TABLE data.asn (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     a_id SERIAL PRIMARY KEY,
@@ -66,13 +66,13 @@ CREATE TABLE asn (
     a_ripe_id INTEGER NOT NULL
 );
 CREATE TRIGGER trigger_set_timestamps_asn
-BEFORE INSERT OR UPDATE ON asn
+BEFORE INSERT OR UPDATE ON data.asn
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 
 
-DROP TABLE IF EXISTS country_stat;
-CREATE TABLE country_stat (
+DROP TABLE IF EXISTS data.country_stat;
+CREATE TABLE data.country_stat (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     cs_id SERIAL PRIMARY KEY,
@@ -87,9 +87,9 @@ CREATE TABLE country_stat (
     cs_asns_stats INTEGER
 );
 CREATE TRIGGER trigger_set_timestamps_country_stat
-BEFORE INSERT OR UPDATE ON country_stat
+BEFORE INSERT OR UPDATE ON data.country_stat
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 
 
 DROP TABLE IF EXISTS source.ripe_api_load;
@@ -103,5 +103,5 @@ CREATE TABLE source.ripe_api_load (
 CREATE TRIGGER trigger_set_timestamps_ripe_api_load
 BEFORE INSERT OR UPDATE ON source.ripe_api_load
 FOR EACH ROW
-EXECUTE FUNCTION set_timestamps();
+EXECUTE FUNCTION data.set_timestamps();
 

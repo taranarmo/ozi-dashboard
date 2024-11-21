@@ -32,7 +32,7 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
     sql= ("INSERT INTO data.country_stat(cs_country_iso2, cs_stats_timestamp, cs_stats_resolution, cs_v4_prefixes_ris,"
           " cs_v6_prefixes_ris, cs_asns_ris, cs_v4_prefixes_stats, cs_v6_prefixes_stats, cs_asns_stats )\nVALUES ")
     for item in stats:
-        sql +=  (f"\n('{country_iso2}', '{item['timeline']['starttime']}', '{resolution}', "
+        sql +=  (f"\n('{country_iso2}', '{item['timeline'][0]}', '{resolution}', "
                 f"{item['v4_prefixes_ris'] if item['v4_prefixes_ris'] else 'NULL'}, "
                 f"{item['v6_prefixes_ris'] if item['v6_prefixes_ris'] else 'NULL'}, "
                 f"{item['asns_ris'] if item['asns_ris'] else 'NULL'}, "
