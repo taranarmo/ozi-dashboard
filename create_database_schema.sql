@@ -19,7 +19,7 @@ CREATE TABLE data.country (
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     c_id SERIAL PRIMARY KEY,
     c_iso2 VARCHAR(2) NOT NULL,
-    c_name VARCHAR(32) NOT NULL
+    c_name VARCHAR(256) NOT NULL
 );
 CREATE TRIGGER trigger_set_timestamps_country
 BEFORE INSERT OR UPDATE ON data.country
@@ -27,32 +27,17 @@ FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
 
-DROP TABLE IF EXISTS data.country_group;
-CREATE TABLE data.country_group (
+DROP TABLE IF EXISTS data.country_tag;
+CREATE TABLE data.country_tag (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    cg_id SERIAL PRIMARY KEY,
-    cg_code VARCHAR(6) NOT NULL,
-    cg_name VARCHAR(32) NOT NULL
-);
-CREATE TRIGGER trigger_set_timestamps_country_group
-BEFORE INSERT OR UPDATE ON data.country_group
-FOR EACH ROW
-EXECUTE FUNCTION data.set_timestamps();
-
-
-DROP TABLE IF EXISTS data.country_country_group;
-CREATE TABLE data.country_country_group (
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    c_id INT NOT NULL,
-    cg_id INT NOT NULL,
-    PRIMARY KEY (c_id, cg_id),
-    FOREIGN KEY (c_id) REFERENCES data.country(c_id) ON DELETE CASCADE,
-    FOREIGN KEY (cg_id) REFERENCES data.country_group(cg_id) ON DELETE CASCADE
-);
-CREATE TRIGGER trigger_set_timestamps_country_country_group
-BEFORE INSERT OR UPDATE ON data.country_country_group
+    ct_tag VARCHAR(32) NOT NULL,
+    ct_country_id INT NOT NULL,
+    PRIMARY KEY (ct_tag, ct_country_id),
+    FOREIGN KEY (ct_country_id) REFERENCES data.country(c_id) ON DELETE CASCADE
+    );
+CREATE TRIGGER trigger_set_timestamps_country_tag
+BEFORE INSERT OR UPDATE ON data.country_tag
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
