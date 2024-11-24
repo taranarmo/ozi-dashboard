@@ -1,8 +1,8 @@
 import sys
 from database import insert_country_asns_to_db, insert_country_stats_to_db, insert_traffic_for_country_to_db, \
     insert_internet_quality_for_country_to_db
-from etl.country_lists import REPORT_COUNTRIES
-from etl.etl_jobs import get_internet_quality_for_country
+from country_lists import REPORT_COUNTRIES
+from etl_jobs import get_internet_quality_for_country
 
 from etl_jobs import get_list_of_asns_for_country, get_stats_for_country, get_list_of_asn_neighbours_for_country, \
     get_traffic_for_country
