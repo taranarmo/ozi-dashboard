@@ -77,6 +77,21 @@ FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
 
+DROP TABLE IF EXISTS data.country_traffic;
+CREATE TABLE data.country_traffic (
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    cr_id SERIAL PRIMARY KEY,
+    cr_country_iso2 VARCHAR(2) NOT NULL,
+    cr_date TIMESTAMP NOT NULL,
+    cr_traffic NUMERIC NOT NULL
+);
+CREATE TRIGGER trigger_set_timestamps_country_traffic
+BEFORE INSERT OR UPDATE ON data.country_traffic
+FOR EACH ROW
+EXECUTE FUNCTION data.set_timestamps();
+
+
 DROP TABLE IF EXISTS source.ripe_api_load;
 CREATE TABLE source.ripe_api_load (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -89,6 +104,8 @@ CREATE TRIGGER trigger_set_timestamps_ripe_api_load
 BEFORE INSERT OR UPDATE ON source.ripe_api_load
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
+
+
 
 
 -- View for stats with resolution '1d'

@@ -30,6 +30,15 @@ def get_country_resource_stats(country_iso2, resolution, start_time, end_time, c
         save_data_to_file(data, f"country_resource_stats_{country_iso2}_{resolution}_{start_time}_{end_time}")
     return data
 
+def get_asn_neighbours(asn, copy_to_file=False):
+    url = API_URL.format("asn-neighbours")
+    params = {"resource": asn}
+    data = ripe_api_call(url, params)
+
+    if copy_to_file:
+        save_data_to_file(data, f"asn-neighbours_{asn}")
+    return data
+
 
 def ripe_api_call(url, params):
     attempts_left = RETRIES

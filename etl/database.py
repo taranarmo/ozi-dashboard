@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from sqlalchemy import create_engine
 
 HOST="34.32.52.216"
@@ -46,4 +45,20 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
         with open(filename, 'w') as f:
             print(sql, file=f)
 
+    # connection.execute(sql)
+
+def insert_country_asn_neighbours_to_db(country_iso2, neighbours, save_sql_to_file=False):
+    pass
+
+def insert_traffic_for_country_to_db(country_iso2, traffic, save_sql_to_file=False):
+    # connection = get_db_connection(PASSWORD)
+    sql= "INSERT INTO data.country_traffic(cr_country_iso2, cr_date, cr_traffic)\nVALUES"
+    for timestamp, value in zip(traffic['timestamps'], traffic['values']):
+        sql += f"\n('{country_iso2}', '{timestamp}', {value}),"
+    sql = sql[:-1] + ";"
+
+    if save_sql_to_file:
+        filename = "sql/country_traffic_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        with open(filename, 'w') as f:
+            print(sql, file=f)
     # connection.execute(sql)
