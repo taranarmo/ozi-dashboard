@@ -62,3 +62,17 @@ def insert_traffic_for_country_to_db(country_iso2, traffic, save_sql_to_file=Fal
         with open(filename, 'w') as f:
             print(sql, file=f)
     # connection.execute(sql)
+
+def insert_internet_quality_for_country_to_db(country_iso2, internet_quality, save_sql_to_file=False):
+    # connection = get_db_connection(PASSWORD)
+    sql= "INSERT INTO data.country_internet_quality(ci_country_iso2, ci_date, ci_p75, ci_p50, ci_p25)\nVALUES"
+    for timestamp, p75, p50, p25 in (
+            zip(internet_quality['timestamps'], internet_quality['p75'], internet_quality['p50'], internet_quality['p25'])):
+        sql += f"\n('{country_iso2}', '{timestamp}', {p75}, {p50}, {p25}),"
+    sql = sql[:-1] + ";"
+
+    if save_sql_to_file:
+        filename = "sql/country_internet_quality_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        with open(filename, 'w') as f:
+            print(sql, file=f)
+    # connection.execute(sql)

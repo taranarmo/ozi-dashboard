@@ -1,4 +1,4 @@
-from cloudflare_api import get_cloudflare_traffic_for_country
+from cloudflare_api import get_cloudflare_traffic_for_country, get_cloudflare_internet_quality_for_country
 from ripe_api import get_country_resource_list, get_country_resource_stats
 
 def get_list_of_asns_for_country(country_iso2):
@@ -29,3 +29,12 @@ def get_traffic_for_country(country_iso2, token):
         traffic = d['result']['main']
         print(f"{len(traffic['timestamps'])} records found")
         return traffic
+
+def get_internet_quality_for_country(country_iso2, token):
+    print(f"Getting internet qualityu for {country_iso2}", end=" ... ")
+    d = get_cloudflare_internet_quality_for_country(country_iso2, token, copy_to_file=True)
+    if d:
+        internet_quality = d['result']['main']
+        print(f"{len(internet_quality['timestamps'])} records found")
+        return internet_quality
+

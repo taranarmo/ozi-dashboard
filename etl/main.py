@@ -1,6 +1,8 @@
 import sys
-from database import insert_country_asns_to_db, insert_country_stats_to_db, insert_traffic_for_country_to_db
+from database import insert_country_asns_to_db, insert_country_stats_to_db, insert_traffic_for_country_to_db, \
+    insert_internet_quality_for_country_to_db
 from etl.country_lists import REPORT_COUNTRIES
+from etl.etl_jobs import get_internet_quality_for_country
 
 from etl_jobs import get_list_of_asns_for_country, get_stats_for_country, get_list_of_asn_neighbours_for_country, \
     get_traffic_for_country
@@ -13,7 +15,9 @@ def main():
             "task2": etl_task2_load_1d_stats_for_country,
             "task3": etl_task3_load_5m_stats_for_country,
             "task4": etl_task4_load_asn_neighbours_for_country,
-            "task5": etl_task5_load_traffic_for_country}
+            "task5": etl_task5_load_traffic_for_country,
+            "task6": etl_task6_load_internet_quality_for_country
+    }
 
     if len(sys.argv) < 2:
         print("Error: No ETL task specified. Please provide 'task1', 'task2', or 'task3' as the first argument.")
@@ -24,7 +28,7 @@ def main():
     if task not in task_map:
         print(f"Error: Unknown task '{task}'. Valid tasks are 'task1', 'task2', or 'task3'.")
         return
-    if task == "task5":
+    if task in ("task5", "task6"):
         if len(sys.argv) < 3:
             print("Error: No Cloudflare API token specified. Please provide the token as a second argument.")
             return
@@ -61,6 +65,11 @@ def etl_task5_load_traffic_for_country(iso2, api_token=None):
     traffic=get_traffic_for_country(iso2, api_token)
     if traffic:
         insert_traffic_for_country_to_db(iso2, traffic, True)
+
+def etl_task6_load_internet_quality_for_country(iso2, api_token=None):
+    internet_quality = get_internet_quality_for_country(iso2, api_token)
+    if internet_quality:
+         insert_internet_quality_for_country_to_db(iso2, internet_quality, True)
 
 if __name__ == "__main__":
     main()

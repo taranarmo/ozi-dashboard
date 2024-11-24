@@ -92,6 +92,23 @@ FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
 
+DROP TABLE IF EXISTS data.country_internet_quality;
+CREATE TABLE data.country_internet_quality (
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ci_id SERIAL PRIMARY KEY,
+    ci_country_iso2 VARCHAR(2) NOT NULL,
+    ci_date TIMESTAMP NOT NULL,
+    ci_p75 NUMERIC NOT NULL,
+    ci_p50 NUMERIC NOT NULL,
+    ci_p25 NUMERIC NOT NULL
+);
+CREATE TRIGGER trigger_set_timestamps_country_internet_quality
+BEFORE INSERT OR UPDATE ON data.country_internet_quality
+FOR EACH ROW
+EXECUTE FUNCTION data.set_timestamps();
+
+
 DROP TABLE IF EXISTS source.ripe_api_load;
 CREATE TABLE source.ripe_api_load (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
