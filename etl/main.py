@@ -3,7 +3,7 @@ from datetime import datetime
 
 from database import insert_country_asns_to_db, insert_country_stats_to_db, insert_traffic_for_country_to_db, \
     insert_internet_quality_for_country_to_db, insert_country_asn_neighbours_to_db
-from country_lists import REPORT_COUNTRIES
+from country_lists import REPORT_COUNTRIES, SPLITERCON_TALK, ALL_COUNTRIES
 from etl_jobs import get_internet_quality_for_country
 
 from etl_jobs import get_list_of_asns_for_country, get_stats_for_country, get_list_of_asn_neighbours_for_country, \
@@ -36,8 +36,8 @@ def main():
             return
         api_token=sys.argv[2]
 
-    for iso2 in REPORT_COUNTRIES:
-        print(f"\n{iso2} - {REPORT_COUNTRIES[iso2]}")
+    for iso2 in ALL_COUNTRIES:
+        print(f"\n{iso2} - {ALL_COUNTRIES[iso2]}")
         task_map[task](iso2, api_token)
     print("Done")
 
