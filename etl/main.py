@@ -1,6 +1,8 @@
 import sys
+from datetime import datetime
+
 from database import insert_country_asns_to_db, insert_country_stats_to_db, insert_traffic_for_country_to_db, \
-    insert_internet_quality_for_country_to_db
+    insert_internet_quality_for_country_to_db, insert_country_asn_neighbours_to_db
 from country_lists import REPORT_COUNTRIES
 from etl_jobs import get_internet_quality_for_country
 
@@ -58,8 +60,8 @@ def etl_task3_load_5m_stats_for_country(iso2, api_token=None):
 def etl_task4_load_asn_neighbours_for_country(iso2, api_token=None):
     asn_neighbours = get_list_of_asn_neighbours_for_country(iso2)
     if asn_neighbours:
-        # insert_country_asn_neighbours_to_db(iso2, asn_neighbours, True)
-        print('not implemented')
+        insert_country_asn_neighbours_to_db(iso2, datetime.now().strftime('%Y%m%d'), asn_neighbours, True)
+
 
 def etl_task5_load_traffic_for_country(iso2, api_token=None):
     traffic=get_traffic_for_country(iso2, api_token)

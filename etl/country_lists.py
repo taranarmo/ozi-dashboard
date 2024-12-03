@@ -1,3 +1,4 @@
+SPLITERCON_TALK = {'RU','UA','KZ','BY'}
 
 EX_SOVIET_COUNTRIES = {
     "AM": "Armenia", "AZ": "Azerbaijan", "BY": "Belarus", "EE": "Estonia", "GE": "Georgia", "KZ": "Kazakhstan",

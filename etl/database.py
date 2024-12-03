@@ -1,5 +1,6 @@
 from datetime import datetime
 from sqlalchemy import create_engine
+from sqlalchemy.sql.functions import current_date
 
 HOST="34.32.52.216"
 PORT="5432"
@@ -47,8 +48,19 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
 
     # connection.execute(sql)
 
-def insert_country_asn_neighbours_to_db(country_iso2, neighbours, save_sql_to_file=False):
-    pass
+def insert_country_asn_neighbours_to_db(country_iso2, date, neighbours, save_sql_to_file=False):
+    # connection = get_db_connection(PASSWORD)
+    sql = "INSERT INTO data.asn_neighbour (an_asn, an_neighbour, an_date, an_type, an_power, an_v4_peers, an_v6_peers)\n VALUES "
+    for asn in neighbours:
+        for item in neighbours[asn]:
+            sql += f"\n({asn}, {item['asn']}, '{date}', '{item['type']}', {item['power']}, {item['v4_peers']}, {item['v6_peers']}),"
+    sql = sql[:-1] + ";"
+
+    if save_sql_to_file:
+        filename = f"sql/asn_neighbours_{country_iso2}_{date}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
+        with open(filename, 'w') as f:
+            print(sql, file=f)
+    # connection.execute(sql)
 
 def insert_traffic_for_country_to_db(country_iso2, traffic, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)

@@ -108,6 +108,25 @@ BEFORE INSERT OR UPDATE ON data.country_internet_quality
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
+DROP TABLE IF EXISTS data.asn_neighbour;
+CREATE TABLE data.asn_neighbour (
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    an_asn INTEGER NOT NULL,
+    an_neighbour INTEGER NOT NULL,
+    an_date TIMESTAMP NOT NULL,
+    an_type VARCHAR(32),
+    an_power INTEGER NOT NULL,
+    an_v4_peers INTEGER,
+    an_v6_peers INTEGER,
+    CONSTRAINT pk_asn_neighbours PRIMARY KEY (an_asn, an_neighbour, an_type)
+);
+
+CREATE TRIGGER trigger_set_timestamps_asn_neighbour
+BEFORE INSERT OR UPDATE ON data.asn_neighbour
+FOR EACH ROW
+EXECUTE FUNCTION data.set_timestamps();
+
 
 DROP TABLE IF EXISTS source.ripe_api_load;
 CREATE TABLE source.ripe_api_load (
@@ -127,12 +146,30 @@ EXECUTE FUNCTION data.set_timestamps();
 
 -- View for stats with resolution '1d'
 CREATE OR REPLACE VIEW data.v_country_stat_1d AS
-SELECT *
+SELECT data.country_stat.*, data.country.c_name
   FROM data.country_stat
+  JOIN data.country on c_iso2 = cs_country_iso2
  WHERE cs_stats_resolution = '1d';
 
 -- View for stats with resolution '5m'
 CREATE OR REPLACE VIEW data.v_country_stat_5m AS
-SELECT *
+SELECT data.country_stat.*, data.country.c_name
   FROM data.country_stat
+  JOIN data.country on c_iso2 = cs_country_iso2§
  WHERE cs_stats_resolution = '5m';
+
+-- View for last stats available for the country
+CREATE OR REPLACE VIEW data.v_country_stat_last AS
+WITH last_dates AS
+( SELECT cs_country_iso2 AS country,
+        MAX(cs_stats_timestamp) AS last_date
+    FROM data.country_stat
+   WHERE cs_stats_resolution='1d'
+   GROUP BY cs_country_iso2
+)
+SELECT country.c_name, country_stat.*
+  FROM data.country_stat
+  JOIN last_dates ON (last_date=cs_stats_timestamp AND country=cs_country_iso2)
+  JOIN data.country ON c_iso2 = cs_country_iso2
+ WHERE cs_stats_resolution='1d';
+

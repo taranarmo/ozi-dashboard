@@ -1,5 +1,6 @@
 from cloudflare_api import get_cloudflare_traffic_for_country, get_cloudflare_internet_quality_for_country
-from ripe_api import get_country_resource_list, get_country_resource_stats
+from ripe_api import get_country_resource_list, get_country_resource_stats, get_asn_neighbours
+
 
 def get_list_of_asns_for_country(country_iso2):
     print(f"Getting ASNs", end=" ... ")
@@ -20,7 +21,17 @@ def get_stats_for_country(country_iso2, date_from, date_to, resolution):
 
 def get_list_of_asn_neighbours_for_country(country_iso2):
     print(f"Getting ASN neighbours", end=" ... ")
-    print("not implemented")
+    neighbours = {}
+    asn_list = get_list_of_asns_for_country(country_iso2)
+    if asn_list:
+        counter=0
+        for asn in asn_list:
+            counter+=1
+            print(f'\rNeighbours for country ASNs {counter}/{len(asn_list)}', end='', flush=True)
+            d = get_asn_neighbours(asn)
+            neighbours[asn] = d['data']['neighbours']
+    return neighbours
+
 
 def get_traffic_for_country(country_iso2, token):
     print(f"Getting traffic for {country_iso2}", end=" ... ")
