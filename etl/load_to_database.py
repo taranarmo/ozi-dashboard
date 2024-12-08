@@ -1,31 +1,53 @@
+import os
+import urllib
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.sql.functions import current_date
+from sqlalchemy import text
 
-HOST="34.32.52.216"
-PORT="5432"
-DBNAME="as_stats"
-USER="as_stats"
-PASSWORD='abc123'
+USER = os.getenv("OZI_DATABASE_USER", 'asn_stats')
+PASSWORD = os.getenv("OZI_DATABASE_PASSWORD", None)
+DBNAME = os.getenv("OZI_DATABASE_NAME", 'asn_stats')
+PORT = os.getenv("OZI_DATABASE_PORT", '5432')
+HOST = os.getenv("OZI_DATABASE_HOST", '34.32.74.250')
 
-def get_db_connection(password):
-    connection_string = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
+VALUES_LIMIT=25000
+
+def get_db_connection():
+    encoded_password = urllib.parse.quote(PASSWORD)
+    connection_string = f"postgresql://{USER}:{encoded_password}@{HOST}:{PORT}/{DBNAME}"
+    # print(connection_string)
     engine = create_engine(connection_string)
     return engine.connect()
 
-def insert_country_asns_to_db(country_iso2, list_of_asns, save_sql_to_file=False):
-    # connection = get_db_connection(PASSWORD)
-    sql= "INSERT INTO data.asn(a_country_iso2, a_ripe_id)\nVALUES"
-    for asn in list_of_asns:
-        sql += f"\n('{country_iso2}', {asn}),"
-    sql = sql[:-1] + ";"
+def insert_country_asns_to_db(country_iso2, date_from, date_to, list_of_asns, save_sql_to_file=False, load_to_database=True):
+    sql_count = 0
+    total_asn_count = len(list_of_asns)
 
-    if save_sql_to_file:
-        filename = "sql/country_asns_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
-        with open(filename, 'w') as f:
-            print(sql, file=f)
+    while list_of_asns:
+        sql= "INSERT INTO data.asn(a_country_iso2, a_date, a_ripe_id, a_is_routed)\nVALUES"
+        values_added = 0
+        while list_of_asns and values_added < VALUES_LIMIT:
+            item = list_of_asns.pop(0)
+            sql += f"\n('{country_iso2}', '{item['date']}', {item['asn']}, {item['is_routed']}),"
+            values_added += 1
+        sql = sql[:-1] + ";\n"
+        sql_count += 1
 
-    # connection.execute(sql)
+        if save_sql_to_file:
+            filename = "sql/country_asns_{}_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'), sql_count)
+            print(f'Saving file {filename}')
+            with open(filename, 'w') as f:
+                print(sql, file=f)
+
+        if load_to_database:
+            completed=round(100*(float(total_asn_count) - len(list_of_asns))/total_asn_count)
+            print(f'\rLoading data to the database ... {completed}% done', end='', flush=True)
+            c = get_db_connection()
+            query = text(sql)
+            c.execute(query)
+            c.commit()
+
 
 def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)
