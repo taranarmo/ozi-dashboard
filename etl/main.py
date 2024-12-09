@@ -7,8 +7,6 @@ from etl_jobs import get_list_of_asns_for_country, get_stats_for_country, get_li
     get_traffic_for_country
 
 CLOUDFLARE_API_TOKEN=os.getenv('OZI_CLOUDFLARE_API_TOKEN')
-BAR_LENGTH = 50
-
 
 def main():
     parser = argparse.ArgumentParser(description="ETL script for OZI Dashboard project.")
@@ -16,10 +14,12 @@ def main():
     parser.add_argument('-c', '--countries', required=True, nargs='+', help="List of country ISO2 codes (e.g., 'US', 'DE').")
     parser.add_argument('-df', '--date-from', required=True, help="Start date in YYYY-MM-DD format.")
     parser.add_argument('-dt', '--date-to', required=True, help="End date in YYYY-MM-DD format.")
+    parser.add_argument('-dr', '--date-resolution', required=True, help="Required resolution: D - Daily, W - Weekly, M - Monthly")
 
     args = parser.parse_args()
     task = args.task
     countries = args.countries
+    resolution = args.date_resolution
     try:
         date_from = datetime.strptime(args.date_from, "%Y-%m-%d")
         date_to = datetime.strptime(args.date_to, "%Y-%m-%d")
@@ -40,26 +40,57 @@ def main():
         print(f"Error: Unknown task '{task}'.")
         return
 
+    if resolution not in ['D', 'W', 'M']:
+        print(f"Error: Unknown resolution '{resolution}'.")
+        return
+
     for iso2 in countries:
         print(f"Started:    {task}")
         print(f"At:         {datetime.now()}")
-        print(f"Country:    {iso2}")
+        print(f"Country:    {ALL_COUNTRIES[iso2]}")
         print(f"Date From:  {date_from.strftime("%Y-%m-%d")}")
-        print(f"Date To:    {date_to.strftime("%Y-%m-%d")}\n")
+        print(f"Date To:    {date_to.strftime("%Y-%m-%d")}")
 
-        task_map[task](iso2, date_from, date_to)
+        task_map[task](iso2, generate_dates(date_from, date_to, resolution))
 
-        print(f"At:         {datetime.now()}")
+        print(f"\nAt:         {datetime.now()}")
         print(f"Finished:   {task}")
 
 
-def etl_load_asns(iso2, date_from, date_to):
-    print("Getting data from the API and storing to DB... ")
-    for asns_batch, last_date in get_list_of_asns_for_country(iso2, date_from, date_to):
-        progress = float((last_date - date_from).days + 1) / ((date_to - date_from).days + 1)
-        filled_length = int(BAR_LENGTH * progress)
-        bar = '█' * filled_length + '-' * (BAR_LENGTH - filled_length)
-        print(f'\r{date_from.strftime("%Y-%m-%d")} |{bar}| {date_to.strftime("%Y-%m-%d")}', end=' ', flush=True)
+from datetime import datetime, timedelta
+
+
+def generate_dates(date_from, date_to, resolution):
+    dates = []
+    if resolution == 'W':
+        date_from += timedelta(days=(7 - date_from.weekday()) % 7)
+    elif resolution == 'M':
+        if date_from.day != 1:
+            year = date_from.year + (date_from.month // 12)
+            month = (date_from.month % 12) + 1
+            date_from = datetime(year, month, 1)
+
+    date = date_from
+
+    while date <= date_to:
+        dates.append(date)
+        if resolution == 'D':
+            date += timedelta(days=1)
+        elif resolution == 'W':
+            date += timedelta(days=7)
+        elif resolution == 'M':
+            year = date.year + (date.month // 12)
+            month = (date.month % 12) + 1
+            date = datetime(year, month, 1)
+        else:
+            raise ValueError("Unsupported resolution. Use 'D', 'W', or 'M'.")
+
+    return dates
+
+
+def etl_load_asns(iso2, dates):
+    print(f"{' '*12}Getting data from the API and storing to DB... ")
+    for asns_batch in get_list_of_asns_for_country(iso2, dates, BATCH_SIZE):
         insert_country_asns_to_db(iso2, asns_batch, save_sql_to_file=False, load_to_database=True)
 
 
@@ -74,10 +105,10 @@ def etl_load_stats_5m(iso2, date_from, date_to):
         if stats:
             insert_country_stats_to_db(iso2, '5m', stats, True)
 
-def etl_load_asn_neighbours(iso2, date_from, date_to):
-    asn_neighbours = get_list_of_asn_neighbours_for_country(iso2, date_from, date_to)
-    if asn_neighbours:
-        insert_country_asn_neighbours_to_db(iso2, asn_neighbours, True)
+def etl_load_asn_neighbours(iso2, dates):
+    print(f"{' '*12}Getting data from the API and storing to DB... ")
+    for neighbours_batch in get_list_of_asn_neighbours_for_country(iso2, dates, BATCH_SIZE):
+        insert_country_asn_neighbours_to_db(iso2, neighbours_batch, True)
 
 
 def etl_load_traffic(iso2, date_from, date_to):

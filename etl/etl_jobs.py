@@ -1,36 +1,57 @@
-import itertools
-from datetime import datetime, timedelta
-
+from load_to_database import BATCH_SIZE
 from extract_from_cloudflare_api import get_cloudflare_traffic_for_country, get_cloudflare_internet_quality_for_country
 from extract_from_ripe_api import get_country_asns, get_country_resource_stats, get_asn_neighbours
 
+BAR_LENGTH = 50
 
-def get_list_of_asns_for_country(country_iso2, date_from, date_to, batch_size=25000, verbose=True):
-    date = date_from
+def display_progress(processed, total, processed_until_date, received_from_api, stored_to_database):
+    date_str = processed_until_date.strftime("%Y-%m-%d")
+
+    progress = float(processed) / total
+    filled_length = int(BAR_LENGTH * progress)
+    bar = '|' + '█' * filled_length
+    if BAR_LENGTH - filled_length -2 > len(date_str):
+        bar += '-' + date_str + '-' * (BAR_LENGTH - filled_length - len(date_str) - 2) + '| '
+    else:
+        bar += '-' * (50 - filled_length) + '| ' + date_str
+
+    progress_message = f'\r{' ' * 12}{bar} Received: {received_from_api}, Stored: {stored_to_database}'
+    print(progress_message, end=' ', flush=True)
+    return progress_message
+
+def get_list_of_asns_for_country(country_iso2, dates, batch_size, verbose=True):
+    total_number_of_dates = len(dates)
     asns_batch = []
-    # rolling_line = itertools.cycle(['o', 'O'])
+    received_from_api = 0
 
-    while date <= date_to:
-        d = get_country_asns(country_iso2, date, save_mode='file')
-        # if verbose:
-        #     print('\b' + next(rolling_line), end='')
+    if verbose:
+        display_progress(0, total_number_of_dates, dates[0],0,0)
 
-        routed_asns = d['data']['countries'][0]['routed']
-        non_routed_asns = d['data']['countries'][0]['non_routed']
-        routed_list = [ item.split('(')[1].split(')')[0] for item in routed_asns.strip('{}').split(', ') if item.startswith("AsnSingle")]
-        non_routed_list = [ item.split('(')[1].split(')')[0] for item in non_routed_asns.strip('{}').split(', ') if item.startswith("AsnSingle")]
+    while dates:
+        date = dates.pop(0)
+        d = get_country_asns(country_iso2, date, save_mode=None)
 
-        for asn in routed_list:
-            asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : True})
-        for asn in non_routed_list:
-            asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : False})
+        if d['data']:
+            routed_asns = d['data']['countries'][0]['routed']
+            non_routed_asns = d['data']['countries'][0]['non_routed']
+            routed_list = [ item.split('(')[1].split(')')[0] for item in routed_asns.strip('{}').split(', ') if item.startswith("AsnSingle")]
+            non_routed_list = [ item.split('(')[1].split(')')[0] for item in non_routed_asns.strip('{}').split(', ') if item.startswith("AsnSingle")]
 
-        if len(asns_batch) >= batch_size:
-            yield asns_batch, date
-            asns_batch = []
+            for asn in routed_list:
+                asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : True})
+            for asn in non_routed_list:
+                asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : False})
 
-        date += timedelta(days=1)
+            if verbose:
+                display_progress(total_number_of_dates - len(dates) - 1, total_number_of_dates, date, received_from_api + len(asns_batch), received_from_api)
 
+            if len(asns_batch) >= batch_size:
+                yield asns_batch
+                received_from_api += len(asns_batch)
+                asns_batch = []
+
+    if asns_batch:
+        yield asns_batch
 
 def get_stats_for_country(country_iso2, date_from, date_to, resolution):
     print(f"    Getting historical stats {country_iso2}, {resolution}, {date_from}, {date_to}", end=' ... ')
@@ -41,34 +62,41 @@ def get_stats_for_country(country_iso2, date_from, date_to, resolution):
         return stats
 
 
-def get_list_of_asn_neighbours_for_country(country_iso2, date_from, date_to, verbose=True):
-    total_days = (date_to - date_from).days
-    length = 50
-    date = date_from
+def get_list_of_asn_neighbours_for_country(country_iso2, dates, batch_size, verbose=True):
+    total_number_of_dates = len(dates)
+    neighbours_batch = []
+    received_from_api = 0
+    stored_to_database = 0
 
-    while date <= date_to:
-        if verbose:
-            filled_length = int(length * (date - date_from).days // total_days)
-            bar = '█' * filled_length + '-' * (length - filled_length)
+    if verbose:
+        progress_message = display_progress(0, total_number_of_dates, dates[0], 0, 0)
 
-        result = {}
-        asn_list = get_list_of_asns_for_country(country_iso2, date, date, verbose=False) #save_mode
-        if asn_list:
+    while dates:
+        date = dates.pop(0)
+        for asn_list in get_list_of_asns_for_country(country_iso2, [date], BATCH_SIZE, verbose=False):
             counter=0
             for item in asn_list:
                 asn=item['asn']
                 counter+=1
                 if verbose:
-                    print(f'\r    Getting data from the API ... |{bar}| {date.strftime("%Y-%m-%d")}, asn {counter}/{len(asn_list)}', end='', flush=True)
+                    print( f'{progress_message}    asn {counter}/{len(asn_list)}', end='', flush=True)
+
                 d = get_asn_neighbours(asn, date)
-                result[(asn,date)] = d['data']['neighbours']
+                for row in d['data']['neighbours']:
+                    row['asn_req'] = asn
+                    row['date'] = date.strftime("%Y-%m-%d")
+                    neighbours_batch.append(row)
 
-        date += timedelta(days=1)
+                if verbose:
+                    progress_message = display_progress(total_number_of_dates - len(dates) - 1, total_number_of_dates,
+                                                        date, received_from_api + len(neighbours_batch), stored_to_database)
 
-    if verbose:
-        print(f'\r    Getting data from the API ... |{bar}|  SUCCESS', end=' - ', flush=True)
-        print(f"    Total records collected: {len(result)}")
-    return result
+                if len(neighbours_batch) >= batch_size:
+                    yield neighbours_batch
+                    stored_to_database += len(neighbours_batch)
+                    received_from_api += len(neighbours_batch)
+                    neighbours_batch = []
+
 
 
 def get_traffic_for_country(country_iso2, token):

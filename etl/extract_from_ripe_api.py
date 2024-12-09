@@ -39,8 +39,8 @@ def get_asn_neighbours(asn, date, save_mode=None):
 def ripe_api_call(url, params):
     attempts_left = RETRIES
     while attempts_left > 0:
-        response = requests.get(url, params)
         try:
+            response = requests.get(url, params)
             data = loads(response.text)
             if data:
                 return data

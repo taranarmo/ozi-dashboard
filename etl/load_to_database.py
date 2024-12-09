@@ -11,7 +11,7 @@ DBNAME = os.getenv("OZI_DATABASE_NAME", 'asn_stats')
 PORT = os.getenv("OZI_DATABASE_PORT", '5432')
 HOST = os.getenv("OZI_DATABASE_HOST", '34.32.74.250')
 
-VALUES_LIMIT=50000
+BATCH_SIZE = 10000
 
 def get_db_connection():
     encoded_password = urllib.parse.quote(PASSWORD)
@@ -29,7 +29,6 @@ def insert_country_asns_to_db(country_iso2, list_of_asns, save_sql_to_file=False
 
     if save_sql_to_file:
         filename = "sql/country_asns_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
-        # print(f'Saving file {filename}')
         with open(filename, 'w') as f:
             print(sql, file=f)
 
@@ -64,25 +63,22 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
 def insert_country_asn_neighbours_to_db(country_iso2, neighbours, save_sql_to_file=False, load_to_database=True):
     # connection = get_db_connection(PASSWORD)
     sql = "INSERT INTO data.asn_neighbour (an_asn, an_neighbour, an_date, an_type, an_power, an_v4_peers, an_v6_peers)\n VALUES "
-    for key in neighbours:
-        asn=key[0]
-        date=key[1]
-        for item in neighbours[key]:
-            sql += f"\n({asn}, {item['asn']}, '{date}', '{item['type']}', {item['power']}, {item['v4_peers']}, {item['v6_peers']}),"
+    for item in neighbours:
+        sql += f"\n({item['asn_req']}, {item['asn']}, '{item['date']}', '{item['type']}', {item['power']}, {item['v4_peers']}, {item['v6_peers']}),"
     sql = sql[:-1] + ";"
 
     if save_sql_to_file:
-        filename = f"sql/asn_neighbours_{country_iso2}_{date}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
+        filename = f"sql/asn_neighbours_{country_iso2}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
         with open(filename, 'w') as f:
             print(sql, file=f)
 
     if load_to_database:
-        print(f'Loading data to the database', end='...')
+        # print(f'Loading data to the database', end='...')
         c = get_db_connection()
         query = text(sql)
         c.execute(query)
         c.commit()
-        print(f'Done')
+        # print(f'Done')
 
 def insert_traffic_for_country_to_db(country_iso2, traffic, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)
