@@ -26,9 +26,9 @@ def get_country_resource_stats(country_iso2, resolution, start_time, end_time, s
         save_api_response(url, params, data, save_mode)
     return data
 
-def get_asn_neighbours(asn, save_mode=None):
+def get_asn_neighbours(asn, date, save_mode=None):
     url = API_URL.format("asn-neighbours")
-    params = {"resource": asn}
+    params = {"resource": asn, "query_time": date.strftime("%Y-%m-%dT00:00:00Z")}
     data = ripe_api_call(url, params)
 
     if save_mode:

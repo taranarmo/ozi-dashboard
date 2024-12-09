@@ -4,17 +4,23 @@ from extract_from_cloudflare_api import get_cloudflare_traffic_for_country, get_
 from extract_from_ripe_api import get_country_asns, get_country_resource_stats, get_asn_neighbours
 
 
-def get_list_of_asns_for_country(country_iso2, date_from, date_to):
-    print(f"Getting ASNs", end=" ... ")
-    date_from = datetime.strptime(date_from, "%Y-%m-%d")
-    date_to = datetime.strptime(date_to, "%Y-%m-%d")
+def get_list_of_asns_for_country(country_iso2, date_from, date_to, verbose=True):
     result = []
-    print(f"Getting ASNs from {date_from} to {date_to}", end=" ... ")
-
+    total_days = (date_to - date_from).days + 1
     date = date_from
+
     while date <= date_to:
-        print(f"\rGetting data for {date}", end='', flush=True)
+        if verbose:
+            length = 50
+            filled_length = int(length * (date - date_from).days // total_days)
+            bar = '█' * filled_length + '-' * (length - filled_length)
+            print(f'\r    Getting data from the API ... |{bar}| {date.strftime("%Y-%m-%d")}', end='', flush=True)
+
         d = get_country_asns(country_iso2, date, save_mode='file')
+        date += timedelta(days=1)
+
+        if not d['data']:
+            continue
 
         routed_asns = d['data']['countries'][0]['routed']
         non_routed_asns = d['data']['countries'][0]['non_routed']
@@ -26,33 +32,48 @@ def get_list_of_asns_for_country(country_iso2, date_from, date_to):
         for asn in non_routed_list:
             result.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : False})
 
-        date += timedelta(days=1)
-
-    print(f"\nTotal records collected: {len(result)}")
+    if verbose:
+        print(f'\r    Getting data from the API ... |{bar}|  Done. {len(result)} records collected')
     return result
 
 
 def get_stats_for_country(country_iso2, date_from, date_to, resolution):
-    print(f"Getting historical stats {country_iso2}, {resolution}, {date_from}, {date_to}", end=' ... ')
+    print(f"    Getting historical stats {country_iso2}, {resolution}, {date_from}, {date_to}", end=' ... ')
     d = get_country_resource_stats(country_iso2, resolution, date_from, date_to, save_mode='file')
     if d:
         stats = d['data']['stats']
-        print(f"{len(stats)} records found")
+        print(f"    {len(stats)} records found")
         return stats
 
 
-def get_list_of_asn_neighbours_for_country(country_iso2):
-    print(f"Getting ASN neighbours", end=" ... ")
-    neighbours = {}
-    asn_list = get_list_of_asns_for_country(country_iso2,None,None) #save_mode
-    if asn_list:
-        counter=0
-        for asn in asn_list:
-            counter+=1
-            print(f'\rNeighbours for country ASNs {counter}/{len(asn_list)}', end='', flush=True)
-            d = get_asn_neighbours(asn)
-            neighbours[asn] = d['data']['neighbours']
-    return neighbours
+def get_list_of_asn_neighbours_for_country(country_iso2, date_from, date_to, verbose=True):
+    total_days = (date_to - date_from).days
+    length = 50
+    date = date_from
+
+    while date <= date_to:
+        if verbose:
+            filled_length = int(length * (date - date_from).days // total_days)
+            bar = '█' * filled_length + '-' * (length - filled_length)
+
+        result = {}
+        asn_list = get_list_of_asns_for_country(country_iso2, date, date, verbose=False) #save_mode
+        if asn_list:
+            counter=0
+            for item in asn_list:
+                asn=item['asn']
+                counter+=1
+                if verbose:
+                    print(f'\r    Getting data from the API ... |{bar}| {date.strftime("%Y-%m-%d")}, asn {counter}/{len(asn_list)}', end='', flush=True)
+                d = get_asn_neighbours(asn, date)
+                result[(asn,date)] = d['data']['neighbours']
+
+        date += timedelta(days=1)
+
+    if verbose:
+        print(f'\r    Getting data from the API ... |{bar}|  SUCCESS', end=' - ', flush=True)
+        print(f"    Total records collected: {len(result)}")
+    return result
 
 
 def get_traffic_for_country(country_iso2, token):
@@ -64,7 +85,7 @@ def get_traffic_for_country(country_iso2, token):
         return traffic
 
 def get_internet_quality_for_country(country_iso2, token):
-    print(f"Getting internet quality for {country_iso2}", end=" ... ")
+    print(f"    Getting internet quality for {country_iso2}", end=" ... ")
     d = get_cloudflare_internet_quality_for_country(country_iso2, token, copy_to_file=True)
     if d:
         internet_quality = d['result']['main']

@@ -41,12 +41,17 @@ def insert_country_asns_to_db(country_iso2, date_from, date_to, list_of_asns, sa
                 print(sql, file=f)
 
         if load_to_database:
-            completed=round(100*(float(total_asn_count) - len(list_of_asns))/total_asn_count)
-            print(f'\rLoading data to the database ... {completed}% done', end='', flush=True)
+            percent=round(100*(float(total_asn_count) - len(list_of_asns))/total_asn_count)
+            length = 50
+            filled_length = int(length * (total_asn_count - len(list_of_asns)) // total_asn_count)
+            bar = '█' * filled_length + '-' * (length - filled_length)
+            print(f'\r    Loading data to the database ... |{bar}| {percent}% complete', end='', flush=True)
+
             c = get_db_connection()
             query = text(sql)
             c.execute(query)
             c.commit()
+    print()
 
 
 def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file=False):
@@ -70,11 +75,13 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
 
     # connection.execute(sql)
 
-def insert_country_asn_neighbours_to_db(country_iso2, date, neighbours, save_sql_to_file=False):
+def insert_country_asn_neighbours_to_db(country_iso2, neighbours, save_sql_to_file=False, load_to_database=True):
     # connection = get_db_connection(PASSWORD)
     sql = "INSERT INTO data.asn_neighbour (an_asn, an_neighbour, an_date, an_type, an_power, an_v4_peers, an_v6_peers)\n VALUES "
-    for asn in neighbours:
-        for item in neighbours[asn]:
+    for key in neighbours:
+        asn=key[0]
+        date=key[1]
+        for item in neighbours[key]:
             sql += f"\n({asn}, {item['asn']}, '{date}', '{item['type']}', {item['power']}, {item['v4_peers']}, {item['v6_peers']}),"
     sql = sql[:-1] + ";"
 
@@ -82,7 +89,14 @@ def insert_country_asn_neighbours_to_db(country_iso2, date, neighbours, save_sql
         filename = f"sql/asn_neighbours_{country_iso2}_{date}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
         with open(filename, 'w') as f:
             print(sql, file=f)
-    # connection.execute(sql)
+
+    if load_to_database:
+        print(f'Loading data to the database', end='...')
+        c = get_db_connection()
+        query = text(sql)
+        c.execute(query)
+        c.commit()
+        print(f'Done')
 
 def insert_traffic_for_country_to_db(country_iso2, traffic, save_sql_to_file=False):
     # connection = get_db_connection(PASSWORD)

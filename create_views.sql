@@ -1,6 +1,3 @@
-
-
-
 -- View for stats with resolution '1d'
 CREATE OR REPLACE VIEW data.v_country_stat_1d AS
 SELECT data.country_stat.*, data.country.c_name
@@ -51,13 +48,15 @@ SELECT an_date,
 CREATE OR REPLACE VIEW data.v_connectivity_index_by_country
 AS
 SELECT asn_country,
+       an_date as date,
        SUM( CASE WHEN is_foreign_neighbour THEN 1 ELSE 0 END ) AS foreign_neighbour_count,
        SUM( CASE WHEN NOT is_foreign_neighbour THEN 1 ELSE 0 END ) AS local_neighbour_count,
        COUNT(*) AS total_neighbour_count,
        sum( CASE WHEN is_foreign_neighbour THEN 1 ELSE 0 END ) :: FLOAT / count(*) AS foreign_neighbours_share
   FROM data.v_asn_neighbour
  WHERE asn_country IS NOT NULL
- GROUP BY asn_country;
+ GROUP BY asn_country,
+          an_date;
 
 CREATE OR REPLACE VIEW data.v_neighbours_by_country
 AS
