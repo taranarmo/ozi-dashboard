@@ -1,26 +1,19 @@
+import itertools
 from datetime import datetime, timedelta
 
 from extract_from_cloudflare_api import get_cloudflare_traffic_for_country, get_cloudflare_internet_quality_for_country
 from extract_from_ripe_api import get_country_asns, get_country_resource_stats, get_asn_neighbours
 
 
-def get_list_of_asns_for_country(country_iso2, date_from, date_to, verbose=True):
-    result = []
-    total_days = (date_to - date_from).days + 1
+def get_list_of_asns_for_country(country_iso2, date_from, date_to, batch_size=25000, verbose=True):
     date = date_from
+    asns_batch = []
+    # rolling_line = itertools.cycle(['o', 'O'])
 
     while date <= date_to:
-        if verbose:
-            length = 50
-            filled_length = int(length * (date - date_from).days // total_days)
-            bar = '█' * filled_length + '-' * (length - filled_length)
-            print(f'\r    Getting data from the API ... |{bar}| {date.strftime("%Y-%m-%d")}', end='', flush=True)
-
         d = get_country_asns(country_iso2, date, save_mode='file')
-        date += timedelta(days=1)
-
-        if not d['data']:
-            continue
+        # if verbose:
+        #     print('\b' + next(rolling_line), end='')
 
         routed_asns = d['data']['countries'][0]['routed']
         non_routed_asns = d['data']['countries'][0]['non_routed']
@@ -28,13 +21,15 @@ def get_list_of_asns_for_country(country_iso2, date_from, date_to, verbose=True)
         non_routed_list = [ item.split('(')[1].split(')')[0] for item in non_routed_asns.strip('{}').split(', ') if item.startswith("AsnSingle")]
 
         for asn in routed_list:
-            result.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : True})
+            asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : True})
         for asn in non_routed_list:
-            result.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : False})
+            asns_batch.append({'asn':asn, 'date':date.strftime("%Y-%m-%d"), 'is_routed' : False})
 
-    if verbose:
-        print(f'\r    Getting data from the API ... |{bar}|  Done. {len(result)} records collected')
-    return result
+        if len(asns_batch) >= batch_size:
+            yield asns_batch, date
+            asns_batch = []
+
+        date += timedelta(days=1)
 
 
 def get_stats_for_country(country_iso2, date_from, date_to, resolution):

@@ -45,7 +45,7 @@ def ripe_api_call(url, params):
             if data:
                 return data
         except Exception as e:
-            print("Exception during API request" + "... retrying" if attempts_left else "... STOP")
+            print("\nException during API request" + "... RETRYING" if attempts_left else "... STOP")
     return None
 
 def save_api_response(url, params, response, save_mode = None):
