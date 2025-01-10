@@ -55,7 +55,8 @@ def main():
         print(f"Date To:    {date_to.strftime("%Y-%m-%d")}")
         print(f"Resolution: {RESOLUTION_DICT[resolution]}")
 
-        task_map[task](iso2, generate_dates(date_from, date_to, resolution))
+        # task_map[task](iso2, generate_dates(date_from, date_to, resolution))
+        task_map[task](iso2, date_from, date_to)
 
         print(f"\nAt:         {datetime.now()}")
         print(f"Finished:   {task}")
