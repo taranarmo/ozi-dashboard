@@ -4,7 +4,7 @@ from extract_from_ripe_api import get_country_asns, get_country_resource_stats, 
 
 BAR_LENGTH = 50
 
-def display_progress(processed, total, processed_until_date, received_from_api, stored_to_database):
+def display_progress(processed, total, processed_until_date, received_from_api, stored_to_database, custom_msg=''):
     date_str = processed_until_date.strftime("%Y-%m-%d")
 
     progress = float(processed) / total
@@ -15,9 +15,8 @@ def display_progress(processed, total, processed_until_date, received_from_api, 
     else:
         bar += '-' * (50 - filled_length) + '| ' + date_str
 
-    progress_message = f'\r{' ' * 12}{bar} Received: {received_from_api}, Stored: {stored_to_database}'
-    print(progress_message, end=' ', flush=True)
-    return progress_message
+    print(f'\r{' ' * 12}{bar} Received: {received_from_api}, Stored: {stored_to_database}   {custom_msg}', end=' ', flush=True)
+
 
 def get_list_of_asns_for_country(country_iso2, dates, batch_size, verbose=True):
     total_number_of_dates = len(dates)
@@ -69,7 +68,7 @@ def get_list_of_asn_neighbours_for_country(country_iso2, dates, batch_size, verb
     stored_to_database = 0
 
     if verbose:
-        progress_message = display_progress(0, total_number_of_dates, dates[0], 0, 0)
+        display_progress(0, total_number_of_dates, dates[0], 0, 0)
 
     while dates:
         date = dates.pop(0)
@@ -79,23 +78,26 @@ def get_list_of_asn_neighbours_for_country(country_iso2, dates, batch_size, verb
                 asn=item['asn']
                 counter+=1
                 if verbose:
-                    print( f'{progress_message}    asn {counter}/{len(asn_list)}', end='', flush=True)
+                    display_progress(total_number_of_dates - len(dates) - 1, total_number_of_dates,
+                                                date, received_from_api + len(neighbours_batch), stored_to_database,
+                                                f'    asn {counter}/{len(asn_list)}')
 
                 d = get_asn_neighbours(asn, date)
-                for row in d['data']['neighbours']:
-                    row['asn_req'] = asn
-                    row['date'] = date.strftime("%Y-%m-%d")
-                    neighbours_batch.append(row)
+                if d['data']:
+                    for row in d['data']['neighbours']:
+                        row['asn_req'] = asn
+                        row['date'] = date.strftime("%Y-%m-%d")
+                        neighbours_batch.append(row)
 
-                if verbose:
-                    progress_message = display_progress(total_number_of_dates - len(dates) - 1, total_number_of_dates,
-                                                        date, received_from_api + len(neighbours_batch), stored_to_database)
 
                 if len(neighbours_batch) >= batch_size:
                     yield neighbours_batch
                     stored_to_database += len(neighbours_batch)
                     received_from_api += len(neighbours_batch)
                     neighbours_batch = []
+
+    if neighbours_batch:
+        yield neighbours_batch
 
 
 

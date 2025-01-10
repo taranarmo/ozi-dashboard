@@ -57,6 +57,10 @@ BEFORE INSERT OR UPDATE ON data.asn
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
+CREATE INDEX idx_asn_ripe_id ON data.asn (a_ripe_id);
+CREATE INDEX idx_asn_date ON data.asn (a_date);
+CREATE INDEX idx_asn_country ON data.asn (a_country_iso2);
+
 
 DROP TABLE IF EXISTS data.country_stat;
 CREATE TABLE data.country_stat (
@@ -129,6 +133,12 @@ BEFORE INSERT OR UPDATE ON data.asn_neighbour
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
+CREATE INDEX idx_asn_neighbour_asn ON data.asn_neighbour (an_asn);
+CREATE INDEX idx_asn_neighbour_neighbour ON data.asn_neighbour (an_neighbour);
+CREATE INDEX idx_asn_neighbour_date ON data.asn_neighbour (an_date);
+CREATE INDEX idx_asn_neighbour_type ON data.asn_neighbour (an_type);
+CREATE INDEX idx_asn_neighbour_asn_date ON data.asn_neighbour (an_asn, an_date);
+CREATE INDEX idx_asn_neighbour_asn_neighbour_type ON data.asn_neighbour (an_asn, an_neighbour, an_type);
 
 DROP TABLE IF EXISTS source.api_response;
 CREATE TABLE source.api_response (

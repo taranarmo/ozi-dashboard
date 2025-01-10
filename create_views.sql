@@ -31,19 +31,21 @@ CREATE OR REPLACE VIEW data.v_asn_neighbour
 AS
 SELECT an_date,
        an_asn,
-       a1.a_country_iso2 as asn_country,
+       a1.asn_country,
        an_neighbour,
-       a2.a_country_iso2 as neighbour_country,
-       CASE WHEN a1.a_country_iso2 <> a2.a_country_iso2 THEN TRUE ELSE FALSE END as is_foreign_neighbour,
+       a2.asn_country as neighbour_country,
+       CASE WHEN a1.asn_country <> a2.asn_country THEN TRUE ELSE FALSE END as is_foreign_neighbour,
        an_type,
        an_power,
        an_v4_peers,
        an_v6_peers
   FROM data.asn_neighbour as n
-  LEFT JOIN data.asn as a1 ON a1.a_ripe_id = n.an_asn
-  LEFT JOIN data.asn as a2 ON a2.a_ripe_id = n.an_neighbour
+   JOIN data.v_current_asn as a1 ON (a1.asn_id = n.an_asn)
+   JOIN data.v_current_asn as a2 ON (a2.asn_id = n.an_neighbour)
  WHERE an_type in ('left', 'right');
 
+CREATE MATERIALIZED VIEW data.vm_asn_neighbour
+AS SELECT * FROM data.v_asn_neighbour;
 
 CREATE OR REPLACE VIEW data.v_connectivity_index_by_country
 AS
@@ -58,6 +60,10 @@ SELECT asn_country,
  GROUP BY asn_country,
           an_date;
 
+CREATE MATERIALIZED VIEW data.vm_connectivity_index_by_country
+AS SELECT * FROM data.v_connectivity_index_by_country;
+
+
 CREATE OR REPLACE VIEW data.v_neighbours_by_country
 AS
 SELECT asn_country,
@@ -65,8 +71,7 @@ SELECT asn_country,
        count(*) AS neighbours_count
   FROM data.v_asn_neighbour
  GROUP BY asn_country,
-          neighbour_country
- ORDER BY asn_country, count(*) DESC;
+          neighbour_country;
 
 CREATE OR REPLACE VIEW data.v_connectivity_index_by_asn
 AS
@@ -79,3 +84,19 @@ SELECT an_asn,
   FROM data.v_asn_neighbour
  WHERE asn_country IS NOT NULL
  GROUP BY an_asn, asn_country;
+
+
+CREATE OR REPLACE VIEW data.v_current_asn
+AS
+WITH current_asn AS
+( SELECT a_ripe_id AS asn_id,
+        MAX(COALESCE(a_date, CURRENT_DATE)) as last_updated
+    FROM data.asn
+   GROUP BY a_ripe_id
+)
+SELECT asn_id,
+       last_updated,
+       a_country_iso2 AS asn_country,
+       a_is_routed AS is_routed
+  FROM data.asn
+  JOIN current_asn ON asn_id = a_id AND last_updated = COALESCE(a_date, CURRENT_DATE)

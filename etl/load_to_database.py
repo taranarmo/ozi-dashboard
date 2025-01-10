@@ -11,7 +11,7 @@ DBNAME = os.getenv("OZI_DATABASE_NAME", 'asn_stats')
 PORT = os.getenv("OZI_DATABASE_PORT", '5432')
 HOST = os.getenv("OZI_DATABASE_HOST", '34.32.74.250')
 
-BATCH_SIZE = 10000
+BATCH_SIZE = 1000
 
 def get_db_connection():
     encoded_password = urllib.parse.quote(PASSWORD)
