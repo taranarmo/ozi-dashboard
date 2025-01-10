@@ -15,16 +15,16 @@ $$ LANGUAGE plpgsql;
 ----------------------------------------
 -- DROP VIEWS
 ----------------------------------------
-DROP VIEW data.v_country_stat_1d;
-DROP VIEW data.v_country_stat_5m;
-DROP VIEW data.v_country_stat_last;
-DROP VIEW data.v_asn_neighbour;
-DROP VIEW data.vm_asn_neighbour;
-DROP VIEW data.v_connectivity_index_by_country;
-DROP VIEW data.vm_connectivity_index_by_country;
-DROP VIEW data.v_neighbours_by_country;
-DROP VIEW data.v_connectivity_index_by_asn;
-DROP VIEW data.v_current_asn;
+DROP VIEW data.v_country_stat_1d CASCADE;
+DROP VIEW data.v_country_stat_5m CASCADE;
+DROP VIEW data.v_country_stat_last CASCADE;
+DROP VIEW data.v_neighbours_by_country CASCADE;
+DROP VIEW data.v_connectivity_index_by_asn CASCADE;
+DROP VIEW data.v_current_asn CASCADE;
+DROP VIEW data.vm_asn_neighbour CASCADE;
+DROP VIEW data.v_asn_neighbour CASCADE;
+DROP VIEW data.vm_connectivity_index_by_country CASCADE;
+DROP VIEW data.v_connectivity_index_by_country CASCADE;
 
 
 DROP TABLE IF EXISTS data.country;
