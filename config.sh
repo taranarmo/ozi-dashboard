@@ -10,4 +10,5 @@ export DATABASE_INSTANCE="ozi-dashboard-db"
 export USER=ozi_dashboard
 export DBNAME=ozi_dashboard
 export HOST=34.32.32.188
+echo "Please enter the database passsword"
 read -s DATABASE_PASSWORD
