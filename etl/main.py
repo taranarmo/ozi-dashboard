@@ -30,6 +30,9 @@ def main():
         print("Error: Dates must be in YYYY-MM-DD format.")
         return
 
+    if countries[0] == 'all':
+        countries = list(ALL_COUNTRIES.keys())
+
     task_map = {
         "ASNS": etl_load_asns,
         "STATS_1D": etl_load_stats_1d,
