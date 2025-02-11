@@ -1,15 +1,6 @@
-#for sql execution on the server
-export DATABASE_USER="ozi_dashboard"
-export DATABASE_HOST="..."
-export DATABASE_INSTANCE="ozi-dashboard-db"
-#echo "Input DATABASE_PASSWORD"
-#read -s DATABASE_PASSWORD  # -s hides the input for security
-#export DATABASE_PASSWORD
-
-#for python etl jobs
-export USER=ozi_dashboard
+export DBUSER=ozi_dashboard
 export DBNAME=ozi_dashboard
-export HOST=34.32.32.188
-echo "Please enter the database passsword"
-read -s DATABASE_PASSWORD
-export DATABASE_PASSWORD
+export DBHOST=ozi-dashboard-db2.cm7ygcoo08e0.us-east-1.rds.amazonaws.com
+echo "Please enter the database passsword (user postgres)"
+read -s PGPASSWORD
+export PGPASSWORD=$PGPASSWORD

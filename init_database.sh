@@ -10,7 +10,16 @@ else
 fi
 
 source config.sh
-echo 'Initializing the database...'
-cat create_database_and_user.sql | gcloud sql connect $DATABASE_INSTANCE --user=postgres
+
+echo "Please choose the database passsword ($DBUSER user)"
+read -s DBPASSWORD
+
+echo 'Creating the use and database...'
+psql --host=$DBHOST --username=postgres postgres -c "DROP DATABASE IF EXISTS $DBNAME;"
+psql --host=$DBHOST --username=postgres postgres -c "CREATE DATABASE $DBNAME;"
+psql --host=$DBHOST --username=postgres $DBNAME  -c "CREATE USER $DBUSER WITH PASSWORD '$DBPASSWORD';"
+psql --host=$DBHOST --username=postgres $DBNAME  -c "GRANT ALL PRIVILEGES ON DATABASE $DBNAME TO $DBUSER;"
+
+export PGPASSWORD=$DBPASSWORD
 echo 'Creating the database schema...'
-cat create_database_schema.sql | gcloud sql connect $DATABASE_INSTANCE --user=$DATABASE_USER
+psql --host=$DBHOST --username=$DBUSER $DBNAME -f create_database_schema.sql
