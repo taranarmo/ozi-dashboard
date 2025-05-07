@@ -7,7 +7,7 @@ import yaml
 import os
 
 MAX_PARALLEL_JOBS = 10
-CONFIG_FILE = "etl_tasks_scheduler.yaml"
+CONFIG_FILE = "etl_tasks_scheduler.yml"
 LOGS_DIR = "logs"
 
 def ensure_logs_dir():
