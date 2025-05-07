@@ -1,26 +1,0 @@
-Started:    ASNS
-At:         2025-05-07 22:17:49.173935
-Country:    Armenia
-Date From:  2019-01-01
-Date To:    2025-04-30
-Resolution: weekly
-            Getting data from the API and storing to DB... 
-            |-2019-01-07--------------------------------------|  Received: 0, Stored: 0                |-2019-01-07--------------------------------------|  Received: 90, Stored: 0                |-2019-01-14--------------------------------------|  Received: 180, Stored: 0                |-2019-01-21--------------------------------------|  Received: 270, Stored: 0                |-2019-01-28--------------------------------------|  Received: 360, Stored: 0                |-2019-02-04--------------------------------------|  Received: 450, Stored: 0                |-2019-02-11--------------------------------------|  Received: 540, Stored: 0                |-2019-02-18--------------------------------------|  Received: 630, Stored: 0                |█-2019-02-25-------------------------------------|  Received: 720, Stored: 0                |█-2019-03-04-------------------------------------|  Received: 810, Stored: 0                |█-2019-03-11-------------------------------------|  Received: 900, Stored: 0                |█-2019-03-18-------------------------------------|  Received: 990, Stored: 0                |█-2019-03-25-------------------------------------|  Received: 1080, Stored: 0    Traceback (most recent call last):
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 129, in <module>
-    main()
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 61, in main
-    task_map[task](iso2, generate_dates(date_from, date_to, resolution))
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 98, in etl_load_asns
-    insert_country_asns_to_db(iso2, asns_batch, save_sql_to_file=False, load_to_database=True)
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/load_to_database.py", line 36, in insert_country_asns_to_db
-    c = get_db_connection()
-        ^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/load_to_database.py", line 17, in get_db_connection
-    encoded_password = urllib.parse.quote(PASSWORD)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/urllib/parse.py", line 907, in quote
-    return quote_from_bytes(string, safe)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/urllib/parse.py", line 937, in quote_from_bytes
-    raise TypeError("quote_from_bytes() expected bytes")
-TypeError: quote_from_bytes() expected bytes

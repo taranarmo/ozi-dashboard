@@ -1,65 +1,0 @@
-Started:    ASN_NEIGHBOURS
-At:         2025-05-07 22:17:49.173940
-Country:    Armenia
-Date From:  2019-01-01
-Date To:    2025-04-30
-Resolution: weekly
-            Getting data from the API and storing to DB... 
-            |-2019-01-07--------------------------------------|  Received: 0, Stored: 0                |-2019-01-07--------------------------------------|  Received: 0, Stored: 0       asn 1/90             |-2019-01-07--------------------------------------|  Received: 5, Stored: 0       asn 2/90             |-2019-01-07--------------------------------------|  Received: 11, Stored: 0       asn 3/90             |-2019-01-07--------------------------------------|  Received: 45, Stored: 0       asn 4/90             |-2019-01-07--------------------------------------|  Received: 54, Stored: 0       asn 5/90             |-2019-01-07--------------------------------------|  Received: 55, Stored: 0       asn 6/90             |-2019-01-07--------------------------------------|  Received: 56, Stored: 0       asn 7/90             |-2019-01-07--------------------------------------|  Received: 56, Stored: 0       asn 8/90             |-2019-01-07--------------------------------------|  Received: 57, Stored: 0       asn 9/90             |-2019-01-07--------------------------------------|  Received: 57, Stored: 0       asn 10/90             |-2019-01-07--------------------------------------|  Received: 57, Stored: 0       asn 11/90             |-2019-01-07--------------------------------------|  Received: 65, Stored: 0       asn 12/90             |-2019-01-07--------------------------------------|  Received: 66, Stored: 0       asn 13/90             |-2019-01-07--------------------------------------|  Received: 68, Stored: 0       asn 14/90             |-2019-01-07--------------------------------------|  Received: 70, Stored: 0       asn 15/90             |-2019-01-07--------------------------------------|  Received: 70, Stored: 0       asn 16/90             |-2019-01-07--------------------------------------|  Received: 73, Stored: 0       asn 17/90             |-2019-01-07--------------------------------------|  Received: 75, Stored: 0       asn 18/90             |-2019-01-07--------------------------------------|  Received: 150, Stored: 0       asn 19/90             |-2019-01-07--------------------------------------|  Received: 151, Stored: 0       asn 20/90             |-2019-01-07--------------------------------------|  Received: 159, Stored: 0       asn 21/90             |-2019-01-07--------------------------------------|  Received: 160, Stored: 0       asn 22/90             |-2019-01-07--------------------------------------|  Received: 162, Stored: 0       asn 23/90             |-2019-01-07--------------------------------------|  Received: 164, Stored: 0       asn 24/90             |-2019-01-07--------------------------------------|  Received: 166, Stored: 0       asn 25/90             |-2019-01-07--------------------------------------|  Received: 168, Stored: 0       asn 26/90             |-2019-01-07--------------------------------------|  Received: 169, Stored: 0       asn 27/90             |-2019-01-07--------------------------------------|  Received: 171, Stored: 0       asn 28/90             |-2019-01-07--------------------------------------|  Received: 173, Stored: 0       asn 29/90             |-2019-01-07--------------------------------------|  Received: 174, Stored: 0       asn 30/90             |-2019-01-07--------------------------------------|  Received: 176, Stored: 0       asn 31/90 Traceback (most recent call last):
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 129, in <module>
-    main()
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 61, in main
-    task_map[task](iso2, generate_dates(date_from, date_to, resolution))
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 114, in etl_load_asn_neighbours
-    for neighbours_batch in get_list_of_asn_neighbours_for_country(iso2, dates, BATCH_SIZE):
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/etl_jobs.py", line 85, in get_list_of_asn_neighbours_for_country
-    d = get_asn_neighbours(asn, date)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/extract_from_ripe_api.py", line 32, in get_asn_neighbours
-    data = ripe_api_call(url, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/extract_from_ripe_api.py", line 43, in ripe_api_call
-    response = requests.get(url, params)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
-    resp = self.send(prep, **send_kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
-    r = adapter.send(request, **kwargs)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
-    resp = conn.urlopen(
-           ^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
-    response = self._make_request(
-               ^^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 536, in _make_request
-    response = conn.getresponse()
-               ^^^^^^^^^^^^^^^^^^
-  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 507, in getresponse
-    httplib_response = super().getresponse()
-                       ^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 1428, in getresponse
-    response.begin()
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 331, in begin
-    version, status, reason = self._read_status()
-                              ^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 292, in _read_status
-    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socket.py", line 707, in readinto
-    return self._sock.recv_into(b)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1252, in recv_into
-    return self.read(nbytes, buffer)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1104, in read
-    return self._sslobj.read(len, buffer)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
