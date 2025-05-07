@@ -1,0 +1,40 @@
+#AM AZ BY EE GE KZ KG LV LT MD RU TJ TM UA UZ MN PL CZ
+
+todo:
+  - task: ASNS-AM_AZ_from_2019
+    params:
+      - task: ASNS
+      - countries: 
+          - AM
+          - AZ
+      - date-from: "2019-01-01"
+      - date-to: "2025-04-30"
+      - date-resolution: W
+    status: planned
+
+  - task: NEIGHBOURS-AM_from_2019
+    params:
+      - task: ASN_NEIGHBOURS
+      - countries:
+          - AM
+      - date-from: "2019-01-01"
+      - date-to: "2025-04-30"
+      - date-resolution: W
+    status: planned
+
+  - task: NEIGHBOURS-AZ_from_2019
+    params:
+      - task: ASN_NEIGHBOURS
+      - countries:
+          - AZ
+      - date-from: "2019-01-01"
+      - date-to: "2025-04-30"
+      - date-resolution: W
+    status: planned
+
+done:
+  - task: get_monthly_stats
+    command: "python3 main.py --task stats_1d --countries ES IT --date-from 2024-02-01 --date-to 2024-02-29 --date-resolution M"
+    status: completed
+    started: "2024-03-20T10:00:00"
+    finished: "2024-03-20T10:05:30"

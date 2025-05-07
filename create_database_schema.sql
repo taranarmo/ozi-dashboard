@@ -74,6 +74,7 @@ EXECUTE FUNCTION data.set_timestamps();
 CREATE INDEX idx_asn_ripe_id ON data.asn (a_ripe_id);
 CREATE INDEX idx_asn_date ON data.asn (a_date);
 CREATE INDEX idx_asn_country ON data.asn (a_country_iso2);
+CREATE INDEX idx_asn_ripe_date ON data.asn (a_ripe_id, a_date DESC);
 
 
 DROP TABLE IF EXISTS data.country_stat;
@@ -128,18 +129,18 @@ BEFORE INSERT OR UPDATE ON data.country_internet_quality
 FOR EACH ROW
 EXECUTE FUNCTION data.set_timestamps();
 
-DROP TABLE IF EXISTS data.asn_neighbour;
+DROP TABLE IF EXISTS  data.asn_neighbour;
 CREATE TABLE data.asn_neighbour (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    aт_id SERIAL PRIMARY KEY,
     an_asn INTEGER NOT NULL,
     an_neighbour INTEGER NOT NULL,
     an_date TIMESTAMP NOT NULL,
     an_type VARCHAR(32),
     an_power INTEGER NOT NULL,
     an_v4_peers INTEGER,
-    an_v6_peers INTEGER,
-    CONSTRAINT pk_asn_neighbours PRIMARY KEY (an_date, an_asn, an_neighbour, an_type)
+    an_v6_peers INTEGER
 );
 
 CREATE TRIGGER trigger_set_timestamps_asn_neighbour
@@ -202,21 +203,32 @@ SELECT country.c_name, country_stat.*
   JOIN data.country ON c_iso2 = cs_country_iso2
  WHERE cs_stats_resolution='1d';
 
+
+CREATE OR REPLACE VIEW data.v_current_asn AS
+SELECT DISTINCT ON (a_ripe_id)
+       a_ripe_id AS asn_id,
+       a_date AS last_updated,
+       a_country_iso2 AS asn_country
+FROM data.asn
+ORDER BY a_ripe_id, a_date DESC;
+
+CREATE materialized VIEW data.vm_current_asn AS select * from data.v_current_asn ;
+
 CREATE OR REPLACE VIEW data.v_asn_neighbour
 AS
 SELECT an_date,
        an_asn,
        a1.asn_country,
        an_neighbour,
-       a2.asn_country as neighbour_country,
-       CASE WHEN a1.asn_country <> a2.asn_country THEN TRUE ELSE FALSE END as is_foreign_neighbour,
+       coalesce(a2.asn_country, 'UNKNOWN') as neighbour_country,
+       CASE WHEN a1.asn_country <> coalesce(a2.asn_country, 'UNKNOWN') THEN TRUE ELSE FALSE END as is_foreign_neighbour,
        an_type,
        an_power,
        an_v4_peers,
        an_v6_peers
   FROM data.asn_neighbour as n
-   JOIN data.v_current_asn as a1 ON (a1.asn_id = n.an_asn)
-   JOIN data.v_current_asn as a2 ON (a2.asn_id = n.an_neighbour)
+   LEFT JOIN data.vm_current_asn as a1 ON (a1.asn_id = n.an_asn)
+   LEFT JOIN data.vm_current_asn as a2 ON (a2.asn_id = n.an_neighbour)
  WHERE an_type in ('left', 'right');
 
 CREATE MATERIALIZED VIEW data.vm_asn_neighbour
@@ -251,6 +263,7 @@ SELECT asn_country,
 CREATE OR REPLACE VIEW data.v_connectivity_index_by_asn
 AS
 SELECT an_asn,
+       an_date,
        asn_country,
        SUM( CASE WHEN is_foreign_neighbour THEN 1 ELSE 0 END ) AS foreign_neighbour_count,
        SUM( CASE WHEN NOT is_foreign_neighbour THEN 1 ELSE 0 END ) AS local_neighbour_count,
@@ -258,20 +271,21 @@ SELECT an_asn,
        sum( CASE WHEN is_foreign_neighbour THEN 1 ELSE 0 END ) :: FLOAT / count(*) AS foreign_neighbours_share
   FROM data.v_asn_neighbour
  WHERE asn_country IS NOT NULL
- GROUP BY an_asn, asn_country;
+ GROUP BY an_asn, an_date, asn_country;
+
+CREATE VIEW data.v_connectivity_index_by_asn_top10 AS
+SELECT *
+FROM (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY asn_country, an_date
+               ORDER BY total_neighbour_count DESC
+           ) AS rn
+    FROM data.v_connectivity_index_by_asn
+) sub
+WHERE rn <= 10;
 
 
-CREATE OR REPLACE VIEW data.v_current_asn
-AS
-WITH current_asn AS
-( SELECT a_ripe_id AS asn_id,
-        MAX(COALESCE(a_date, CURRENT_DATE)) as last_updated
-    FROM data.asn
-   GROUP BY a_ripe_id
-)
-SELECT asn_id,
-       last_updated,
-       a_country_iso2 AS asn_country,
-       a_is_routed AS is_routed
-  FROM data.asn
-  JOIN current_asn ON asn_id = a_id AND last_updated = COALESCE(a_date, CURRENT_DATE)
+GRANT SELECT ON data.v_connectivity_index_by_country TO looker_user;
+GRANT SELECT ON data.v_connectivity_index_by_asn TO looker_user;
+GRANT SELECT ON data.v_connectivity_index_by_asn_top10 TO looker_user;

@@ -14,3 +14,6 @@ SELECT an_date,
    JOIN data.v_current_asn as a1 ON (a1.asn_id = n.an_asn)
    JOIN data.v_current_asn as a2 ON (a2.asn_id = n.an_neighbour)
  WHERE an_type in ('left', 'right');
+
+
+GRANT SELECT ON data.v_connectivity_index_by_country TO looker_user;
