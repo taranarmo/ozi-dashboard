@@ -1,0 +1,54 @@
+Started:    ASN_NEIGHBOURS
+At:         2025-05-07 22:17:49.173934
+Country:    Azerbaijan
+Date From:  2019-01-01
+Date To:    2025-04-30
+Resolution: weekly
+            Getting data from the API and storing to DB... 
+            |-2019-01-07--------------------------------------|  Received: 0, Stored: 0                |-2019-01-07--------------------------------------|  Received: 0, Stored: 0       asn 1/62             |-2019-01-07--------------------------------------|  Received: 0, Stored: 0       asn 2/62             |-2019-01-07--------------------------------------|  Received: 0, Stored: 0       asn 3/62             |-2019-01-07--------------------------------------|  Received: 3, Stored: 0       asn 4/62             |-2019-01-07--------------------------------------|  Received: 5, Stored: 0       asn 5/62             |-2019-01-07--------------------------------------|  Received: 7, Stored: 0       asn 6/62             |-2019-01-07--------------------------------------|  Received: 9, Stored: 0       asn 7/62             |-2019-01-07--------------------------------------|  Received: 9, Stored: 0       asn 8/62             |-2019-01-07--------------------------------------|  Received: 11, Stored: 0       asn 9/62             |-2019-01-07--------------------------------------|  Received: 12, Stored: 0       asn 10/62             |-2019-01-07--------------------------------------|  Received: 12, Stored: 0       asn 11/62             |-2019-01-07--------------------------------------|  Received: 14, Stored: 0       asn 12/62             |-2019-01-07--------------------------------------|  Received: 14, Stored: 0       asn 13/62             |-2019-01-07--------------------------------------|  Received: 16, Stored: 0       asn 14/62             |-2019-01-07--------------------------------------|  Received: 17, Stored: 0       asn 15/62             |-2019-01-07--------------------------------------|  Received: 18, Stored: 0       asn 16/62             |-2019-01-07--------------------------------------|  Received: 19, Stored: 0       asn 17/62             |-2019-01-07--------------------------------------|  Received: 19, Stored: 0       asn 18/62             |-2019-01-07--------------------------------------|  Received: 20, Stored: 0       asn 19/62             |-2019-01-07--------------------------------------|  Received: 21, Stored: 0       asn 20/62             |-2019-01-07--------------------------------------|  Received: 22, Stored: 0       asn 21/62             |-2019-01-07--------------------------------------|  Received: 117, Stored: 0       asn 22/62             |-2019-01-07--------------------------------------|  Received: 118, Stored: 0       asn 23/62             |-2019-01-07--------------------------------------|  Received: 121, Stored: 0       asn 24/62             |-2019-01-07--------------------------------------|  Received: 122, Stored: 0       asn 25/62             |-2019-01-07--------------------------------------|  Received: 123, Stored: 0       asn 26/62             |-2019-01-07--------------------------------------|  Received: 124, Stored: 0       asn 27/62             |-2019-01-07--------------------------------------|  Received: 126, Stored: 0       asn 28/62             |-2019-01-07--------------------------------------|  Received: 127, Stored: 0       asn 29/62             |-2019-01-07--------------------------------------|  Received: 129, Stored: 0       asn 30/62             |-2019-01-07--------------------------------------|  Received: 130, Stored: 0       asn 31/62             |-2019-01-07--------------------------------------|  Received: 130, Stored: 0       asn 32/62             |-2019-01-07--------------------------------------|  Received: 131, Stored: 0       asn 33/62 Traceback (most recent call last):
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 129, in <module>
+    main()
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 61, in main
+    task_map[task](iso2, generate_dates(date_from, date_to, resolution))
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/main.py", line 114, in etl_load_asn_neighbours
+    for neighbours_batch in get_list_of_asn_neighbours_for_country(iso2, dates, BATCH_SIZE):
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/etl_jobs.py", line 85, in get_list_of_asn_neighbours_for_country
+    d = get_asn_neighbours(asn, date)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/extract_from_ripe_api.py", line 32, in get_asn_neighbours
+    data = ripe_api_call(url, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/etl/extract_from_ripe_api.py", line 43, in ripe_api_call
+    response = requests.get(url, params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 693, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 199, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ilya/lab4-berlin/ozi-dashboard/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+KeyboardInterrupt
