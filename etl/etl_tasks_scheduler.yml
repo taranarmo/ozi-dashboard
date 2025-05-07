@@ -5,8 +5,8 @@ todo:
     params:
       - task: ASNS
       - countries: 
-          - AM
-          - AZ
+          - LV
+          - LT
       - date-from: "2019-01-01"
       - date-to: "2025-04-30"
       - date-resolution: W
@@ -16,7 +16,7 @@ todo:
     params:
       - task: ASN_NEIGHBOURS
       - countries:
-          - AM
+          - LV
       - date-from: "2019-01-01"
       - date-to: "2025-04-30"
       - date-resolution: W
@@ -26,7 +26,7 @@ todo:
     params:
       - task: ASN_NEIGHBOURS
       - countries:
-          - AZ
+          - LT
       - date-from: "2019-01-01"
       - date-to: "2025-04-30"
       - date-resolution: W

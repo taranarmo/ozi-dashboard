@@ -7,7 +7,7 @@ import yaml
 import os
 
 MAX_PARALLEL_JOBS = 10
-CONFIG_FILE = "etl_tasks_scheduler.yml"
+CONFIG_FILE = "etl_tasks_scheduler.yaml"
 LOGS_DIR = "logs"
 
 def ensure_logs_dir():
@@ -25,19 +25,18 @@ def save_config(config):
 def build_command(task):
     cmd_parts = ["python3 main.py"]
     for param in task['params']:
-        for param_name, param_value in param.items():
-            if param_name == 'countries':
-                # Handle list of countries specially
-                countries_str = ' '.join(param_value)
-                cmd_parts.append(f"--{param_name} {countries_str}")
+        for name, value in param.items():
+            if isinstance(value, list):
+                # Handle list parameters (like countries)
+                cmd_parts.append(f"--{name} {' '.join(value)}")
             else:
-                cmd_parts.append(f"--{param_name} {param_value}")
+                cmd_parts.append(f"--{name} {value}")
     return ' '.join(cmd_parts)
 
 def worker(job_id, task_queue, config):
     while True:
         try:
-            task = task_queue.get_nowait()
+            task = task_queue.get(block=False)
         except queue.Empty:
             break
 
@@ -45,8 +44,8 @@ def worker(job_id, task_queue, config):
         log_file = os.path.join(LOGS_DIR, f"{timestamp}_process{job_id}.log")
         
         command = build_command(task)
+        print(f"\n[{datetime.now().strftime('%H:%M:%S')}] Process {job_id} starting task: {task['task']}")
         
-        # Create simplified task record for done section
         done_task = {
             'task': task['task'],
             'command': command,
@@ -64,8 +63,9 @@ def worker(job_id, task_queue, config):
             
             done_task['finished'] = datetime.now().isoformat()
             done_task['status'] = 'completed' if result.returncode == 0 else 'failed'
+            status_msg = "✓ completed" if result.returncode == 0 else f"✗ failed (code {result.returncode})"
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Process {job_id} finished task: {task['task']} - {status_msg}")
             
-            # Move task from todo to done
             if 'todo' in config and task in config['todo']:
                 config['todo'].remove(task)
                 if 'done' not in config:
@@ -77,6 +77,7 @@ def worker(job_id, task_queue, config):
             done_task['finished'] = datetime.now().isoformat()
             done_task['status'] = 'failed'
             done_task['error'] = str(e)
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Process {job_id} error in task {task['task']}: {str(e)}")
             
             if 'todo' in config and task in config['todo']:
                 config['todo'].remove(task)
@@ -89,12 +90,16 @@ def worker(job_id, task_queue, config):
             task_queue.task_done()
 
 def main():
+    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] Starting ETL task scheduler")
     ensure_logs_dir()
     config = load_config()
     
-    if 'todo' not in config:
+    if 'todo' not in config or not config['todo']:
         print("No tasks found in the todo section")
         return
+
+    total_tasks = len(config['todo'])
+    print(f"Found {total_tasks} tasks to process")
 
     # Load tasks into queue
     task_queue = queue.Queue()
@@ -103,7 +108,10 @@ def main():
 
     # Start worker threads
     threads = []
-    for i in range(min(MAX_PARALLEL_JOBS, task_queue.qsize())):
+    thread_count = min(MAX_PARALLEL_JOBS, task_queue.qsize())
+    print(f"Starting {thread_count} worker threads")
+    
+    for i in range(thread_count):
         t = threading.Thread(target=worker, args=(i+1, task_queue, config))
         t.start()
         threads.append(t)
@@ -111,7 +119,7 @@ def main():
     for t in threads:
         t.join()
 
-    print("All tasks completed.")
+    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] All tasks completed.")
 
 if __name__ == "__main__":
     main()

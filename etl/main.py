@@ -95,7 +95,7 @@ def generate_dates(date_from, date_to, resolution):
 def etl_load_asns(iso2, dates):
     print(f"{' '*12}Getting data from the API and storing to DB... ")
     for asns_batch in get_list_of_asns_for_country(iso2, dates, BATCH_SIZE):
-        insert_country_asns_to_db(iso2, asns_batch, save_sql_to_file=False, load_to_database=True)
+        insert_country_asns_to_db(iso2, asns_batch)
 
 
 def etl_load_stats_1d(iso2, date_from, date_to):
@@ -112,7 +112,7 @@ def etl_load_stats_5m(iso2, date_from, date_to):
 def etl_load_asn_neighbours(iso2, dates):
     print(f"{' '*12}Getting data from the API and storing to DB... ")
     for neighbours_batch in get_list_of_asn_neighbours_for_country(iso2, dates, BATCH_SIZE):
-        insert_country_asn_neighbours_to_db(iso2, neighbours_batch, True)
+        insert_country_asn_neighbours_to_db(iso2, neighbours_batch)
 
 
 def etl_load_traffic(iso2, date_from, date_to):
