@@ -139,7 +139,7 @@ CREATE TABLE data.asn_neighbour (
     an_power INTEGER NOT NULL,
     an_v4_peers INTEGER,
     an_v6_peers INTEGER,
-    CONSTRAINT pk_asn_neighbours PRIMARY KEY (an_asn, an_neighbour, an_type)
+    CONSTRAINT pk_asn_neighbours PRIMARY KEY (an_date, an_asn, an_neighbour, an_type)
 );
 
 CREATE TRIGGER trigger_set_timestamps_asn_neighbour

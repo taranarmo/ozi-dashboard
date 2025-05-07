@@ -1,0 +1,4 @@
+python3 main.py -t ASNS -c AM -df 2019-01-01 -dt 2025-04-30 -dr W
+python3 main.py -t ASNS -c AZ -df 2019-01-01 -dt 2025-04-30 -dr W
+python3 main.py -t ASN_NEIGHBOURS -c AM -df 2019-01-01 -dt 2025-04-30 -dr W
+python3 main.py -t ASN_NEIGHBOURS -c AZ -df 2019-01-01 -dt 2025-04-30 -dr W
