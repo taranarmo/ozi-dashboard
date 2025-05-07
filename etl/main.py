@@ -59,7 +59,7 @@ def main():
         print(f"Resolution: {RESOLUTION_DICT[resolution]}")
 
         # task_map[task](iso2, generate_dates(date_from, date_to, resolution))
-        task_map[task](iso2, date_from, date_to)
+        task_map[task](iso2, date_from, date_to, resolution)
 
         print(f"\nAt:         {datetime.now()}")
         print(f"Finished:   {task}")
@@ -92,9 +92,10 @@ def generate_dates(date_from, date_to, resolution):
     return dates
 
 
-def etl_load_asns(iso2, date_from, date_to):
+def etl_load_asns(iso2, date_from, date_to, resolution):
     print(f"{' '*12}Getting data from the API and storing to DB... ")
-    for asns_batch in get_list_of_asns_for_country(iso2, date_from, date_to, BATCH_SIZE):
+    dates = generate_dates(date_from, date_to, 'D')
+    for asns_batch in get_list_of_asns_for_country(iso2, dates, BATCH_SIZE):
         insert_country_asns_to_db(iso2, asns_batch, save_sql_to_file=False, load_to_database=True)
 
 
