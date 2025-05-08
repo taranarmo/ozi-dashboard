@@ -1,7 +1,11 @@
-export DBUSER=ozi_dashboard
-export DBNAME=ozi_dashboard
-export DBHOST=ozi-dashboard-db2.cm7ygcoo08e0.us-east-1.rds.amazonaws.com
+export OZI_DATABASE_USER=ozi
+export OZI_DATABASE_PASSWORD=Jdczyrf#999
+export OZI_DATABASE_NAME=ozi_db
+export OZI_DATABASE_PORT=5432
+export OZI_DATABASE_HOST=localhost
 
-echo "Please enter the database passsword (user postgres)"
-read -s PGPASSWORD
-export PGPASSWORD=$PGPASSWORD
+echo "Please enter the database passsword (user ozi)"
+read -s OZI_DATABASE_PASSWORD
+export PGPASSWORD=OZI_DATABASE_PASSWORD
+
+source ../venv/bin/activate
