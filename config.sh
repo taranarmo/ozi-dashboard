@@ -1,5 +1,5 @@
 export OZI_DATABASE_USER=ozi
-export OZI_DATABASE_NAME=ozi_db2gi
+export OZI_DATABASE_NAME=ozi_db2
 export OZI_DATABASE_PORT=5432
 export OZI_DATABASE_HOST=localhost
 
