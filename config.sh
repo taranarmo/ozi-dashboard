@@ -8,4 +8,4 @@ echo "Please enter the database passsword (user ozi)"
 read -s OZI_DATABASE_PASSWORD
 export PGPASSWORD=OZI_DATABASE_PASSWORD
 
-source ../venv/bin/activate
+source venv/bin/activate
