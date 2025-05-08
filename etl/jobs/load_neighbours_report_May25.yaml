@@ -1,0 +1,110 @@
+TASKS_QUEUE:
+  - task: ASN_NEIGHBOURS
+    countries: [AM]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [AZ]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [BY]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [EE]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [GE]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [KZ]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [KG]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [LV]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [LT]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [MD]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [RU]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [TJ]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [TM]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [UA]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [UZ]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [MN]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [PL]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+  - task: ASN_NEIGHBOURS
+    countries: [CZ]
+    date-from: "2019-01-01"
+    date-to: "2025-04-30"
+    date-resolution: W
+
+TASKS_DONE: []
