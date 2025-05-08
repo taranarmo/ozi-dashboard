@@ -48,12 +48,14 @@ def save_config(config_file, config):
 
 def build_command(task):
     cmd_parts = ["python3 main.py"]
-    for param in task['params']:
-        for name, value in param.items():
-            if isinstance(value, list):
-                cmd_parts.append(f"--{name} {' '.join(value)}")
-            else:
-                cmd_parts.append(f"--{name} {value}")
+    # New structure doesn't have params wrapper
+    for name, value in task.items():
+        if name == 'task':
+            cmd_parts.append(f"--{name} {value}")
+        elif isinstance(value, list):
+            cmd_parts.append(f"--{name} {' '.join(value)}")
+        else:
+            cmd_parts.append(f"--{name} {value}")
     return ' '.join(cmd_parts)
 
 def worker(job_id, task_queue, config, config_file):
@@ -63,15 +65,25 @@ def worker(job_id, task_queue, config, config_file):
         except queue.Empty:
             break
 
-        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        log_file = os.path.join(LOGS_DIR, f"{timestamp}_process{job_id}.log")
+        # Get process ID
+        process_id = os.getpid()
+        
+        # Extract task parameters
+        task_code = task.get('task', 'unknown')
+        countries = '-'.join(task.get('countries', []))
+        date_from = task.get('date-from', '').replace('-', '')
+        date_to = task.get('date-to', '').replace('-', '')
+        resolution = task.get('date-resolution', '')
+        
+        # Create log filename with the new pattern
+        log_filename = f"{process_id}_{task_code}_{countries}_{date_from}_{date_to}_{resolution}.log"
+        log_file = os.path.join(LOGS_DIR, log_filename)
         
         command = build_command(task)
-        task_name = next((str(param['task']) for param in task['params'] 
-                         if 'task' in param), 'unknown')
+        task_name = task_code
         log_message(f"Process {job_id} starting task: {task_name}")
         
-        done_task = task.copy()  # Make exact copy of original task
+        done_task = task.copy()
         done_task.update({
             'started': datetime.now().isoformat(),
             'command': command
@@ -91,11 +103,11 @@ def worker(job_id, task_queue, config, config_file):
             status_msg = "✓ completed" if result.returncode == 0 else f"✗ failed (code {result.returncode})"
             log_message(f"Process {job_id} finished task: {task_name} - {status_msg}")
             
-            if 'todo' in config and task in config['todo']:
-                config['todo'].remove(task)
-                if 'done' not in config:
-                    config['done'] = []
-                config['done'].append(done_task)
+            if 'TASKS_QUEUE' in config and task in config['TASKS_QUEUE']:
+                config['TASKS_QUEUE'].remove(task)
+                if 'TASKS_DONE' not in config:
+                    config['TASKS_DONE'] = []
+                config['TASKS_DONE'].append(done_task)
                 save_config(config_file, config)
 
         except Exception as e:
@@ -104,11 +116,11 @@ def worker(job_id, task_queue, config, config_file):
             done_task['error'] = str(e)
             log_message(f"Process {job_id} error in task {task_name}: {str(e)}")
             
-            if 'todo' in config and task in config['todo']:
-                config['todo'].remove(task)
-                if 'done' not in config:
-                    config['done'] = []
-                config['done'].append(done_task)
+            if 'TASKS_QUEUE' in config and task in config['TASKS_QUEUE']:
+                config['TASKS_QUEUE'].remove(task)
+                if 'TASKS_DONE' not in config:
+                    config['TASKS_DONE'] = []
+                config['TASKS_DONE'].append(done_task)
                 save_config(config_file, config)
             
         finally:
@@ -129,15 +141,15 @@ def main():
     ensure_logs_dir()
     config = load_config(config_file)
     
-    if 'todo' not in config or not config['todo']:
-        log_message("No tasks found in the todo section")
+    if 'TASKS_QUEUE' not in config or not config['TASKS_QUEUE']:
+        log_message("No tasks found in the TASKS_QUEUE section")
         return
 
-    total_tasks = len(config['todo'])
+    total_tasks = len(config['TASKS_QUEUE'])
     log_message(f"Found {total_tasks} tasks to process")
 
     task_queue = queue.Queue()
-    for task in config['todo']:
+    for task in config['TASKS_QUEUE']:
         task_queue.put(task)
 
     threads = []
