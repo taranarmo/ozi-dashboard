@@ -32,7 +32,7 @@ def setup_logging():
 
 def log_message(message):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"[{timestamp}] {message}")
+    print(f"[{timestamp}] {message}\n")
 
 def ensure_logs_dir():
     if not os.path.exists(LOGS_DIR):
