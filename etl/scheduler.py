@@ -7,7 +7,7 @@ import yaml
 import os
 import sys
 
-MAX_PARALLEL_JOBS = 10
+MAX_PARALLEL_JOBS = 20
 LOGS_DIR = "logs"
 SCHEDULER_LOG = "scheduler.log"
 
