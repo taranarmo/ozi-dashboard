@@ -8,7 +8,6 @@ import os
 import sys
 
 MAX_PARALLEL_JOBS = 10
-CONFIG_FILE = "etl_tasks_scheduler.yaml"
 LOGS_DIR = "logs"
 SCHEDULER_LOG = "scheduler.log"
 
@@ -39,12 +38,12 @@ def ensure_logs_dir():
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR)
 
-def load_config():
-    with open(CONFIG_FILE, 'r') as f:
+def load_config(config_file):
+    with open(config_file, 'r') as f:
         return yaml.safe_load(f)
 
-def save_config(config):
-    with open(CONFIG_FILE, 'w') as f:
+def save_config(config_file, config):
+    with open(config_file, 'w') as f:
         yaml.dump(config, f, default_flow_style=False)
 
 def build_command(task):
@@ -52,13 +51,12 @@ def build_command(task):
     for param in task['params']:
         for name, value in param.items():
             if isinstance(value, list):
-                # Handle list parameters (like countries)
                 cmd_parts.append(f"--{name} {' '.join(value)}")
             else:
                 cmd_parts.append(f"--{name} {value}")
     return ' '.join(cmd_parts)
 
-def worker(job_id, task_queue, config):
+def worker(job_id, task_queue, config, config_file):
     while True:
         try:
             task = task_queue.get(block=False)
@@ -69,13 +67,15 @@ def worker(job_id, task_queue, config):
         log_file = os.path.join(LOGS_DIR, f"{timestamp}_process{job_id}.log")
         
         command = build_command(task)
-        log_message(f"Process {job_id} starting task: {task['task']}")
+        task_name = next((str(param['task']) for param in task['params'] 
+                         if 'task' in param), 'unknown')
+        log_message(f"Process {job_id} starting task: {task_name}")
         
-        done_task = {
-            'task': task['task'],
-            'command': command,
-            'started': datetime.now().isoformat()
-        }
+        done_task = task.copy()  # Make exact copy of original task
+        done_task.update({
+            'started': datetime.now().isoformat(),
+            'command': command
+        })
 
         try:
             with open(log_file, "w") as out:
@@ -89,36 +89,45 @@ def worker(job_id, task_queue, config):
             done_task['finished'] = datetime.now().isoformat()
             done_task['status'] = 'completed' if result.returncode == 0 else 'failed'
             status_msg = "✓ completed" if result.returncode == 0 else f"✗ failed (code {result.returncode})"
-            log_message(f"Process {job_id} finished task: {task['task']} - {status_msg}")
+            log_message(f"Process {job_id} finished task: {task_name} - {status_msg}")
             
             if 'todo' in config and task in config['todo']:
                 config['todo'].remove(task)
                 if 'done' not in config:
                     config['done'] = []
                 config['done'].append(done_task)
-                save_config(config)
+                save_config(config_file, config)
 
         except Exception as e:
             done_task['finished'] = datetime.now().isoformat()
             done_task['status'] = 'failed'
             done_task['error'] = str(e)
-            log_message(f"Process {job_id} error in task {task['task']}: {str(e)}")
+            log_message(f"Process {job_id} error in task {task_name}: {str(e)}")
             
             if 'todo' in config and task in config['todo']:
                 config['todo'].remove(task)
                 if 'done' not in config:
                     config['done'] = []
                 config['done'].append(done_task)
-                save_config(config)
+                save_config(config_file, config)
             
         finally:
             task_queue.task_done()
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python scheduler.py <config_file>")
+        sys.exit(1)
+
+    config_file = sys.argv[1]
+    if not os.path.exists(config_file):
+        print(f"Config file not found: {config_file}")
+        sys.exit(1)
+
     setup_logging()
-    log_message("Starting ETL task scheduler")
+    log_message(f"Starting ETL task scheduler using config: {config_file}")
     ensure_logs_dir()
-    config = load_config()
+    config = load_config(config_file)
     
     if 'todo' not in config or not config['todo']:
         log_message("No tasks found in the todo section")
@@ -127,18 +136,16 @@ def main():
     total_tasks = len(config['todo'])
     log_message(f"Found {total_tasks} tasks to process")
 
-    # Load tasks into queue
     task_queue = queue.Queue()
     for task in config['todo']:
         task_queue.put(task)
 
-    # Start worker threads
     threads = []
     thread_count = min(MAX_PARALLEL_JOBS, task_queue.qsize())
     log_message(f"Starting {thread_count} worker threads")
     
     for i in range(thread_count):
-        t = threading.Thread(target=worker, args=(i+1, task_queue, config))
+        t = threading.Thread(target=worker, args=(i+1, task_queue, config, config_file))
         t.start()
         threads.append(t)
 
