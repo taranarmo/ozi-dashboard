@@ -1,458 +1,838 @@
-TASKS_QUEUE:
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-01-01"
-    date-to: "2019-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-02-01"
-    date-to: "2019-02-28"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-03-01"
-    date-to: "2019-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-04-01"
-    date-to: "2019-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-05-01"
-    date-to: "2019-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-06-01"
-    date-to: "2019-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-07-01"
-    date-to: "2019-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-08-01"
-    date-to: "2019-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-09-01"
-    date-to: "2019-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-10-01"
-    date-to: "2019-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-11-01"
-    date-to: "2019-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2019-12-01"
-    date-to: "2019-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-01-01"
-    date-to: "2020-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-02-01"
-    date-to: "2020-02-29"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-03-01"
-    date-to: "2020-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-04-01"
-    date-to: "2020-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-05-01"
-    date-to: "2020-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-06-01"
-    date-to: "2020-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-07-01"
-    date-to: "2020-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-08-01"
-    date-to: "2020-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-09-01"
-    date-to: "2020-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-10-01"
-    date-to: "2020-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-11-01"
-    date-to: "2020-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2020-12-01"
-    date-to: "2020-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-01-01"
-    date-to: "2021-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-02-01"
-    date-to: "2021-02-28"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-03-01"
-    date-to: "2021-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-04-01"
-    date-to: "2021-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-05-01"
-    date-to: "2021-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-06-01"
-    date-to: "2021-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-07-01"
-    date-to: "2021-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-08-01"
-    date-to: "2021-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-09-01"
-    date-to: "2021-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-10-01"
-    date-to: "2021-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-11-01"
-    date-to: "2021-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2021-12-01"
-    date-to: "2021-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-01-01"
-    date-to: "2022-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-02-01"
-    date-to: "2022-02-28"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-03-01"
-    date-to: "2022-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-04-01"
-    date-to: "2022-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-05-01"
-    date-to: "2022-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-06-01"
-    date-to: "2022-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-07-01"
-    date-to: "2022-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-08-01"
-    date-to: "2022-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-09-01"
-    date-to: "2022-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-10-01"
-    date-to: "2022-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-11-01"
-    date-to: "2022-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2022-12-01"
-    date-to: "2022-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-01-01"
-    date-to: "2023-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-02-01"
-    date-to: "2023-02-28"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-03-01"
-    date-to: "2023-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-04-01"
-    date-to: "2023-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-05-01"
-    date-to: "2023-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-06-01"
-    date-to: "2023-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-07-01"
-    date-to: "2023-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-08-01"
-    date-to: "2023-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-09-01"
-    date-to: "2023-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-10-01"
-    date-to: "2023-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-11-01"
-    date-to: "2023-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2023-12-01"
-    date-to: "2023-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-01-01"
-    date-to: "2024-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-02-01"
-    date-to: "2024-02-29"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-03-01"
-    date-to: "2024-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-04-01"
-    date-to: "2024-04-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-05-01"
-    date-to: "2024-05-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-06-01"
-    date-to: "2024-06-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-07-01"
-    date-to: "2024-07-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-08-01"
-    date-to: "2024-08-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-09-01"
-    date-to: "2024-09-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-10-01"
-    date-to: "2024-10-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-11-01"
-    date-to: "2024-11-30"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2024-12-01"
-    date-to: "2024-12-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2025-01-01"
-    date-to: "2025-01-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2025-02-01"
-    date-to: "2025-02-28"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2025-03-01"
-    date-to: "2025-03-31"
-    date-resolution: W
-
-  - task: ASN_NEIGHBOURS
-    countries: [RU]
-    date-from: "2025-04-01"
-    date-to: "2025-04-30"
-    date-resolution: W
-
-TASKS_DONE: []
+TASKS_DONE:
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-09-01
+    --date-to 2023-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-09-01'
+  date-resolution: W
+  date-to: '2023-09-30'
+  finished: '2025-05-09T22:26:56.512283'
+  started: '2025-05-09T22:26:54.595071'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-04-01
+    --date-to 2020-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-04-01'
+  date-resolution: W
+  date-to: '2020-04-30'
+  finished: '2025-05-09T22:26:56.506896'
+  started: '2025-05-09T22:26:54.021007'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-08-01
+    --date-to 2021-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-08-01'
+  date-resolution: W
+  date-to: '2021-08-31'
+  finished: '2025-05-09T22:26:56.550500'
+  started: '2025-05-09T22:26:54.123813'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-11-01
+    --date-to 2024-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-11-01'
+  date-resolution: W
+  date-to: '2024-11-30'
+  finished: '2025-05-09T22:26:56.538306'
+  started: '2025-05-09T22:26:54.895792'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-10-01
+    --date-to 2019-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-10-01'
+  date-resolution: W
+  date-to: '2019-10-31'
+  finished: '2025-05-09T22:26:56.538487'
+  started: '2025-05-09T22:26:54.010448'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-09-01
+    --date-to 2021-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-09-01'
+  date-resolution: W
+  date-to: '2021-09-30'
+  finished: '2025-05-09T22:26:56.551085'
+  started: '2025-05-09T22:26:54.135209'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-01-01
+    --date-to 2020-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-01-01'
+  date-resolution: W
+  date-to: '2020-01-31'
+  finished: '2025-05-09T22:26:56.551889'
+  started: '2025-05-09T22:26:54.010644'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-11-01
+    --date-to 2021-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-11-01'
+  date-resolution: W
+  date-to: '2021-11-30'
+  finished: '2025-05-09T22:26:56.550447'
+  started: '2025-05-09T22:26:54.187414'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-05-01
+    --date-to 2023-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-05-01'
+  date-resolution: W
+  date-to: '2023-05-31'
+  finished: '2025-05-09T22:26:56.552698'
+  started: '2025-05-09T22:26:54.569904'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-04-01
+    --date-to 2023-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-04-01'
+  date-resolution: W
+  date-to: '2023-04-30'
+  finished: '2025-05-09T22:26:56.574159'
+  started: '2025-05-09T22:26:54.576712'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-01-01
+    --date-to 2024-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-01-01'
+  date-resolution: W
+  date-to: '2024-01-31'
+  finished: '2025-05-09T22:26:56.560923'
+  started: '2025-05-09T22:26:54.699527'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-10-01
+    --date-to 2024-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-10-01'
+  date-resolution: W
+  date-to: '2024-10-31'
+  finished: '2025-05-09T22:26:56.586107'
+  started: '2025-05-09T22:26:54.868518'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-04-01
+    --date-to 2019-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-04-01'
+  date-resolution: W
+  date-to: '2019-04-30'
+  finished: '2025-05-09T22:26:56.631657'
+  started: '2025-05-09T22:26:54.012064'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-09-01
+    --date-to 2019-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-09-01'
+  date-resolution: W
+  date-to: '2019-09-30'
+  finished: '2025-05-09T22:26:56.640401'
+  started: '2025-05-09T22:26:54.010413'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2025-04-01
+    --date-to 2025-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2025-04-01'
+  date-resolution: W
+  date-to: '2025-04-30'
+  finished: '2025-05-09T22:26:56.600135'
+  started: '2025-05-09T22:26:55.026887'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-07-01
+    --date-to 2020-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-07-01'
+  date-resolution: W
+  date-to: '2020-07-31'
+  finished: '2025-05-09T22:26:56.600029'
+  started: '2025-05-09T22:26:54.028250'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-03-01
+    --date-to 2022-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-03-01'
+  date-resolution: W
+  date-to: '2022-03-31'
+  finished: '2025-05-09T22:26:56.626217'
+  started: '2025-05-09T22:26:54.207668'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-11-01
+    --date-to 2019-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-11-01'
+  date-resolution: W
+  date-to: '2019-11-30'
+  finished: '2025-05-09T22:26:56.625600'
+  started: '2025-05-09T22:26:54.016876'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-12-01
+    --date-to 2020-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-12-01'
+  date-resolution: W
+  date-to: '2020-12-31'
+  finished: '2025-05-09T22:26:56.639901'
+  started: '2025-05-09T22:26:54.069450'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-09-01
+    --date-to 2024-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-09-01'
+  date-resolution: W
+  date-to: '2024-09-30'
+  finished: '2025-05-09T22:26:56.639959'
+  started: '2025-05-09T22:26:54.856186'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-01-01
+    --date-to 2022-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-01-01'
+  date-resolution: W
+  date-to: '2022-01-31'
+  finished: '2025-05-09T22:26:56.631546'
+  started: '2025-05-09T22:26:54.217421'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2025-03-01
+    --date-to 2025-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2025-03-01'
+  date-resolution: W
+  date-to: '2025-03-31'
+  finished: '2025-05-09T22:26:56.641065'
+  started: '2025-05-09T22:26:55.005977'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-12-01
+    --date-to 2024-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-12-01'
+  date-resolution: W
+  date-to: '2024-12-31'
+  finished: '2025-05-09T22:26:56.625319'
+  started: '2025-05-09T22:26:54.897398'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-05-01
+    --date-to 2019-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-05-01'
+  date-resolution: W
+  date-to: '2019-05-31'
+  finished: '2025-05-09T22:26:56.600337'
+  started: '2025-05-09T22:26:54.010337'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-09-01
+    --date-to 2020-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-09-01'
+  date-resolution: W
+  date-to: '2020-09-30'
+  finished: '2025-05-09T22:26:56.631570'
+  started: '2025-05-09T22:26:54.042114'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-11-01
+    --date-to 2023-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-11-01'
+  date-resolution: W
+  date-to: '2023-11-30'
+  finished: '2025-05-09T22:26:56.660915'
+  started: '2025-05-09T22:26:54.632174'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-08-01
+    --date-to 2024-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-08-01'
+  date-resolution: W
+  date-to: '2024-08-31'
+  finished: '2025-05-09T22:26:56.600483'
+  started: '2025-05-09T22:26:54.845130'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-01-01
+    --date-to 2023-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-01-01'
+  date-resolution: W
+  date-to: '2023-01-31'
+  finished: '2025-05-09T22:26:56.641205'
+  started: '2025-05-09T22:26:54.504993'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-06-01
+    --date-to 2024-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-06-01'
+  date-resolution: W
+  date-to: '2024-06-30'
+  finished: '2025-05-09T22:26:56.669513'
+  started: '2025-05-09T22:26:54.822298'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-04-01
+    --date-to 2022-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-04-01'
+  date-resolution: W
+  date-to: '2022-04-30'
+  finished: '2025-05-09T22:26:56.678855'
+  started: '2025-05-09T22:26:54.233429'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-07-01
+    --date-to 2022-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-07-01'
+  date-resolution: W
+  date-to: '2022-07-31'
+  finished: '2025-05-09T22:26:56.657877'
+  started: '2025-05-09T22:26:54.324726'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-06-01
+    --date-to 2019-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-06-01'
+  date-resolution: W
+  date-to: '2019-06-30'
+  finished: '2025-05-09T22:26:56.687645'
+  started: '2025-05-09T22:26:54.007249'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-07-01
+    --date-to 2019-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-07-01'
+  date-resolution: W
+  date-to: '2019-07-31'
+  finished: '2025-05-09T22:26:56.640539'
+  started: '2025-05-09T22:26:54.013889'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-12-01
+    --date-to 2019-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-12-01'
+  date-resolution: W
+  date-to: '2019-12-31'
+  finished: '2025-05-09T22:26:56.688344'
+  started: '2025-05-09T22:26:54.013958'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-07-01
+    --date-to 2024-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-07-01'
+  date-resolution: W
+  date-to: '2024-07-31'
+  finished: '2025-05-09T22:26:56.640438'
+  started: '2025-05-09T22:26:54.825833'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-02-01
+    --date-to 2022-02-28 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-02-01'
+  date-resolution: W
+  date-to: '2022-02-28'
+  finished: '2025-05-09T22:26:56.631478'
+  started: '2025-05-09T22:26:54.203382'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-11-01
+    --date-to 2022-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-11-01'
+  date-resolution: W
+  date-to: '2022-11-30'
+  finished: '2025-05-09T22:26:56.694948'
+  started: '2025-05-09T22:26:54.413518'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-12-01
+    --date-to 2023-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-12-01'
+  date-resolution: W
+  date-to: '2023-12-31'
+  finished: '2025-05-09T22:26:56.600785'
+  started: '2025-05-09T22:26:54.675836'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2025-01-01
+    --date-to 2025-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2025-01-01'
+  date-resolution: W
+  date-to: '2025-01-31'
+  finished: '2025-05-09T22:26:56.661247'
+  started: '2025-05-09T22:26:54.944958'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-01-01
+    --date-to 2019-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-01-01'
+  date-resolution: W
+  date-to: '2019-01-31'
+  finished: '2025-05-09T22:26:56.700515'
+  started: '2025-05-09T22:26:54.005856'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-08-01
+    --date-to 2022-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-08-01'
+  date-resolution: W
+  date-to: '2022-08-31'
+  finished: '2025-05-09T22:26:56.670528'
+  started: '2025-05-09T22:26:54.325237'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-05-01
+    --date-to 2020-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-05-01'
+  date-resolution: W
+  date-to: '2020-05-31'
+  finished: '2025-05-09T22:26:56.657730'
+  started: '2025-05-09T22:26:54.021254'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-06-01
+    --date-to 2020-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-06-01'
+  date-resolution: W
+  date-to: '2020-06-30'
+  finished: '2025-05-09T22:26:56.679553'
+  started: '2025-05-09T22:26:54.030057'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-02-01
+    --date-to 2024-02-29 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-02-01'
+  date-resolution: W
+  date-to: '2024-02-29'
+  finished: '2025-05-09T22:26:56.687756'
+  started: '2025-05-09T22:26:54.700893'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-04-01
+    --date-to 2021-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-04-01'
+  date-resolution: W
+  date-to: '2021-04-30'
+  finished: '2025-05-09T22:26:56.660840'
+  started: '2025-05-09T22:26:54.086034'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-03-01
+    --date-to 2020-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-03-01'
+  date-resolution: W
+  date-to: '2020-03-31'
+  finished: '2025-05-09T22:26:56.660899'
+  started: '2025-05-09T22:26:54.032389'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-05-01
+    --date-to 2022-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-05-01'
+  date-resolution: W
+  date-to: '2022-05-31'
+  finished: '2025-05-09T22:26:56.688165'
+  started: '2025-05-09T22:26:54.249481'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-04-01
+    --date-to 2024-04-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-04-01'
+  date-resolution: W
+  date-to: '2024-04-30'
+  finished: '2025-05-09T22:26:56.692701'
+  started: '2025-05-09T22:26:54.759626'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-10-01
+    --date-to 2023-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-10-01'
+  date-resolution: W
+  date-to: '2023-10-31'
+  finished: '2025-05-09T22:26:56.694974'
+  started: '2025-05-09T22:26:54.602912'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-03-01
+    --date-to 2023-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-03-01'
+  date-resolution: W
+  date-to: '2023-03-31'
+  finished: '2025-05-09T22:26:56.625656'
+  started: '2025-05-09T22:26:54.548149'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-02-01
+    --date-to 2019-02-28 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-02-01'
+  date-resolution: W
+  date-to: '2019-02-28'
+  finished: '2025-05-09T22:26:56.688492'
+  started: '2025-05-09T22:26:54.006222'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-03-01
+    --date-to 2021-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-03-01'
+  date-resolution: W
+  date-to: '2021-03-31'
+  finished: '2025-05-09T22:26:56.694958'
+  started: '2025-05-09T22:26:54.083198'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-03-01
+    --date-to 2024-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-03-01'
+  date-resolution: W
+  date-to: '2024-03-31'
+  finished: '2025-05-09T22:26:56.631933'
+  started: '2025-05-09T22:26:54.726467'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-11-01
+    --date-to 2020-11-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-11-01'
+  date-resolution: W
+  date-to: '2020-11-30'
+  finished: '2025-05-09T22:26:56.670037'
+  started: '2025-05-09T22:26:54.065986'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-10-01
+    --date-to 2022-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-10-01'
+  date-resolution: W
+  date-to: '2022-10-31'
+  finished: '2025-05-09T22:26:56.639870'
+  started: '2025-05-09T22:26:54.450881'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-10-01
+    --date-to 2020-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-10-01'
+  date-resolution: W
+  date-to: '2020-10-31'
+  finished: '2025-05-09T22:26:56.679504'
+  started: '2025-05-09T22:26:54.049961'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-07-01
+    --date-to 2023-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-07-01'
+  date-resolution: W
+  date-to: '2023-07-31'
+  finished: '2025-05-09T22:26:56.684901'
+  started: '2025-05-09T22:26:54.576868'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2024-05-01
+    --date-to 2024-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2024-05-01'
+  date-resolution: W
+  date-to: '2024-05-31'
+  finished: '2025-05-09T22:26:56.687800'
+  started: '2025-05-09T22:26:54.811557'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-06-01
+    --date-to 2023-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-06-01'
+  date-resolution: W
+  date-to: '2023-06-30'
+  finished: '2025-05-09T22:26:56.692636'
+  started: '2025-05-09T22:26:54.579895'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-08-01
+    --date-to 2020-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-08-01'
+  date-resolution: W
+  date-to: '2020-08-31'
+  finished: '2025-05-09T22:26:56.669478'
+  started: '2025-05-09T22:26:54.037420'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-09-01
+    --date-to 2022-09-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-09-01'
+  date-resolution: W
+  date-to: '2022-09-30'
+  finished: '2025-05-09T22:26:56.640083'
+  started: '2025-05-09T22:26:54.332357'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-08-01
+    --date-to 2019-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-08-01'
+  date-resolution: W
+  date-to: '2019-08-31'
+  finished: '2025-05-09T22:26:56.688292'
+  started: '2025-05-09T22:26:54.010420'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-06-01
+    --date-to 2021-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-06-01'
+  date-resolution: W
+  date-to: '2021-06-30'
+  finished: '2025-05-09T22:26:56.694998'
+  started: '2025-05-09T22:26:54.097503'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2025-02-01
+    --date-to 2025-02-28 --date-resolution W
+  countries:
+  - RU
+  date-from: '2025-02-01'
+  date-resolution: W
+  date-to: '2025-02-28'
+  finished: '2025-05-09T22:26:56.639814'
+  started: '2025-05-09T22:26:54.977116'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-08-01
+    --date-to 2023-08-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-08-01'
+  date-resolution: W
+  date-to: '2023-08-31'
+  finished: '2025-05-09T22:26:56.669414'
+  started: '2025-05-09T22:26:54.589730'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-07-01
+    --date-to 2021-07-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-07-01'
+  date-resolution: W
+  date-to: '2021-07-31'
+  finished: '2025-05-09T22:26:56.687839'
+  started: '2025-05-09T22:26:54.107552'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2020-02-01
+    --date-to 2020-02-29 --date-resolution W
+  countries:
+  - RU
+  date-from: '2020-02-01'
+  date-resolution: W
+  date-to: '2020-02-29'
+  finished: '2025-05-09T22:26:56.679162'
+  started: '2025-05-09T22:26:54.013868'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-05-01
+    --date-to 2021-05-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-05-01'
+  date-resolution: W
+  date-to: '2021-05-31'
+  finished: '2025-05-09T22:26:56.700457'
+  started: '2025-05-09T22:26:54.088990'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-12-01
+    --date-to 2022-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-12-01'
+  date-resolution: W
+  date-to: '2022-12-31'
+  finished: '2025-05-09T22:26:56.679535'
+  started: '2025-05-09T22:26:54.486689'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-10-01
+    --date-to 2021-10-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-10-01'
+  date-resolution: W
+  date-to: '2021-10-31'
+  finished: '2025-05-09T22:26:56.679354'
+  started: '2025-05-09T22:26:54.160440'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-12-01
+    --date-to 2021-12-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-12-01'
+  date-resolution: W
+  date-to: '2021-12-31'
+  finished: '2025-05-09T22:26:56.684652'
+  started: '2025-05-09T22:26:54.201346'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2022-06-01
+    --date-to 2022-06-30 --date-resolution W
+  countries:
+  - RU
+  date-from: '2022-06-01'
+  date-resolution: W
+  date-to: '2022-06-30'
+  finished: '2025-05-09T22:26:56.694921'
+  started: '2025-05-09T22:26:54.286803'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2019-03-01
+    --date-to 2019-03-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2019-03-01'
+  date-resolution: W
+  date-to: '2019-03-31'
+  finished: '2025-05-09T22:26:56.657430'
+  started: '2025-05-09T22:26:54.006343'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-02-01
+    --date-to 2021-02-28 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-02-01'
+  date-resolution: W
+  date-to: '2021-02-28'
+  finished: '2025-05-09T22:26:56.694937'
+  started: '2025-05-09T22:26:54.074278'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2021-01-01
+    --date-to 2021-01-31 --date-resolution W
+  countries:
+  - RU
+  date-from: '2021-01-01'
+  date-resolution: W
+  date-to: '2021-01-31'
+  finished: '2025-05-09T22:26:56.694984'
+  started: '2025-05-09T22:26:54.073717'
+  status: failed
+  task: ASN_NEIGHBOURS
+- command: python3 main.py --task ASN_NEIGHBOURS --countries RU --date-from 2023-02-01
+    --date-to 2023-02-28 --date-resolution W
+  countries:
+  - RU
+  date-from: '2023-02-01'
+  date-resolution: W
+  date-to: '2023-02-28'
+  finished: '2025-05-09T22:26:56.631730'
+  started: '2025-05-09T22:26:54.536495'
+  status: failed
+  task: ASN_NEIGHBOURS
+TASKS_QUEUE: []
