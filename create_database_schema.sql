@@ -377,6 +377,19 @@ ALTER SEQUENCE data.etl_load_load_id_seq OWNER TO ozi;
 
 ALTER SEQUENCE data.etl_load_load_id_seq OWNED BY data.etl_load.load_id;
 
+--
+-- Name: v_asn_count; Type: VIEW; Schema: data; Owner: ozi
+--
+
+CREATE VIEW data.v_asn_count AS
+ SELECT
+    a_date,
+    a_country_iso2,
+    count(a_ripe_id) as asn_count
+   FROM data.asn
+  GROUP BY a_date, a_country_iso2;
+
+ALTER VIEW data.v_asn_count OWNER TO ozi;
 
 --
 -- Name: v_current_asn; Type: VIEW; Schema: data; Owner: ozi
@@ -1097,3 +1110,32 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA data GRANT SELECT ON TABLES
 -- PostgreSQL database dump complete
 --
 
+
+
+------------------ UPDATES after DUMP
+CREATE OR REPLACE VIEW data.v_asn_with_neighbours AS
+WITH asn_with_neighbours AS (
+    SELECT
+        a_id,
+        a_date,
+        a_country_iso2,
+        EXISTS (
+            SELECT 1
+            FROM data.asn_neighbour
+            WHERE an_asn = a_id
+              AND an_date = a_date
+        ) AS has_neighbours
+    FROM data.asn
+)
+SELECT
+    a_country_iso2,
+    a_date,
+    COUNT(*) AS total_asns,
+    COUNT(has_neighbours) AS asns_with_neighbours,
+    COUNT(has_neighbours)::FLOAT / COUNT(*) AS share_asns_with_neighbours
+FROM asn_with_neighbours
+GROUP BY a_country_iso2, a_date;
+
+-- Step 2: Create the materialized view based on the above
+-- CREATE MATERIALIZED VIEW data.vm_asn_with_neighbours AS
+-- SELECT * FROM data.v_asn_with_neighbours;
