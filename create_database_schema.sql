@@ -1139,3 +1139,55 @@ GROUP BY a_country_iso2, a_date;
 -- Step 2: Create the materialized view based on the above
 -- CREATE MATERIALIZED VIEW data.vm_asn_with_neighbours AS
 -- SELECT * FROM data.v_asn_with_neighbours;
+
+CREATE OR REPLACE VIEW data.v_data_overview AS
+WITH date_range AS (
+    SELECT date_trunc('day', min(a_date)) as start_date,
+           date_trunc('day', max(a_date)) as end_date
+    FROM data.asn
+),
+dates AS (
+    SELECT generate_series(start_date, end_date, '1 day'::interval) AS date
+    FROM date_range
+),
+countries AS (
+    SELECT DISTINCT a_country_iso2 as country_iso2
+    FROM data.asn
+)
+
+SELECT
+    d.date,
+    c.country_iso2,
+    CASE WHEN a.cnt > 0 THEN true ELSE false END as has_asn_records,
+    CASE WHEN n.cnt > 0 THEN true ELSE false END as has_neighbour_records,
+    CASE WHEN q.cnt > 0 THEN true ELSE false END as has_quality_records,
+    CASE WHEN cs.cnt > 0 THEN true ELSE false END as has_country_stat_records,
+    CASE WHEN ct.cnt > 0 THEN true ELSE false END as has_country_traffic_records
+FROM dates d
+CROSS JOIN countries c
+LEFT JOIN (
+    SELECT a_date, count(*) as cnt
+    FROM data.asn
+    GROUP BY a_date
+) a ON d.date = a.a_date
+LEFT JOIN (
+    SELECT an_date, count(*) as cnt
+    FROM data.asn_neighbour
+    GROUP BY an_date
+) n ON d.date = n.an_date
+LEFT JOIN (
+    SELECT ci_date, ci_country_iso2, count(*) as cnt
+    FROM data.country_internet_quality
+    GROUP BY ci_date, ci_country_iso2
+) q ON d.date = ci_date AND c.country_iso2 = ci_country_iso2
+LEFT JOIN (
+    SELECT cs_stats_timestamp::date, cs_country_iso2, count(*) as cnt
+    FROM data.country_stat
+    GROUP BY cs_stats_timestamp::date, cs_country_iso2
+) cs ON d.date = cs_stats_timestamp::date AND c.country_iso2 = cs_country_iso2
+LEFT JOIN (
+    SELECT cr_date, cr_country_iso2, count(*) as cnt
+    FROM data.country_traffic
+    GROUP BY cr_date, cr_country_iso2
+) ct ON d.date = cr_date AND c.country_iso2 = cr_country_iso2
+ORDER BY d.date, c.country_iso2;
