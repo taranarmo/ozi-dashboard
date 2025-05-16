@@ -510,6 +510,7 @@ ALTER VIEW data.v_connectivity_index_by_asn_top10 OWNER TO ozi;
 CREATE VIEW data.v_connectivity_index_by_country AS
  SELECT asn_country,
     an_date AS date,
+    count(distinct an_asn) as asn_count,
     sum(
         CASE
             WHEN is_foreign_neighbour THEN 1
@@ -656,12 +657,7 @@ ALTER MATERIALIZED VIEW data.vm_asn_neighbour OWNER TO ozi;
 --
 
 CREATE MATERIALIZED VIEW data.vm_connectivity_index_by_country AS
- SELECT asn_country,
-    date,
-    foreign_neighbour_count,
-    local_neighbour_count,
-    total_neighbour_count,
-    foreign_neighbours_share
+ SELECT *
    FROM data.v_connectivity_index_by_country
   WITH NO DATA;
 
@@ -1191,3 +1187,8 @@ LEFT JOIN (
     GROUP BY cr_date, cr_country_iso2
 ) ct ON d.date = cr_date AND c.country_iso2 = cr_country_iso2
 ORDER BY d.date, c.country_iso2;
+
+
+
+GRANT SELECT ON data.vm_connectivity_index_by_country TO looker_user;
+GRANT ALL PRIVILEGES ON data.vm_connectivity_index_by_country TO looker_user;
