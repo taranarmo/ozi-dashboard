@@ -128,7 +128,7 @@ ALTER SEQUENCE data.asn_a_id_seq OWNED BY data.asn.a_id;
 CREATE TABLE data.asn_neighbour (
     created timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    "aт_id" integer NOT NULL,
+    an_id integer NOT NULL,
     an_asn bigint NOT NULL,
     an_neighbour bigint NOT NULL,
     an_date timestamp without time zone NOT NULL,
@@ -143,10 +143,10 @@ CREATE TABLE data.asn_neighbour (
 ALTER TABLE data.asn_neighbour OWNER TO ozi;
 
 --
--- Name: asn_neighbour_aт_id_seq; Type: SEQUENCE; Schema: data; Owner: ozi
+-- Name: asn_neighbour_an_id_seq; Type: SEQUENCE; Schema: data; Owner: ozi
 --
 
-CREATE SEQUENCE data."asn_neighbour_aт_id_seq"
+CREATE SEQUENCE data."asn_neighbour_an_id_seq"
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -155,13 +155,13 @@ CREATE SEQUENCE data."asn_neighbour_aт_id_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE data."asn_neighbour_aт_id_seq" OWNER TO ozi;
+ALTER SEQUENCE data."asn_neighbour_an_id_seq" OWNER TO ozi;
 
 --
--- Name: asn_neighbour_aт_id_seq; Type: SEQUENCE OWNED BY; Schema: data; Owner: ozi
+-- Name: asn_neighbour_an_id_seq; Type: SEQUENCE OWNED BY; Schema: data; Owner: ozi
 --
 
-ALTER SEQUENCE data."asn_neighbour_aт_id_seq" OWNED BY data.asn_neighbour."aт_id";
+ALTER SEQUENCE data."asn_neighbour_an_id_seq" OWNED BY data.asn_neighbour."an_id";
 
 
 --
@@ -710,10 +710,10 @@ ALTER TABLE ONLY data.asn ALTER COLUMN a_id SET DEFAULT nextval('data.asn_a_id_s
 
 
 --
--- Name: asn_neighbour aт_id; Type: DEFAULT; Schema: data; Owner: ozi
+-- Name: asn_neighbour an_id; Type: DEFAULT; Schema: data; Owner: ozi
 --
 
-ALTER TABLE ONLY data.asn_neighbour ALTER COLUMN "aт_id" SET DEFAULT nextval('data."asn_neighbour_aт_id_seq"'::regclass);
+ALTER TABLE ONLY data.asn_neighbour ALTER COLUMN "an_id" SET DEFAULT nextval('data."asn_neighbour_an_id_seq"'::regclass);
 
 
 --
@@ -763,7 +763,7 @@ ALTER TABLE ONLY source.api_response ALTER COLUMN ar_id SET DEFAULT nextval('sou
 --
 
 ALTER TABLE ONLY data.asn_neighbour
-    ADD CONSTRAINT asn_neighbour_pkey PRIMARY KEY ("aт_id");
+    ADD CONSTRAINT asn_neighbour_pkey PRIMARY KEY ("an_id");
 
 
 --
