@@ -4,24 +4,29 @@
 2. Use strong password for user `postgres` while creating DB
 3. Go to `asn-stats`'s console
 4. Download code by cloning Git Repository
-```
-  git clone https://github.com/ilja-vladi/as-stats.git
-```
-5. Create database, user and tables for asn_stats project
-  - when asked for password use postgres password from step 2 first
-  - and asn_data password for the second sql script
 
-```
-  cd as-stats
-  ./init_database.sh
-  
-```
+    ```
+    git clone https://github.com/lab4-berlin/ozi-dashboard
+    ```
+
+5. Create database, user and tables for asn_stats project
+
+    - when asked for password use postgres password from step 2 first
+    - and asn_data password for the second sql script
+
+    ```
+    cd ozi-dashboard
+    ./init_database.sh
+    ```
+
 ## TMP
+
 ```
 cat sql/*.sql | gcloud sql connect asn-stats2 --user=asn_stats
 ```
 
 ## Dagster
+
 ```
 sudo apt install python3-pip
 sudo apt install python3.12-venv
