@@ -5,14 +5,14 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the requirements file into the container at /app
-COPY requirements.txt .
+COPY ../../requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 # Use --no-cache-dir to reduce layer size
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the etl directory content into the container at /app/etl
-COPY etl/ /app/etl/
+COPY ../../etl/ /app/etl/
 
 # Ensure the run script within etl is executable (if it's used by the python code)
 # Although our primary CMD is different, this maintains its executable state if needed.
