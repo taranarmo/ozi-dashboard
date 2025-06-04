@@ -83,3 +83,56 @@ docker run --rm \
 ```
 
 Replace `your_db_user`, `your_db_password`, `your_db_name`, and `your_db_host` with your actual database credentials and host. The `--rm` flag automatically removes the container when it exits.
+
+## Running with Docker Compose
+
+This project uses Docker Compose to manage the ETL and PostgreSQL services.
+
+### Prerequisites
+
+- Docker Engine
+- Docker Compose
+
+### Setup
+
+1.  **Environment Variables:**
+    Create a `.env` file in the root of the project. This file will store the credentials for the PostgreSQL database and any other sensitive configuration. Add the following content to it, replacing the placeholder values with your desired credentials:
+
+    ```env
+    POSTGRES_USER=your_username
+    POSTGRES_PASSWORD=your_strong_password
+    POSTGRES_DB=as_stats_db
+    ```
+
+    The `docker-compose.yml` file is configured to use these variables. If `.env` is not present, it will use default values (user: `user`, password: `password`, db: `as_stats_db`).
+
+2.  **Build and Run:**
+    To build the images and start the services, run the following command from the project root:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+    - `--build`: Forces Docker to rebuild the images if there are any changes to the Dockerfiles or build contexts.
+    - `-d`: (Optional) Add `-d` to run the containers in detached mode (in the background): `docker-compose up --build -d`
+
+3.  **Accessing Services:**
+    - **PostgreSQL:** If you keep the default port mapping in `docker-compose.yml`, the PostgreSQL database will be accessible on `localhost:5432`.
+    - **ETL Service:** The ETL service will start and connect to the PostgreSQL database as defined. Check its logs to see its activity: `docker-compose logs -f etl`
+
+4.  **Stopping Services:**
+    To stop the services, press `Ctrl+C` in the terminal where `docker-compose up` is running, or run:
+
+    ```bash
+    docker-compose down
+    ```
+
+    If you want to remove the volumes (including PostgreSQL data), use:
+
+    ```bash
+    docker-compose down -v
+    ```
+
+### ETL Job Execution
+
+The ETL service is configured to run `etl/etl_scheduler.py` by default. The `docker-compose.yml` and `docker/etl/Dockerfile` may need adjustments if you intend to pass specific job files or arguments to the ETL process dynamically via `docker-compose`. For example, you might use `docker-compose run etl your_job_argument` for specific tasks or modify the `command` in the `docker-compose.yml` for the `etl` service.
