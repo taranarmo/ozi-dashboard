@@ -1,8 +1,7 @@
 # Use an official PostgreSQL image
 FROM postgres:13-alpine
 
-# (Optional) Add any custom configurations or scripts here if needed in the future.
-# For now, environment variables via docker-compose will handle setup.
-
+# Copy initialization SQL script
+COPY create_database_schema.sql /docker-entrypoint-initdb.d/
 # Expose the default PostgreSQL port
 EXPOSE 5432
