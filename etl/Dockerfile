@@ -21,4 +21,4 @@ RUN chmod +x /app/etl/run.sh
 # The main command to run the application
 # The specific job YAML file (e.g., etl/jobs/load_asns_report_May25.yaml)
 # will need to be appended as an argument when running the container.
-CMD ["python3", "etl/etl_scheduler.py"]
+ENTRYPOINT ["python3", "etl/etl_scheduler.py"]
