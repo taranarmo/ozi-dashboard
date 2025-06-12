@@ -1,4 +1,39 @@
 --
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE looker_user;
+ALTER ROLE looker_user WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:084y9kDxKB+HxiD6n7kvXQ==$1aooS1GT49gCRRLYYlq0ttPfk5zd60cc6QUI5uUGN1I=:YgP58xwfMOrXNVvv1o2VyNqwt9NYm+kzlQMTKcElr/I=';
+CREATE ROLE ozi;
+ALTER ROLE ozi WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:rbWStn9vTdhRwKtimfrZxA==$SOwyNEDYqmkQHqj1ealhCk9zhydcILzRyjIDg43tnMA=:89B1ROj6VhCeH3/fuh85H+8IY/6RuqD2VgwkclbFyDU=';
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:YljbgYNr2llyWF95us1nsQ==$RM0Nho/sg91u48SlY93rWHsoNJJLjoNTqxsB39jw33A=:c5RjQyrPO1VvYyDhArA3DgT0jHz/WOwvCzm75nzd4uA=';
+
+--
+-- User Configurations
+--
+
+
+
+
+
+
+
+
+--
+-- PostgreSQL database cluster dump complete
+--
+
+--
 -- PostgreSQL database dump
 --
 
@@ -128,7 +163,7 @@ ALTER SEQUENCE data.asn_a_id_seq OWNED BY data.asn.a_id;
 CREATE TABLE data.asn_neighbour (
     created timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    an_id integer NOT NULL,
+    "aт_id" integer NOT NULL,
     an_asn bigint NOT NULL,
     an_neighbour bigint NOT NULL,
     an_date timestamp without time zone NOT NULL,
@@ -143,10 +178,10 @@ CREATE TABLE data.asn_neighbour (
 ALTER TABLE data.asn_neighbour OWNER TO ozi;
 
 --
--- Name: asn_neighbour_an_id_seq; Type: SEQUENCE; Schema: data; Owner: ozi
+-- Name: asn_neighbour_aт_id_seq; Type: SEQUENCE; Schema: data; Owner: ozi
 --
 
-CREATE SEQUENCE data."asn_neighbour_an_id_seq"
+CREATE SEQUENCE data."asn_neighbour_aт_id_seq"
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -155,13 +190,13 @@ CREATE SEQUENCE data."asn_neighbour_an_id_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE data."asn_neighbour_an_id_seq" OWNER TO ozi;
+ALTER SEQUENCE data."asn_neighbour_aт_id_seq" OWNER TO ozi;
 
 --
--- Name: asn_neighbour_an_id_seq; Type: SEQUENCE OWNED BY; Schema: data; Owner: ozi
+-- Name: asn_neighbour_aт_id_seq; Type: SEQUENCE OWNED BY; Schema: data; Owner: ozi
 --
 
-ALTER SEQUENCE data."asn_neighbour_an_id_seq" OWNED BY data.asn_neighbour."an_id";
+ALTER SEQUENCE data."asn_neighbour_aт_id_seq" OWNED BY data.asn_neighbour."aт_id";
 
 
 --
@@ -350,7 +385,7 @@ CREATE TABLE data.etl_load (
     finish_time timestamp without time zone,
     command text NOT NULL,
     status character varying(20),
-    CONSTRAINT etl_load_status_check CHECK (((status)::text = ANY ((ARRAY['running'::character varying, 'completed'::character varying, 'failed'::character varying])::text[])))
+    CONSTRAINT etl_load_status_check CHECK (((status)::text = ANY (ARRAY[('running'::character varying)::text, ('completed'::character varying)::text, ('failed'::character varying)::text])))
 );
 
 
@@ -377,17 +412,18 @@ ALTER SEQUENCE data.etl_load_load_id_seq OWNER TO ozi;
 
 ALTER SEQUENCE data.etl_load_load_id_seq OWNED BY data.etl_load.load_id;
 
+
 --
 -- Name: v_asn_count; Type: VIEW; Schema: data; Owner: ozi
 --
 
 CREATE VIEW data.v_asn_count AS
- SELECT
-    a_date,
+ SELECT a_date,
     a_country_iso2,
-    count(a_ripe_id) as asn_count
+    count(a_ripe_id) AS asn_count
    FROM data.asn
   GROUP BY a_date, a_country_iso2;
+
 
 ALTER VIEW data.v_asn_count OWNER TO ozi;
 
@@ -440,10 +476,35 @@ CREATE VIEW data.v_asn_neighbour AS
    FROM ((data.asn_neighbour n
      LEFT JOIN data.vm_current_asn a1 ON ((a1.asn_id = n.an_asn)))
      LEFT JOIN data.vm_current_asn a2 ON ((a2.asn_id = n.an_neighbour)))
-  WHERE ((n.an_type)::text = ANY ((ARRAY['left'::character varying, 'right'::character varying])::text[]));
+  WHERE ((n.an_type)::text = ANY (ARRAY[('left'::character varying)::text, ('right'::character varying)::text]));
 
 
 ALTER VIEW data.v_asn_neighbour OWNER TO ozi;
+
+--
+-- Name: v_asn_with_neighbours; Type: VIEW; Schema: data; Owner: ozi
+--
+
+CREATE VIEW data.v_asn_with_neighbours AS
+ WITH asn_with_neighbours AS (
+         SELECT asn.a_id,
+            asn.a_date,
+            asn.a_country_iso2,
+            (EXISTS ( SELECT 1
+                   FROM data.asn_neighbour
+                  WHERE ((asn_neighbour.an_asn = asn.a_id) AND (asn_neighbour.an_date = asn.a_date)))) AS has_neighbours
+           FROM data.asn
+        )
+ SELECT a_country_iso2,
+    a_date,
+    count(*) AS total_asns,
+    count(has_neighbours) AS asns_with_neighbours,
+    ((count(has_neighbours))::double precision / (count(*))::double precision) AS share_asns_with_neighbours
+   FROM asn_with_neighbours
+  GROUP BY a_country_iso2, a_date;
+
+
+ALTER VIEW data.v_asn_with_neighbours OWNER TO ozi;
 
 --
 -- Name: v_connectivity_index_by_asn; Type: VIEW; Schema: data; Owner: ozi
@@ -510,7 +571,7 @@ ALTER VIEW data.v_connectivity_index_by_asn_top10 OWNER TO ozi;
 CREATE VIEW data.v_connectivity_index_by_country AS
  SELECT asn_country,
     an_date AS date,
-    count(distinct an_asn) as asn_count,
+    count(DISTINCT an_asn) AS asn_count,
     sum(
         CASE
             WHEN is_foreign_neighbour THEN 1
@@ -618,6 +679,74 @@ CREATE VIEW data.v_country_stat_last AS
 ALTER VIEW data.v_country_stat_last OWNER TO ozi;
 
 --
+-- Name: v_data_overview; Type: VIEW; Schema: data; Owner: ozi
+--
+
+CREATE VIEW data.v_data_overview AS
+ WITH date_range AS (
+         SELECT date_trunc('day'::text, min(asn.a_date)) AS start_date,
+            date_trunc('day'::text, max(asn.a_date)) AS end_date
+           FROM data.asn
+        ), dates AS (
+         SELECT generate_series(date_range.start_date, date_range.end_date, '1 day'::interval) AS date
+           FROM date_range
+        ), countries AS (
+         SELECT DISTINCT asn.a_country_iso2 AS country_iso2
+           FROM data.asn
+        )
+ SELECT d.date,
+    c.country_iso2,
+        CASE
+            WHEN (a.cnt > 0) THEN true
+            ELSE false
+        END AS has_asn_records,
+        CASE
+            WHEN (n.cnt > 0) THEN true
+            ELSE false
+        END AS has_neighbour_records,
+        CASE
+            WHEN (q.cnt > 0) THEN true
+            ELSE false
+        END AS has_quality_records,
+        CASE
+            WHEN (cs.cnt > 0) THEN true
+            ELSE false
+        END AS has_country_stat_records,
+        CASE
+            WHEN (ct.cnt > 0) THEN true
+            ELSE false
+        END AS has_country_traffic_records
+   FROM ((((((dates d
+     CROSS JOIN countries c)
+     LEFT JOIN ( SELECT asn.a_date,
+            count(*) AS cnt
+           FROM data.asn
+          GROUP BY asn.a_date) a ON ((d.date = a.a_date)))
+     LEFT JOIN ( SELECT asn_neighbour.an_date,
+            count(*) AS cnt
+           FROM data.asn_neighbour
+          GROUP BY asn_neighbour.an_date) n ON ((d.date = n.an_date)))
+     LEFT JOIN ( SELECT country_internet_quality.ci_date,
+            country_internet_quality.ci_country_iso2,
+            count(*) AS cnt
+           FROM data.country_internet_quality
+          GROUP BY country_internet_quality.ci_date, country_internet_quality.ci_country_iso2) q ON (((d.date = q.ci_date) AND ((c.country_iso2)::text = (q.ci_country_iso2)::text))))
+     LEFT JOIN ( SELECT (country_stat.cs_stats_timestamp)::date AS cs_stats_timestamp,
+            country_stat.cs_country_iso2,
+            count(*) AS cnt
+           FROM data.country_stat
+          GROUP BY ((country_stat.cs_stats_timestamp)::date), country_stat.cs_country_iso2) cs ON (((d.date = cs.cs_stats_timestamp) AND ((c.country_iso2)::text = (cs.cs_country_iso2)::text))))
+     LEFT JOIN ( SELECT country_traffic.cr_date,
+            country_traffic.cr_country_iso2,
+            count(*) AS cnt
+           FROM data.country_traffic
+          GROUP BY country_traffic.cr_date, country_traffic.cr_country_iso2) ct ON (((d.date = ct.cr_date) AND ((c.country_iso2)::text = (ct.cr_country_iso2)::text))))
+  ORDER BY d.date, c.country_iso2;
+
+
+ALTER VIEW data.v_data_overview OWNER TO ozi;
+
+--
 -- Name: v_neighbours_by_country; Type: VIEW; Schema: data; Owner: ozi
 --
 
@@ -653,11 +782,36 @@ CREATE MATERIALIZED VIEW data.vm_asn_neighbour AS
 ALTER MATERIALIZED VIEW data.vm_asn_neighbour OWNER TO ozi;
 
 --
+-- Name: vm_connectivity_index_by_asn_top10; Type: MATERIALIZED VIEW; Schema: data; Owner: ozi
+--
+
+CREATE MATERIALIZED VIEW data.vm_connectivity_index_by_asn_top10 AS
+ SELECT an_asn,
+    an_date,
+    asn_country,
+    foreign_neighbour_count,
+    local_neighbour_count,
+    total_neighbour_count,
+    foreign_neighbours_share,
+    rn
+   FROM data.v_connectivity_index_by_asn_top10
+  WITH NO DATA;
+
+
+ALTER MATERIALIZED VIEW data.vm_connectivity_index_by_asn_top10 OWNER TO ozi;
+
+--
 -- Name: vm_connectivity_index_by_country; Type: MATERIALIZED VIEW; Schema: data; Owner: ozi
 --
 
 CREATE MATERIALIZED VIEW data.vm_connectivity_index_by_country AS
- SELECT *
+ SELECT asn_country,
+    date,
+    asn_count,
+    foreign_neighbour_count,
+    local_neighbour_count,
+    total_neighbour_count,
+    foreign_neighbours_share
    FROM data.v_connectivity_index_by_country
   WITH NO DATA;
 
@@ -710,10 +864,10 @@ ALTER TABLE ONLY data.asn ALTER COLUMN a_id SET DEFAULT nextval('data.asn_a_id_s
 
 
 --
--- Name: asn_neighbour an_id; Type: DEFAULT; Schema: data; Owner: ozi
+-- Name: asn_neighbour aт_id; Type: DEFAULT; Schema: data; Owner: ozi
 --
 
-ALTER TABLE ONLY data.asn_neighbour ALTER COLUMN "an_id" SET DEFAULT nextval('data."asn_neighbour_an_id_seq"'::regclass);
+ALTER TABLE ONLY data.asn_neighbour ALTER COLUMN "aт_id" SET DEFAULT nextval('data."asn_neighbour_aт_id_seq"'::regclass);
 
 
 --
@@ -763,7 +917,7 @@ ALTER TABLE ONLY source.api_response ALTER COLUMN ar_id SET DEFAULT nextval('sou
 --
 
 ALTER TABLE ONLY data.asn_neighbour
-    ADD CONSTRAINT asn_neighbour_pkey PRIMARY KEY ("an_id");
+    ADD CONSTRAINT asn_neighbour_pkey PRIMARY KEY ("aт_id");
 
 
 --
@@ -970,6 +1124,13 @@ GRANT USAGE ON SCHEMA data TO looker_user;
 
 
 --
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
+--
+
+GRANT USAGE ON SCHEMA public TO ozi;
+
+
+--
 -- Name: TABLE asn; Type: ACL; Schema: data; Owner: ozi
 --
 
@@ -1047,6 +1208,13 @@ GRANT SELECT ON SEQUENCE data.country_traffic_cr_id_seq TO looker_user;
 
 
 --
+-- Name: TABLE v_asn_count; Type: ACL; Schema: data; Owner: ozi
+--
+
+GRANT SELECT ON TABLE data.v_asn_count TO looker_user;
+
+
+--
 -- Name: TABLE v_connectivity_index_by_asn; Type: ACL; Schema: data; Owner: ozi
 --
 
@@ -1058,13 +1226,6 @@ GRANT SELECT ON TABLE data.v_connectivity_index_by_asn TO looker_user;
 --
 
 GRANT SELECT ON TABLE data.v_connectivity_index_by_asn_top10 TO looker_user;
-
-
---
--- Name: TABLE v_connectivity_index_by_country; Type: ACL; Schema: data; Owner: ozi
---
-
-GRANT SELECT ON TABLE data.v_connectivity_index_by_country TO looker_user;
 
 
 --
@@ -1089,6 +1250,13 @@ GRANT SELECT ON TABLE data.v_country_stat_last TO looker_user;
 
 
 --
+-- Name: TABLE vm_connectivity_index_by_country; Type: ACL; Schema: data; Owner: ozi
+--
+
+GRANT ALL ON TABLE data.vm_connectivity_index_by_country TO looker_user;
+
+
+--
 -- Name: DEFAULT PRIVILEGES FOR SEQUENCES; Type: DEFAULT ACL; Schema: data; Owner: postgres
 --
 
@@ -1106,89 +1274,3 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA data GRANT SELECT ON TABLES
 -- PostgreSQL database dump complete
 --
 
-
-
------------------- UPDATES after DUMP
-CREATE OR REPLACE VIEW data.v_asn_with_neighbours AS
-WITH asn_with_neighbours AS (
-    SELECT
-        a_id,
-        a_date,
-        a_country_iso2,
-        EXISTS (
-            SELECT 1
-            FROM data.asn_neighbour
-            WHERE an_asn = a_id
-              AND an_date = a_date
-        ) AS has_neighbours
-    FROM data.asn
-)
-SELECT
-    a_country_iso2,
-    a_date,
-    COUNT(*) AS total_asns,
-    COUNT(has_neighbours) AS asns_with_neighbours,
-    COUNT(has_neighbours)::FLOAT / COUNT(*) AS share_asns_with_neighbours
-FROM asn_with_neighbours
-GROUP BY a_country_iso2, a_date;
-
--- Step 2: Create the materialized view based on the above
--- CREATE MATERIALIZED VIEW data.vm_asn_with_neighbours AS
--- SELECT * FROM data.v_asn_with_neighbours;
-
-CREATE OR REPLACE VIEW data.v_data_overview AS
-WITH date_range AS (
-    SELECT date_trunc('day', min(a_date)) as start_date,
-           date_trunc('day', max(a_date)) as end_date
-    FROM data.asn
-),
-dates AS (
-    SELECT generate_series(start_date, end_date, '1 day'::interval) AS date
-    FROM date_range
-),
-countries AS (
-    SELECT DISTINCT a_country_iso2 as country_iso2
-    FROM data.asn
-)
-
-SELECT
-    d.date,
-    c.country_iso2,
-    CASE WHEN a.cnt > 0 THEN true ELSE false END as has_asn_records,
-    CASE WHEN n.cnt > 0 THEN true ELSE false END as has_neighbour_records,
-    CASE WHEN q.cnt > 0 THEN true ELSE false END as has_quality_records,
-    CASE WHEN cs.cnt > 0 THEN true ELSE false END as has_country_stat_records,
-    CASE WHEN ct.cnt > 0 THEN true ELSE false END as has_country_traffic_records
-FROM dates d
-CROSS JOIN countries c
-LEFT JOIN (
-    SELECT a_date, count(*) as cnt
-    FROM data.asn
-    GROUP BY a_date
-) a ON d.date = a.a_date
-LEFT JOIN (
-    SELECT an_date, count(*) as cnt
-    FROM data.asn_neighbour
-    GROUP BY an_date
-) n ON d.date = n.an_date
-LEFT JOIN (
-    SELECT ci_date, ci_country_iso2, count(*) as cnt
-    FROM data.country_internet_quality
-    GROUP BY ci_date, ci_country_iso2
-) q ON d.date = ci_date AND c.country_iso2 = ci_country_iso2
-LEFT JOIN (
-    SELECT cs_stats_timestamp::date, cs_country_iso2, count(*) as cnt
-    FROM data.country_stat
-    GROUP BY cs_stats_timestamp::date, cs_country_iso2
-) cs ON d.date = cs_stats_timestamp::date AND c.country_iso2 = cs_country_iso2
-LEFT JOIN (
-    SELECT cr_date, cr_country_iso2, count(*) as cnt
-    FROM data.country_traffic
-    GROUP BY cr_date, cr_country_iso2
-) ct ON d.date = cr_date AND c.country_iso2 = cr_country_iso2
-ORDER BY d.date, c.country_iso2;
-
-
-
-GRANT SELECT ON data.vm_connectivity_index_by_country TO looker_user;
-GRANT ALL PRIVILEGES ON data.vm_connectivity_index_by_country TO looker_user;

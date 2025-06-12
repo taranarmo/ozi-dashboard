@@ -24,6 +24,27 @@ EX_SOVIET_COUNTRIES = {
     "UZ": "Uzbekistan"
 }
 
+REPORT_MAY25_COUNTRIES = {
+    "AM": "Armenia",
+    "AZ": "Azerbaijan",
+    "BY": "Belarus",
+    "EE": "Estonia",
+    "GE": "Georgia",
+    "KZ": "Kazakhstan",
+    "KG": "Kyrgyzstan",
+    "LV": "Latvia",
+    "LT": "Lithuania",
+    "MD": "Moldova",
+    "RU": "Russia",
+    "TJ": "Tajikistan",
+    "TM": "Turkmenistan",
+    "UA": "Ukraine",
+    "UZ": "Uzbekistan",
+    'PL': 'Poland',
+    'MN': 'Mongolia',
+    'CZ': 'Czechia'
+}
+
 REPORT_COUNTRIES = {
     'AF': 'Afghanistan',
     'AR': 'Argentina',
