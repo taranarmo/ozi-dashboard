@@ -6,6 +6,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_HOST_AUTH_METHOD: password
     volumes:
       - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
       - pgdata:/var/lib/postgresql/data
