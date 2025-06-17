@@ -4,13 +4,13 @@ services:
     container_name: as_stats_postgres
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     volumes:
       - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432" # Exposes PostgreSQL to the host on port 5432
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-user} -d $${POSTGRES_DB:-ozi_db2}"]
       interval: 10s
@@ -30,13 +30,13 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB:-ozi_db2}
-      DB_USER: ${POSTGRES_USER:-user}
+      DB_USER: ${POSTGRES_USER:-ozi}
       DB_PASS: ${POSTGRES_PASSWORD:-password}
       OZI_DATABASE_HOST:     postgres
       OZI_DATABASE_PORT:     5432
-      OZI_DATABASE_NAME:     ${POSTGRES_DB:-ozi_db2}
-      OZI_DATABASE_USER:     ${POSTGRES_USER:-user}
-      OZI_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      OZI_DATABASE_NAME:     ${OZI_DATABASE_NAME:-ozi_db2}
+      OZI_DATABASE_USER:     ${OZI_DATABASE_USER:-ozi}
+      OZI_DATABASE_PASSWORD: ${OZI_DATABASE_PASSWORD:-password}
     volumes:
       - ./etl/logs:/app/etl/logs
     #command: ["./etl/jobs/load_asns_report_May25.yaml"]
