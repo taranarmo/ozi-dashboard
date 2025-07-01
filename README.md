@@ -104,9 +104,9 @@ This project uses Docker Compose to manage the ETL and PostgreSQL services.
     Create a `.env` file in the root of the project. This file will store the credentials for the PostgreSQL database and any other sensitive configuration. Add the following content to it, replacing the placeholder values with your desired credentials:
 
     ```env
-    OZI_DATABASE_USER=ozi
-    OZI_DATABASE_PASSWORD=password
-    OZI_DATABASE_NAME=ozi_db2
+    POSTGRES_OZI_USER=ozi
+    POSTGRES_PASSWORD=password
+    POSTGRES_OZI_PASSWORD=strong-password
     ```
 
     The `docker-compose.yml` file is configured to use these variables. If `.env` is not present, it will use default values (`user`, `password`, `as_stats_db`).
