@@ -2,14 +2,12 @@
 
 This project provides an ETL pipeline and a PostgreSQL database to store and analyze AS (Autonomous System) statistics. It also includes an optional Redash service for data visualization.
 
-## Quickstart
-
-### Prerequisites
+## Prerequisites
 
 - Docker Engine
 - Docker Compose
 
-### Setup
+## Setup
 
 1.  **Environment Variables:**
 
@@ -23,8 +21,6 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
     REDASH_COOKIE_SECRET=secret
     REDASH_SECRET_KEY=secret
     ```
-
-    The `docker-compose.yml` file is configured to use these variables. If `.env` is not present, it will use default values.
 
 2.  **Build and Run:**
 
@@ -50,40 +46,41 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
     docker compose run --rm redash-server create_db
     ```
 
-4.  **Accessing Services:**
+## Accessing Services
 
-    -   **PostgreSQL:** The PostgreSQL database will be accessible on `localhost:5432`.
-    -   **ETL Service:** The ETL service will start and connect to the PostgreSQL database. Check its logs to see its activity:
-        ```sh
-        docker compose logs -f etl
-        ```
-    -   **Redash:** Redash will be accessible at `http://localhost:5000`.
-
-5.  **Stopping Services:**
-
-    To stop the services, run:
-
+-   **PostgreSQL:** The PostgreSQL database will be accessible on `localhost:5432`.
+-   **ETL Service:** The ETL service will start and connect to the PostgreSQL database. Check its logs to see its activity:
     ```sh
-    docker compose down
+    docker compose logs -f etl
     ```
+-   **Redash:** Redash will be accessible at `http://localhost:5000`.
 
-    To stop the Redash services as well, run:
-    ```sh
-    docker compose --profile redash down
-    ```
+## Running a Specific ETL Job
 
-    If you want to remove the volumes (including PostgreSQL data), use:
+The ETL service can be used to run specific jobs by passing command-line arguments to the `etl` service. The available tasks are `ASNS`, `STATS_1D`, `STATS_5M`, `ASN_NEIGHBOURS`, `TRAFFIC`, and `INTERNET_QUALITY`.
 
-    ```sh
-    docker compose down -v
-    ```
-
-### ETL Job Execution
-
-The ETL service is configured to run `etl/jobs/load_asns_report_May25.yaml` by default. To run a different job, you can override the command:
+Here is an example of how to run the `ASN_NEIGHBOURS` task for the Czech Republic for May 2025:
 
 ```sh
-docker compose run etl etl/jobs/your_job.yaml
+docker compose run etl -t ASN_NEIGHBOURS -c CZ -df 2025-05-01 -dt 2025-05-31 -dr D
 ```
 
-Or modify the `command` in the `docker-compose.yml` for the `etl` service.
+## Stopping Services
+
+To stop the services, run:
+
+```sh
+docker compose down
+```
+
+To stop the Redash services as well, run:
+
+```sh
+docker compose --profile redash down
+```
+
+If you want to remove the volumes (including PostgreSQL data), use:
+
+```sh
+docker compose down -v
+```
