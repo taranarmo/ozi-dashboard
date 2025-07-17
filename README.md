@@ -34,16 +34,16 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
 
 3.  **Running Redash (Optional):**
 
+    You need to create the database tables for initial run:
+
+    ```sh
+    docker compose run --rm redash-server create_db
+    ```
+
     To run the Redash services, use the `redash` profile:
 
     ```sh
     docker compose --profile redash up -d
-    ```
-
-    Once the Redash services are running, you need to create the database tables:
-
-    ```sh
-    docker compose run --rm redash-server create_db
     ```
 
 ## Accessing Services
