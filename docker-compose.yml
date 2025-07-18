@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: as_stats_postgres
+    container_name: ozi_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -26,7 +26,7 @@ services:
     build:
       context: ./etl
       dockerfile: Dockerfile
-    container_name: as_stats_etl
+    container_name: ozi_etl
     restart: always
     depends_on:
       postgres:
