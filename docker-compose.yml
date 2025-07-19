@@ -1,5 +1,5 @@
 services:
-  postgres:
+  ozi-postgres:
     image: postgres:17-alpine
     container_name: ozi_postgres
     restart: always
@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-db}
     volumes:
       - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
-      - pgdata:/var/lib/postgresql/data
+      - ./ozi_pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -22,22 +22,22 @@ services:
     networks:
       - ozi_network
 
-  etl:
+  ozi-etl:
     build:
       context: ./etl
       dockerfile: Dockerfile
     container_name: ozi_etl
     restart: always
     depends_on:
-      postgres:
+      ozi-postgres:
         condition: service_healthy
     environment:
-      DB_HOST: postgres
+      DB_HOST: ozi-postgres
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB:-ozi_db2}
       DB_USER: ${POSTGRES_OZI_USER:-ozi}
       DB_PASS: ${POSTGRES_OZI_PASSWORD:-password}
-      OZI_DATABASE_HOST:     postgres
+      OZI_DATABASE_HOST:     ozi-postgres
       OZI_DATABASE_PORT:     5432
       OZI_DATABASE_NAME:     ${POSTGRES_DB:-ozi_db2}
       OZI_DATABASE_USER:     ${POSTGRES_OZI_USER:-ozi}
@@ -62,9 +62,9 @@ services:
       REDASH_SECRET_KEY: ${REDASH_SECRET_KEY:-secret}
       REDASH_REDIS_URL: redis://redash-redis:6379/0
       REDASH_LOG_LEVEL: INFO
-      REDASH_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-password}@postgres/postgres
+      REDASH_DATABASE_URL: postgresql://postgres:${REDASH_POSTGRES_PASSWORD:-password}@redash-postgres/postgres
     depends_on:
-      - postgres
+      - redash-postgres
       - redash-redis
     restart: unless-stopped
     networks:
@@ -81,10 +81,22 @@ services:
       PYTHONUNBUFFERED: 0
       REDASH_LOG_LEVEL: INFO
       REDASH_REDIS_URL: redis://redash-redis:6379/0
-      REDASH_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-password}@postgres/postgres
+      REDASH_DATABASE_URL: postgresql://postgres:${REDASH_POSTGRES_PASSWORD:-password}@redash-postgres/postgres
     depends_on:
-      - postgres
+      - redash-postgres
       - redash-redis
+    restart: unless-stopped
+    networks:
+      - ozi_network
+
+  redash-postgres:
+    image: postgres:17-alpine
+    profiles:
+      - redash
+    environment:
+      POSTGRES_PASSWORD: ${REDASH_POSTGRES_PASSWORD:-password}
+    volumes:
+      - ./redash-pgdata:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - ozi_network
