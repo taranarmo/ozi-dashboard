@@ -1,11 +1,14 @@
 services:
   ozi-postgres:
     image: postgres:17-alpine
+    env_file:
+      - .env.ozi
     container_name: ozi_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_OZI_USER: ${POSTGRES_OZI_USER:-ozi}
       POSTGRES_OZI_PASSWORD: ${POSTGRES_OZI_PASSWORD:-ozi_password}
       POSTGRES_HOST_AUTH_METHOD: password
       POSTGRES_DB: ${POSTGRES_DB:-db}
@@ -26,6 +29,8 @@ services:
     build:
       context: ./etl
       dockerfile: Dockerfile
+    env_file:
+      - .env.ozi
     container_name: ozi_etl
     restart: always
     depends_on:
@@ -56,6 +61,8 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "5000:5000"
+    env_file:
+      - .env.redash
     environment:
       PYTHONUNBUFFERED: 0
       REDASH_COOKIE_SECRET: ${REDASH_COOKIE_SECRET:-secret}
@@ -77,6 +84,8 @@ services:
     command: worker
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - .env.redash
     environment:
       PYTHONUNBUFFERED: 0
       REDASH_LOG_LEVEL: INFO
@@ -93,6 +102,8 @@ services:
     image: postgres:17-alpine
     profiles:
       - redash
+    env_file:
+      - .env.redash
     environment:
       POSTGRES_PASSWORD: ${REDASH_POSTGRES_PASSWORD:-password}
     volumes:

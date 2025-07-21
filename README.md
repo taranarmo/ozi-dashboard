@@ -11,16 +11,40 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
 
 1.  **Environment Variables:**
 
-    Create a `.env` file in the root of the project. This file will store the credentials for the PostgreSQL database and any other sensitive configuration. Add the following content to it, replacing the placeholder values with your desired credentials:
+    Create two environment files in the root of the project: `.env.ozi` and `.env.redash`.
+
+    **`.env.ozi`**
+
+    This file stores the credentials for the OZI PostgreSQL database. Create the file and add the following content, replacing the placeholder values with your desired credentials:
 
     ```env
     POSTGRES_USER=postgres
     POSTGRES_PASSWORD=password
     POSTGRES_OZI_USER=ozi
     POSTGRES_OZI_PASSWORD=strong-password
-    REDASH_COOKIE_SECRET=secret
-    REDASH_SECRET_KEY=secret
     ```
+
+    **`.env.redash`**
+
+    This file stores the credentials for the Redash services. Create the file and add the following content:
+
+    ```env
+    REDASH_COOKIE_SECRET=placeholder
+    REDASH_SECRET_KEY=placeholder
+    REDASH_POSTGRES_PASSWORD=placeholder
+    ```
+
+    To generate strong random values for `REDASH_COOKIE_SECRET`, `REDASH_SECRET_KEY`, and `REDASH_POSTGRES_PASSWORD`, you can use the following command:
+
+    ```sh
+    # For REDASH_COOKIE_SECRET and REDASH_SECRET_KEY
+    openssl rand -hex 32
+
+    # For REDASH_POSTGRES_PASSWORD
+    openssl rand -hex 16
+    ```
+
+    Copy the generated values into the `.env.redash` file.
 
 2.  **Build and Run:**
 
@@ -30,17 +54,17 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
     docker compose up -d
     ```
 
-    This will start the `postgres` and `etl` services.
+    This will start the `ozi-postgres` and `ozi-etl` services.
 
 3.  **Running Redash (Optional):**
 
-    You need to create the database tables for initial run:
+    To run the Redash services, you first need to create the database tables. Run the following command:
 
     ```sh
     docker compose run --rm redash-server create_db
     ```
 
-    To run the Redash services, use the `redash` profile:
+    Then, to start the Redash services, use the `redash` profile:
 
     ```sh
     docker compose --profile redash up -d
@@ -48,12 +72,17 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
 
 ## Accessing Services
 
--   **PostgreSQL:** The PostgreSQL database will be accessible on `localhost:5432`.
--   **ETL Service:** The ETL service will start and connect to the PostgreSQL database. Check its logs to see its activity:
-    ```sh
-    docker compose logs -f etl
-    ```
--   **Redash:** Redash will be accessible at `http://localhost:5000`.
+Services are accessible in two ways:
+
+-   **From your local machine (the host):** Services with published ports can be accessed via `localhost`.
+    -   **OZI PostgreSQL:** `localhost:5432`
+    -   **Redash:** `http://localhost:5000`
+-   **From other services within Docker:** Services connect to each other using their service names as hostnames. For example, the `ozi-etl` service connects to the database at `ozi-postgres:5432`.
+
+You can monitor the ETL service logs with:
+```sh
+docker compose logs -f ozi-etl
+```
 
 ## Running a Specific ETL Job
 
@@ -62,7 +91,7 @@ The ETL service can be used to run specific jobs by passing command-line argumen
 Here is an example of how to run the `ASN_NEIGHBOURS` task for the Czech Republic for May 2025:
 
 ```sh
-docker compose run etl -t ASN_NEIGHBOURS -c CZ -df 2025-05-01 -dt 2025-05-31 -dr D
+docker compose run ozi-etl -t ASN_NEIGHBOURS -c CZ -df 2025-05-01 -dt 2025-05-31 -dr D
 ```
 
 ## Stopping Services
