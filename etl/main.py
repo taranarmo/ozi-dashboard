@@ -77,6 +77,8 @@ def main():
         print(f"Error: Unknown resolution '{resolution}'.")
         return
 
+    dates = generate_dates(date_from, date_to, resolution)
+
     for iso2 in countries:
         date_from_formatted = date_from.strftime("%Y-%m-%d")
         date_to_formatted = date_to.strftime("%Y-%m-%d")
@@ -87,7 +89,9 @@ def main():
         print(f"Date To:    {date_to_formatted}")
         print(f"Resolution: {RESOLUTION_DICT[resolution]}")
 
-        task_map[task](iso2, generate_dates(date_from, date_to, resolution))
+        task_map[task](iso2, dates.copy())
+
+        # task_map[task](iso2, generate_dates(date_from, date_to, resolution))
         # task_map[task](iso2, date_from, date_to, resolution)
 
         print(f"\nAt:         {datetime.now()}")
@@ -136,8 +140,11 @@ def etl_load_stats_1d(iso2, dates):
 
 
 def etl_load_stats_5m(iso2, dates):
-    for date in dates:
-        stats = get_stats_for_country(iso2, date, date, "5m")
+    years = sorted(set(date.year for date in dates))
+    for year in years:
+        date_from = datetime(year, 1, 1)
+        date_to = datetime(year + 1, 1, 1)
+        stats = get_stats_for_country(iso2, date_from, date_to, "5m")
         if stats:
             insert_country_stats_to_db(iso2, "5m", stats, True)
 
