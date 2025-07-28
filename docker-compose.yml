@@ -13,7 +13,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: password
       POSTGRES_DB: ${POSTGRES_DB:-db}
     volumes:
-      - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
+      - ./create_database_schema.sql:/docker-entrypoint-initdb.d/01_create_database_schema.sql:ro
+      - ./insert_countries.sql:/docker-entrypoint-initdb.d/02_insert_countries.sql:ro
       - ./ozi_pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
