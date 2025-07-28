@@ -1,3 +1,4 @@
+\connect ozi_db2
 INSERT INTO data.country (c_iso2, c_name)
 VALUES
     ('AF', 'Afghanistan'),
