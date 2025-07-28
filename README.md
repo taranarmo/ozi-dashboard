@@ -1,156 +1,115 @@
 # ozi-dashboard
 
-## Quickstart
+This project provides an ETL pipeline and a PostgreSQL database to store and analyze AS (Autonomous System) statistics. It also includes an optional Redash service for data visualization.
 
-1. **Create a Postgres instance on GCP**, name it `asn-stats`.
-2. **Set a strong password** for user `postgres` while creating the DB.
-3. **Go to the `asn-stats` console**.
-4. **Download the code by cloning the Git repository:**
-
-    ```sh
-    git clone https://github.com/lab4-berlin/ozi-dashboard
-    cd ozi-dashboard
-    ```
-
-5. **Create the database, user, and tables for the asn_stats project:**
-
-    - When prompted, use the `postgres` password from step 2 first,
-    - and the `asn_data` password for the second SQL script.
-
-    ```sh
-    ./init_database.sh
-    ```
-
-## Temporary: Running SQL Scripts Manually
-
-```sh
-cat sql/*.sql | gcloud sql connect asn-stats --user=asn_stats
-```
-
-## Dagster (Optional)
-
-If you want to use Dagster for orchestration:
-
-```sh
-sudo apt install python3-pip
-sudo apt install python3.12-venv
-python3 -m venv dagster_env
-source dagster_env/bin/activate
-pip install dagster dagster-webserver dagster-postgres
-dagster project scaffold --name=dagster_etl
-```
-
-## Dockerization
-
-This application can be built and run as a Docker container.
-
-### Prerequisites
-
-- Docker installed on your system.
-- A running PostgreSQL database accessible to the container.
-- The database schema should be initialized (e.g., by running the SQL scripts like `create_database_schema.sql` and `insert_countries.sql` against your target database).
-
-### Building the Image
-
-To build the Docker image, navigate to the root directory of the project (where the `etl/Dockerfile` is located) and run:
-
-```sh
-docker build -t as-stats-etl -f etl/Dockerfile etl
-```
-
-### Running the Container
-
-To run the Docker container, provide environment variables for database configuration and specify the path to the job YAML file you want to execute.
-
-**Environment Variables:**
-
-- `DB_USER`: The username for the database.
-- `DB_PASS`: The password for the database user.
-- `DB_NAME`: The name of the database.
-- `DB_HOST`: The hostname or IP address of the database server.
-- `DB_PORT`: The port number for the database server (default for PostgreSQL is 5432).
-
-**Command-line Argument:**
-
-- Append the path to the specific job YAML file (located within the `etl/jobs/` directory in the container) to the `docker run` command.
-
-**Example `docker run` command:**
-
-```sh
-docker run --rm \
-  -e DB_USER=your_db_user \
-  -e DB_PASS=your_db_password \
-  -e DB_NAME=your_db_name \
-  -e DB_HOST=your_db_host \
-  -e DB_PORT=5432 \
-  as-stats-etl etl/jobs/load_asns_report_May25.yaml
-```
-
-Replace `your_db_user`, `your_db_password`, `your_db_name`, and `your_db_host` with your actual database credentials and host. The `--rm` flag automatically removes the container when it exits.
-
-## Running with Docker Compose
-
-This project uses Docker Compose to manage the ETL and PostgreSQL services.
-
-### Prerequisites
+## Prerequisites
 
 - Docker Engine
 - Docker Compose
 
-### Setup
+## Setup
 
-1. **Environment Variables:**
+1.  **Environment Variables:**
 
-    Create a `.env` file in the root of the project. This file will store the credentials for the PostgreSQL database and any other sensitive configuration. Add the following content to it, replacing the placeholder values with your desired credentials:
+    Create two environment files in the root of the project: `.env.ozi` and `.env.redash`.
+
+    **`.env.ozi`**
+
+    This file stores the credentials for the OZI PostgreSQL database. Create the file and add the following content, replacing the placeholder values with your desired credentials:
 
     ```env
-    POSTGRES_OZI_USER=ozi
+    POSTGRES_USER=postgres
     POSTGRES_PASSWORD=password
+    POSTGRES_OZI_USER=ozi
     POSTGRES_OZI_PASSWORD=strong-password
     ```
 
-    The `docker-compose.yml` file is configured to use these variables. If `.env` is not present, it will use default values (`user`, `password`, `as_stats_db`).
+    **`.env.redash`**
 
-2. **Build and Run:**
+    This file stores the credentials for the Redash services. Create the file and add the following content:
+
+    ```env
+    REDASH_COOKIE_SECRET=placeholder
+    REDASH_SECRET_KEY=placeholder
+    REDASH_POSTGRES_PASSWORD=placeholder
+    ```
+
+    To generate strong random values for `REDASH_COOKIE_SECRET`, `REDASH_SECRET_KEY`, and `REDASH_POSTGRES_PASSWORD`, you can use the following command:
+
+    ```sh
+    # For REDASH_COOKIE_SECRET and REDASH_SECRET_KEY
+    openssl rand -hex 32
+
+    # For REDASH_POSTGRES_PASSWORD
+    openssl rand -hex 16
+    ```
+
+    Copy the generated values into the `.env.redash` file.
+
+2.  **Build and Run:**
 
     To build the images and start the services, run the following command from the project root:
 
     ```sh
-    docker-compose up --build
+    docker compose up -d
     ```
 
-    - `--build`: Forces Docker to rebuild the images if there are any changes to the Dockerfiles or build contexts.
-    - `-d`: (Optional) Add `-d` to run the containers in detached mode: `docker-compose up --build -d`
+    This will start the `ozi-postgres` and `ozi-etl` services.
 
-3. **Accessing Services:**
+3.  **Running Redash (Optional):**
 
-    - **PostgreSQL:** If you keep the default port mapping in `docker-compose.yml`, the PostgreSQL database will be accessible on `localhost:5432`.
-    - **ETL Service:** The ETL service will start and connect to the PostgreSQL database as defined. Check its logs to see its activity:
-
-      ```sh
-      docker-compose logs -f etl
-      ```
-
-4. **Stopping Services:**
-
-    To stop the services, press `Ctrl+C` in the terminal where `docker-compose up` is running, or run:
+    To run the Redash services, you first need to create the database tables. Run the following command:
 
     ```sh
-    docker-compose down
+    docker compose run --rm redash-server create_db
     ```
 
-    If you want to remove the volumes (including PostgreSQL data), use:
+    Then, to start the Redash services, use the `redash` profile:
 
     ```sh
-    docker-compose down -v
+    docker compose --profile redash up -d
     ```
 
-### ETL Job Execution
+## Accessing Services
 
-The ETL service is configured to run `etl/jobs/load_asns_report_May25.yaml` by default. To run a different job, you can override the command:
+Services are accessible in two ways:
 
+-   **From your local machine (the host):** Services with published ports can be accessed via `localhost`.
+    -   **OZI PostgreSQL:** `localhost:5432`
+    -   **Redash:** `http://localhost:5000`
+-   **From other services within Docker:** Services connect to each other using their service names as hostnames. For example, the `ozi-etl` service connects to the database at `ozi-postgres:5432`.
+
+You can monitor the ETL service logs with:
 ```sh
-docker-compose run etl etl/jobs/your_job.yaml
+docker compose logs -f ozi-etl
 ```
 
-Or modify the `command` in the `docker-compose.yml` for the `etl` service.
+## Running a Specific ETL Job
+
+The ETL service can be used to run specific jobs by passing command-line arguments to the `etl` service. The available tasks are `ASNS`, `STATS_1D`, `STATS_5M`, `ASN_NEIGHBOURS`, `TRAFFIC`, and `INTERNET_QUALITY`.
+
+Here is an example of how to run the `ASN_NEIGHBOURS` task for the Czech Republic for May 2025:
+
+```sh
+docker compose run ozi-etl -t ASN_NEIGHBOURS -c CZ -df 2025-05-01 -dt 2025-05-31 -dr D
+```
+
+## Stopping Services
+
+To stop the services, run:
+
+```sh
+docker compose down
+```
+
+To stop the Redash services as well, run:
+
+```sh
+docker compose --profile redash down
+```
+
+If you want to remove the volumes (including PostgreSQL data), use:
+
+```sh
+docker compose down -v
+```

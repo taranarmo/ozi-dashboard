@@ -1,17 +1,20 @@
 services:
-  postgres:
+  ozi-postgres:
     image: postgres:17-alpine
-    container_name: as_stats_postgres
+    env_file:
+      - .env.ozi
+    container_name: ozi_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_OZI_USER: ${POSTGRES_OZI_USER:-ozi}
       POSTGRES_OZI_PASSWORD: ${POSTGRES_OZI_PASSWORD:-ozi_password}
       POSTGRES_HOST_AUTH_METHOD: password
       POSTGRES_DB: ${POSTGRES_DB:-db}
     volumes:
       - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
-      - pgdata:/var/lib/postgresql/data
+      - ./ozi_pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -19,29 +22,107 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ozi_network
 
-  etl:
+  ozi-etl:
     build:
       context: ./etl
       dockerfile: Dockerfile
-    container_name: as_stats_etl
+    env_file:
+      - .env.ozi
+    container_name: ozi_etl
     restart: always
     depends_on:
-      postgres:
+      ozi-postgres:
         condition: service_healthy
     environment:
-      DB_HOST: postgres
+      DB_HOST: ozi-postgres
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB:-ozi_db2}
       DB_USER: ${POSTGRES_OZI_USER:-ozi}
       DB_PASS: ${POSTGRES_OZI_PASSWORD:-password}
-      OZI_DATABASE_HOST:     postgres
+      OZI_DATABASE_HOST:     ozi-postgres
       OZI_DATABASE_PORT:     5432
       OZI_DATABASE_NAME:     ${POSTGRES_DB:-ozi_db2}
       OZI_DATABASE_USER:     ${POSTGRES_OZI_USER:-ozi}
       OZI_DATABASE_PASSWORD: ${POSTGRES_OZI_PASSWORD:-password}
     volumes:
       - ./etl/logs:/app/etl/logs
+    networks:
+      - ozi_network
+
+  redash-server:
+    image: redash/redash:25.1.0
+    profiles:
+      - redash
+    command: server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env.redash
+    environment:
+      PYTHONUNBUFFERED: 0
+      REDASH_COOKIE_SECRET: ${REDASH_COOKIE_SECRET:-secret}
+      REDASH_SECRET_KEY: ${REDASH_SECRET_KEY:-secret}
+      REDASH_REDIS_URL: redis://redash-redis:6379/0
+      REDASH_LOG_LEVEL: INFO
+      REDASH_DATABASE_URL: postgresql://postgres:${REDASH_POSTGRES_PASSWORD:-password}@redash-postgres/postgres
+    depends_on:
+      - redash-postgres
+      - redash-redis
+    restart: unless-stopped
+    networks:
+      - ozi_network
+
+  redash-worker:
+    image: redash/redash:25.1.0
+    profiles:
+      - redash
+    command: worker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env.redash
+    environment:
+      PYTHONUNBUFFERED: 0
+      REDASH_LOG_LEVEL: INFO
+      REDASH_REDIS_URL: redis://redash-redis:6379/0
+      REDASH_DATABASE_URL: postgresql://postgres:${REDASH_POSTGRES_PASSWORD:-password}@redash-postgres/postgres
+    depends_on:
+      - redash-postgres
+      - redash-redis
+    restart: unless-stopped
+    networks:
+      - ozi_network
+
+  redash-postgres:
+    image: postgres:17-alpine
+    profiles:
+      - redash
+    env_file:
+      - .env.redash
+    environment:
+      POSTGRES_PASSWORD: ${REDASH_POSTGRES_PASSWORD:-password}
+    volumes:
+      - ./redash-pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - ozi_network
+
+  redash-redis:
+    image: redis:7.0-alpine
+    profiles:
+      - redash
+    restart: unless-stopped
+    networks:
+      - ozi_network
 
 volumes:
-  pgdata: # Defines the named volume for PostgreSQL data persistence
+  pgdata:
+
+networks:
+  ozi_network:
+    driver: bridge
