@@ -1,3 +1,4 @@
+\connect ozi_db2
 CREATE OR REPLACE VIEW data.v_asn_neighbour
 AS
 SELECT an_date,
