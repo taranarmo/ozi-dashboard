@@ -53,6 +53,26 @@ services:
     networks:
       - ozi_network
 
+  plotly-dash-app:
+    build:
+      context: ./plotly_dash
+      dockerfile: Dockerfile
+    container_name: plotly_dash_app
+    restart: always
+    depends_on:
+      ozi-postgres:
+        condition: service_healthy
+    environment:
+      DASH_DB_HOST: ozi-postgres
+      DASH_DB_PORT: 5432
+      DASH_DB_NAME: ${POSTGRES_DB:-db}
+      DASH_DB_USER: ${POSTGRES_USER:-postgres}
+      DASH_DB_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "8050:8050"
+    networks:
+      - ozi_network
+
   redash-server:
     image: redash/redash:25.1.0
     profiles:
