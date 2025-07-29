@@ -26,14 +26,9 @@ def display_progress(
     filled_length = int(BAR_LENGTH * progress)
     bar = "|" + "█" * filled_length
     if BAR_LENGTH - filled_length - 2 > len(date_str):
-        bar += (
-            "-"
-            + date_str
-            + "-" * (BAR_LENGTH - filled_length - len(date_str) - 2)
-            + "| "
-        )
+        bar += f"-{date_str}{'-' * (BAR_LENGTH - filled_length - len(date_str) - 2)}| "
     else:
-        bar += "-" * (50 - filled_length) + "| " + date_str
+        bar += f"{'-' * (BAR_LENGTH - filled_length)}| {date_str}"
 
     print(
         f"\r{' ' * 12}{bar} Received: {received_from_api}, Stored: {stored_to_database}   {custom_msg}",
