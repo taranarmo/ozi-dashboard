@@ -96,7 +96,7 @@ def get_stats_for_country(country_iso2, date_from, date_to, resolution):
         end=" ... ",
     )
     d = get_country_resource_stats(
-        country_iso2, resolution, date_from, date_to, save_mode="file"
+        country_iso2, resolution, date_from, save_mode="file"
     )
     if d:
         stats = d["data"]["stats"]
