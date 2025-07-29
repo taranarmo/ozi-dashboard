@@ -4,6 +4,7 @@ from dash import html, dcc
 import plotly.express as px
 import sqlalchemy
 import pandas as pd
+import numpy as np
 
 def fetch_data():
     db_url = (
@@ -21,8 +22,15 @@ def fetch_data():
 
 app = dash.Dash(__name__)
 
-df = fetch_data()
-fig = px.bar(df, x="id", y="value", title="Sample Data from PostgreSQL")
+# df = fetch_data()
+# fig = px.bar(df, x="id", y="value", title="Sample Data from PostgreSQL")
+# plot some random data instead
+df = pd.DataFrame(
+    data=np.random.randint(0, 100, size=(100,4)),
+    columns=list('ABCD'),
+)
+fig = px.area(df, title="Random Data Plot")
+
 
 app.layout = html.Div([
     html.H1("PostgreSQL Data Plot"),

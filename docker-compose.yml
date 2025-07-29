@@ -14,7 +14,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-db}
     volumes:
       - ./create_database_schema.sql:/docker-entrypoint-initdb.d/create_database_schema.sql:ro
-      - ./init_dash_sample.sql:/docker-entrypoint-initdb.d/init_dash_sample.sql:ro
       - ./ozi_pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
@@ -53,11 +52,11 @@ services:
     networks:
       - ozi_network
 
-  dash-app:
+  plotly-dash-app:
     build:
-      context: ./dash
+      context: ./plotly_dash
       dockerfile: Dockerfile
-    container_name: dash_app
+    container_name: plotly_dash_app
     restart: always
     depends_on:
       ozi-postgres:
