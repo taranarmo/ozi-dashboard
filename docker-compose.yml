@@ -33,7 +33,6 @@ services:
     env_file:
       - .env.ozi
     container_name: ozi_etl
-    restart: always
     depends_on:
       ozi-postgres:
         condition: service_healthy
