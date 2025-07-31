@@ -99,7 +99,7 @@ def get_stats_for_country(country_iso2, date_from, date_to, resolution):
         country_iso2, resolution, date_from, save_mode="file"
     )
     if d:
-        stats = d["data"]["stats"]
+        stats = d["data"].get("stats")
         print(f"    {len(stats)} records found")
         return stats
 
