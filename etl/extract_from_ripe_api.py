@@ -50,12 +50,31 @@ def ripe_api_call(url, params):
     while attempts_left > 0:
         try:
             response = requests.get(url, params)
+            response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
             data = loads(response.text)
-            if data.get('status_code') == 500:
-                raise requests.exceptions.RequestException("RIPE API returned 500 status code")
             if data:
                 return data
-        except (Exception, requests.exceptions.RequestException) as e:
+        except requests.exceptions.HTTPError as e:
+            print(f"\nHTTP Error during API request: {e}")
+            attempts_left -= 1
+            if attempts_left > 0:
+                if e.response.status_code == 429: # Too Many Requests
+                    print("Rate limit hit. Waiting longer before retrying.")
+                    time.sleep(10) # Wait longer for rate limiting
+                else:
+                    print(f"... RETRYING ({attempts_left} attempts left)")
+                    time.sleep(5) # Standard wait for other HTTP errors
+            else:
+                print("... STOP")
+        except json.JSONDecodeError:
+            print(f"\nJSON Decode Error: Could not parse response as JSON for URL: {url} with params: {params}")
+            attempts_left -= 1
+            if attempts_left > 0:
+                print(f"... RETRYING ({attempts_left} attempts left)")
+                time.sleep(5) # Wait before retrying for JSON decode errors
+            else:
+                print("... STOP")
+        except Exception as e:
             print(f"\nException during API request: {e}")
             attempts_left -= 1
             if attempts_left > 0:
