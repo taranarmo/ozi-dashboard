@@ -1,6 +1,7 @@
 import json
 import re
 import os
+import time
 from datetime import datetime
 from json import loads
 import requests
@@ -50,13 +51,16 @@ def ripe_api_call(url, params):
         try:
             response = requests.get(url, params)
             data = loads(response.text)
+            if data.get('status_code') == 500:
+                raise requests.exceptions.RequestException("RIPE API returned 500 status code")
             if data:
                 return data
-        except Exception as e:
+        except (Exception, requests.exceptions.RequestException) as e:
             print(f"\nException during API request: {e}")
             attempts_left -= 1
             if attempts_left > 0:
                 print(f"... RETRYING ({attempts_left} attempts left)")
+                time.sleep(5) # Wait for 5 seconds before retrying on other exceptions
             else:
                 print("... STOP")
     return None
