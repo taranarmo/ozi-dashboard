@@ -53,9 +53,13 @@ def insert_country_stats_to_db(country_iso2, resolution, stats, save_sql_to_file
     sql = sql[:-1] + ";"
 
     if save_sql_to_file:
-        filename = "sql/country_stats_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        filename = "sql/country_stats_{}_{}.sql".format(
+            country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S')
+        )
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w') as f:
             print(sql, file=f)
+
 
     if load_to_database:
         c = get_db_connection()
@@ -106,6 +110,7 @@ def insert_internet_quality_for_country_to_db(country_iso2, internet_quality, sa
 
     if save_sql_to_file:
         filename = "sql/country_internet_quality_{}_{}.sql".format(country_iso2, datetime.now().strftime('%Y%m%d_%H%M%S'))
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w') as f:
             print(sql, file=f)
     # connection.execute(sql)
