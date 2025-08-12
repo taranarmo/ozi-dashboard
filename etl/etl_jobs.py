@@ -158,11 +158,11 @@ def get_traffic_for_country(country_iso2, token):
     if not d or "result" not in d or "main" not in d["result"]:
         print("No traffic data found or invalid response.")
         return None
-
-    traffic = d["result"]["main"]
-    timestamps = traffic.get("timestamps", [])
-    print(f"{len(timestamps)} records found")
-    return traffic
+    else:
+        traffic = d["result"]["main"]
+        timestamps = traffic.get("timestamps", [])
+        print(f"{len(timestamps)} records found")
+        return traffic
 
 
 def get_internet_quality_for_country(country_iso2, token):
@@ -174,8 +174,8 @@ def get_internet_quality_for_country(country_iso2, token):
     if not d or "result" not in d or "main" not in d["result"]:
         print("No internet quality data found or invalid response.")
         return None
-
-    internet_quality = d["result"]["main"]
-    timestamps = internet_quality.get("timestamps", [])
-    print(f"{len(timestamps)} records found")
-    return internet_quality
+    else:
+        internet_quality = d["result"]["main"]
+        timestamps = internet_quality.get("timestamps", [])
+        print(f"{len(timestamps)} records found")
+        return internet_quality
