@@ -84,7 +84,7 @@ def ripe_api_call(url, params):
                 print("... STOP")
     return None
 
-def sanitize_for_filename(s: str) -> str:
+def sanitize_filename(s: str) -> str:
     return re.sub(r'[{},.<>:"/\\|?*]', '_', s)
 
 def save_api_response(url, params, response, save_mode=None):
@@ -95,7 +95,7 @@ def save_api_response(url, params, response, save_mode=None):
         }
 
         params_string = json.dumps(params_clean, separators=(",", ":"))
-        safe_string = sanitize_for_filename(f'{url}{params_string}')
+        safe_string = sanitize_filename(f'{url}{params_string}')
 
         folder = "data"
         os.makedirs(folder, exist_ok=True)
