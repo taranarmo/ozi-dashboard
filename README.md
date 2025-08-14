@@ -7,6 +7,17 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
 - Docker Engine
 - Docker Compose
 
+## Quick Start
+
+For a quick start, you can use the provided example files:
+
+```sh
+cp .env.ozi.example .env.ozi
+cp .env.redash.example .env.redash
+```
+
+This will create the required `.env.ozi` and `.env.redash` files with default credentials that you can use to get started quickly.
+
 ## Setup
 
 1.  **Environment Variables:**
@@ -21,7 +32,14 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
     POSTGRES_USER=postgres
     POSTGRES_PASSWORD=password
     POSTGRES_OZI_USER=ozi
-    POSTGRES_OZI_PASSWORD=strong-password
+    POSTGRES_OZI_PASSWORD=ozi_password
+    POSTGRES_DB=ozi_db2
+    ```
+
+    You can also copy the `.env.ozi.example` file:
+
+    ```sh
+    cp .env.ozi.example .env.ozi
     ```
 
     **`.env.redash`**
@@ -32,6 +50,12 @@ This project provides an ETL pipeline and a PostgreSQL database to store and ana
     REDASH_COOKIE_SECRET=placeholder
     REDASH_SECRET_KEY=placeholder
     REDASH_POSTGRES_PASSWORD=placeholder
+    ```
+
+    You can also copy the `.env.redash.example` file:
+
+    ```sh
+    cp .env.redash.example .env.redash
     ```
 
     To generate strong random values for `REDASH_COOKIE_SECRET`, `REDASH_SECRET_KEY`, and `REDASH_POSTGRES_PASSWORD`, you can use the following command:
