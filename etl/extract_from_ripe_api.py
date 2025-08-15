@@ -11,7 +11,7 @@ RETRIES = 5
 
 def get_country_asns(country_iso2, date, save_mode=None):
     url = API_URL.format("country-asns")
-    params = {"resource": country_iso2, "query_time": date.strftime("%Y-%m-%dT00:00:00Z"), "lod": 1}
+    params = {"resource": country_iso2, "query_time": date.isoformat(), "lod": 1}
     data = ripe_api_call(url, params)
 
     if save_mode:
@@ -20,7 +20,7 @@ def get_country_asns(country_iso2, date, save_mode=None):
 
 
 def get_country_resource_stats(country_iso2, resolution, date, save_mode=None):
-    date_str = date.strftime("%Y-%m-%dT00:00:00Z")
+    date_str = date.isoformat() 
     url = API_URL.format("country-resource-stats")
     params = {
         "resource": country_iso2,
@@ -37,7 +37,7 @@ def get_country_resource_stats(country_iso2, resolution, date, save_mode=None):
 
 def get_asn_neighbours(asn, date, save_mode=None):
     url = API_URL.format("asn-neighbours")
-    params = {"resource": asn, "query_time": date.strftime("%Y-%m-%dT00:00:00Z")}
+    params = {"resource": asn, "query_time": date.isoformat()}
     data = ripe_api_call(url, params)
 
     if save_mode:
@@ -84,6 +84,9 @@ def ripe_api_call(url, params):
                 print("... STOP")
     return None
 
+def sanitize_filename(s: str) -> str:
+    return re.sub(r'[{},.<>:"/\\|?*]', '_', s)
+
 def save_api_response(url, params, response, save_mode=None):
     if save_mode == 'file':
         params_clean = {
@@ -92,8 +95,7 @@ def save_api_response(url, params, response, save_mode=None):
         }
 
         params_string = json.dumps(params_clean, separators=(",", ":"))
-        safe_string = f'{url}{params_string}'
-        safe_string = re.sub(r'[{},.<>:"/\\|?*]', '_', safe_string)
+        safe_string = sanitize_filename(f'{url}{params_string}')
 
         folder = "data"
         os.makedirs(folder, exist_ok=True)

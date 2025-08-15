@@ -82,20 +82,20 @@ def main():
     for iso2 in countries:
         date_from_formatted = date_from.strftime("%Y-%m-%d")
         date_to_formatted = date_to.strftime("%Y-%m-%d")
-        print(f"Started:    {task}")
-        print(f"At:         {datetime.now()}")
-        print(f"Country:    {ALL_COUNTRIES[iso2]}")
-        print(f"Date From:  {date_from_formatted}")
-        print(f"Date To:    {date_to_formatted}")
-        print(f"Resolution: {RESOLUTION_DICT[resolution]}")
+        print(f"{'Started:':<12} {task}")
+        print(f"{'At:':<12} {datetime.now()}")
+        print(f"{'Country:':<12} {ALL_COUNTRIES[iso2]}")
+        print(f"{'Date From:':<12} {date_from_formatted}")
+        print(f"{'Date To:':<12} {date_to_formatted}")
+        print(f"{'Resolution:':<12} {RESOLUTION_DICT[resolution]}")
 
         task_map[task](iso2, dates.copy())
 
         # task_map[task](iso2, generate_dates(date_from, date_to, resolution))
         # task_map[task](iso2, date_from, date_to, resolution)
 
-        print(f"\nAt:         {datetime.now()}")
-        print(f"Finished:   {task}")
+        print(f"\n{'At:':<12} {datetime.now()}")
+        print(f"{'Finished:':<12} {task}")
 
 
 def generate_dates(date_from, date_to, resolution):
@@ -127,7 +127,7 @@ def generate_dates(date_from, date_to, resolution):
 
 
 def etl_load_asns(iso2, dates):
-    print(f"{' ' * 12}Getting data from the API and storing to DB... ")
+    print("Getting data from the API and storing to DB...")
     for asns_batch in get_list_of_asns_for_country(iso2, dates, BATCH_SIZE):
         insert_country_asns_to_db(iso2, asns_batch)
 
@@ -136,7 +136,7 @@ def etl_load_stats_1d(iso2, dates):
     for date in dates:
         stats = get_stats_for_country(iso2, date, date, "1d")
         if stats:
-            insert_country_stats_to_db(iso2, "1d", stats, True)
+            insert_country_stats_to_db(iso2, "1d", stats, save_sql_to_file=True)
 
 
 def etl_load_stats_5m(iso2, dates):
@@ -146,11 +146,11 @@ def etl_load_stats_5m(iso2, dates):
         date_to = datetime(year + 1, 1, 1)
         stats = get_stats_for_country(iso2, date_from, date_to, "5m")
         if stats:
-            insert_country_stats_to_db(iso2, "5m", stats, True)
+            insert_country_stats_to_db(iso2, "5m", stats, save_sql_to_file=True)
 
 
 def etl_load_asn_neighbours(iso2, dates):
-    print(f"{' ' * 12}Getting data from the API and storing to DB... ")
+    print("Getting data from the API and storing to DB...")
     for neighbours_batch in get_list_of_asn_neighbours_for_country(
         iso2, dates, BATCH_SIZE
     ):
@@ -160,13 +160,14 @@ def etl_load_asn_neighbours(iso2, dates):
 def etl_load_traffic(iso2, dates):
     traffic = get_traffic_for_country(iso2, CLOUDFLARE_API_TOKEN)
     if traffic:
-        insert_traffic_for_country_to_db(iso2, traffic, True)
+        insert_traffic_for_country_to_db(iso2, traffic, save_sql_to_file=True)
 
 
 def etl_load_internet_quality(iso2, dates):
     internet_quality = get_internet_quality_for_country(iso2, CLOUDFLARE_API_TOKEN)
     if internet_quality:
-        insert_internet_quality_for_country_to_db(iso2, internet_quality, True)
+        insert_internet_quality_for_country_to_db(
+            iso2, internet_quality, save_sql_to_file=True)
 
 
 if __name__ == "__main__":
