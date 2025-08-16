@@ -5,6 +5,7 @@ import plotly.express as px
 import sqlalchemy
 import pandas as pd
 from datetime import datetime, timedelta
+import random
 
 # Global variables for caching
 last_data_fetch_time = None
@@ -32,11 +33,7 @@ def fetch_data():
     query = """SELECT 
                 cs_country_iso2,
                 cs_stats_timestamp,
-                cs_v4_prefixes_ris,
-                cs_v6_prefixes_ris,
                 cs_asns_ris,
-                cs_v4_prefixes_stats,
-                cs_v6_prefixes_stats,
                 cs_asns_stats
              FROM data.country_stat 
              ORDER BY cs_stats_timestamp;"""
@@ -58,8 +55,7 @@ df = fetch_data()
 
 # Melt the DataFrame to long format for easier plotting of multiple metrics
 df_melted = df.melt(id_vars=['cs_country_iso2', 'cs_stats_timestamp'],
-                    value_vars=['cs_v4_prefixes_ris', 'cs_v6_prefixes_ris', 'cs_asns_ris',
-                                  'cs_v4_prefixes_stats', 'cs_v6_prefixes_stats', 'cs_asns_stats'],
+                    value_vars=['cs_asns_ris', 'cs_asns_stats'],
                     var_name='metric', value_name='value')
 
 print("\n--- Melted DataFrame (df_melted) ---")
@@ -68,6 +64,16 @@ print(df_melted.info())
 
 app.layout = html.Div([
     html.H1("Country Statistics Time Series"),
+    html.Div([
+        dcc.Dropdown(
+            id='country-dropdown',
+            options=[{'label': country, 'value': country} for country in df['cs_country_iso2'].unique()],
+            value=random.sample(df['cs_country_iso2'].unique().tolist(), min(5, len(df['cs_country_iso2'].unique()))), # Select 5 random countries by default
+            multi=True,
+            placeholder="Select countries",
+            closeOnSelect=False,
+        )
+    ], style={'width': '50%', 'padding': '20px'}),
     dcc.Graph(id='time-series-graph'),
     dcc.Interval(
         id='interval-component',
@@ -78,15 +84,18 @@ app.layout = html.Div([
 
 @app.callback(
     Output('time-series-graph', 'figure'),
-    Input('interval-component', 'n_intervals') # Triggered by interval
+    Input('interval-component', 'n_intervals'), # Triggered by interval
+    Input('country-dropdown', 'value') # Triggered by country selection
 )
-def update_graph(n_intervals):
+def update_graph(n_intervals, selected_countries):
     # Re-fetch data (which will use cache if fresh)
     current_df = fetch_data()
     current_df_melted = current_df.melt(id_vars=['cs_country_iso2', 'cs_stats_timestamp'],
-                                        value_vars=['cs_v4_prefixes_ris', 'cs_v6_prefixes_ris', 'cs_asns_ris',
-                                                      'cs_v4_prefixes_stats', 'cs_v6_prefixes_stats', 'cs_asns_stats'],
+                                        value_vars=['cs_asns_ris', 'cs_asns_stats'],
                                         var_name='metric', value_name='value')
+
+    if selected_countries:
+        current_df_melted = current_df_melted[current_df_melted['cs_country_iso2'].isin(selected_countries)]
 
     fig = px.line(current_df_melted, 
                   x='cs_stats_timestamp', 
@@ -96,8 +105,10 @@ def update_graph(n_intervals):
                   facet_col_wrap=1, 
                   title='Country Statistics Over Time',
                   labels={'cs_stats_timestamp': 'Date', 'value': 'Value', 'cs_country_iso2': 'Country'},
-                  height=3600) 
-    
+                  height=800) 
+
+    fig.update_yaxes(matches=None) # Set separate y-axes for each facet
+
     fig.for_each_annotation(lambda a: a.update(text=a.text.replace("metric=", "")))
     fig.update_layout(hovermode="x unified", 
                       legend_itemclick="toggleothers",
