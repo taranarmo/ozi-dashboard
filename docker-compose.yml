@@ -57,6 +57,8 @@ services:
       context: ./plotly_dash
       dockerfile: Dockerfile
     container_name: plotly_dash_app
+    env_file:
+      - .env.ozi
     restart: always
     depends_on:
       ozi-postgres:
