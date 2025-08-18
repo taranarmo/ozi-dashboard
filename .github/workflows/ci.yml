@@ -16,15 +16,16 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Build and Run Services
-      run: docker-compose up --build -d ozi-postgres ozi-etl
-
-    - name: Wait for Postgres to be healthy
+    - name: Create .env.ozi for CI
       run: |
-        for i in $(seq 1 10); do
-          docker-compose exec ozi-postgres pg_isready -U postgres -d db && break
-          sleep 5
-        done
+        echo "POSTGRES_USER=postgres" > .env.ozi
+        echo "POSTGRES_PASSWORD=password" >> .env.ozi
+        echo "POSTGRES_OZI_USER=ozi" >> .env.ozi
+        echo "POSTGRES_OZI_PASSWORD=ozi_password" >> .env.ozi
+        echo "POSTGRES_DB=db" >> .env.ozi
+
+    - name: Build ETL Production Image
+      run: DOCKER_BUILDKIT=0 docker compose build ozi-etl
 
     - name: Run ETL Tests
-      run: docker-compose exec ozi-etl pytest
+      run: DOCKER_BUILDKIT=0 docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --build --entrypoint "pytest" ozi-etl

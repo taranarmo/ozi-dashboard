@@ -1,0 +1,12 @@
+services:
+  ozi-postgres:
+    volumes:
+      - ozi_pgdata_volume:/var/lib/postgresql/data
+
+  ozi-etl:
+    build:
+      context: ./etl
+      dockerfile: Dockerfile.test
+
+volumes:
+  ozi_pgdata_volume:

@@ -118,6 +118,37 @@ Here is an example of how to run the `ASN_NEIGHBOURS` task for the Czech Republi
 docker compose run ozi-etl -t ASN_NEIGHBOURS -c CZ -df 2025-05-01 -dt 2025-05-31 -dr D
 ```
 
+## Running Tests
+
+To run the ETL tests, which utilize a separate named volume for the PostgreSQL database to ensure a clean and isolated test environment, use the following command:
+
+```sh
+DOCKER_BUILDKIT=0 docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --build --entrypoint "pytest" ozi-etl
+```
+
+*   `DOCKER_BUILDKIT=0`: This disables Docker BuildKit, which can sometimes cause issues with `act` or specific Docker Compose setups.
+*   `-f docker-compose.yml`: Includes your main Docker Compose configuration.
+*   `-f docker-compose.test.yml`: Overrides the volume configuration for the `ozi-postgres` service, ensuring tests use a named volume instead of a bind mount.
+*   `--rm`: Removes the container after the command exits.
+*   `--build`: Builds the `ozi-etl` service image if it's not up-to-date.
+*   `--entrypoint "pytest"`: Overrides the default entrypoint of the `ozi-etl` container to run `pytest`.
+*   `ozi-etl`: Specifies the service to run the command against.
+
+## Local CI Simulation with `act`
+
+You can simulate the GitHub Actions CI workflow locally using `act`. This is useful for debugging and testing your CI pipeline without pushing to GitHub.
+
+**Prerequisites for `act`:**
+
+*   `act` installed (e.g., `nix run nixpkgs#act` if you use Nix, or follow `act`'s installation instructions for your OS).
+*   Docker Engine running on your machine.
+
+To run the `pull_request` workflow defined in `.github/workflows/ci.yml` locally:
+
+```sh
+act pull_request
+```
+
 ## Stopping Services
 
 To stop the services, run:

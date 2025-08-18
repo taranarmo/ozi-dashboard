@@ -36,7 +36,9 @@ services:
     depends_on:
       ozi-postgres:
         condition: service_healthy
+    mem_limit: 2g
     environment:
+      PYTHONPATH: /app
       DB_HOST: ozi-postgres
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB:-ozi_db2}
