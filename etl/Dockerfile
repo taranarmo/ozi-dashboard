@@ -6,12 +6,9 @@ WORKDIR /app
 
 # Copy the requirements file into the container at /app
 COPY requirements.txt .
-COPY requirements-dev.txt .
-
 # Install any needed packages specified in requirements.txt
 # Use --no-cache-dir to reduce layer size
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir -r requirements-dev.txt
 
 # Copy the etl directory content into the container at /app/etl
 COPY . /app/etl/
