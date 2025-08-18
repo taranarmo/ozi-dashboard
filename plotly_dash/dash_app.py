@@ -23,8 +23,8 @@ def fetch_data():
 
     print("Fetching new data from database...")
     db_url = (
-        f"postgresql://{os.environ.get('DASH_DB_USER', 'user')}:"
-        f"{os.environ.get('DASH_DB_PASSWORD', 'password')}@"
+        f"postgresql://{os.environ.get('POSTGRES_OZI_USER', 'user')}:"
+        f"{os.environ.get('POSTGRES_OZI_PASSWORD', 'password')}@"
         f"{os.environ.get('DASH_DB_HOST', 'localhost')}:"
         f"{os.environ.get('DASH_DB_PORT', '5432')}/"
         f"{os.environ.get('DASH_DB_NAME', 'exampledb')}"

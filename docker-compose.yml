@@ -67,8 +67,7 @@ services:
       DASH_DB_HOST: ozi-postgres
       DASH_DB_PORT: 5432
       DASH_DB_NAME: ${POSTGRES_DB:-ozi_db2}
-      DASH_DB_USER: ${POSTGRES_OZI_USER:-ozi}
-      DASH_DB_PASSWORD: ${POSTGRES_OZI_PASSWORD:-ozi_password}
+      
     ports:
       - "8050:8050"
     networks:
