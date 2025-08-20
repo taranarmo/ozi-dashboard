@@ -111,6 +111,7 @@ def layout_page2_content():
                 id='country-dropdown-page2-single',
                 options=dropdown_options,
                 multi=False, # Single selection
+                value='RU', # Default selected country
                 placeholder="Select a country",
                 closeOnSelect=True,
             )
@@ -227,7 +228,7 @@ def set_dropdown_value_from_url(pathname):
             country_code = parts[2].upper()
             if country_code in df['cs_country_iso2'].unique():
                 return country_code
-    return None # Default or no country selected from URL
+    return 'RU' # Default to RU if no country selected from URL
 
 
 if __name__ == "__main__":
