@@ -206,7 +206,8 @@ CREATE TABLE data.country (
     updated timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     c_id integer NOT NULL,
     c_iso2 character varying(2) NOT NULL,
-    c_name character varying(256) NOT NULL
+    c_name character varying(256) NOT NULL,
+    c_name_ru character varying(256) NOT NULL
 );
 
 

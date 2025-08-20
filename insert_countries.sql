@@ -1,251 +1,248 @@
 \connect ozi_db2
-INSERT INTO data.country (c_iso2, c_name)
-VALUES
-    ('AF', 'Afghanistan'),
-    ('AX', 'Åland Islands'),
-    ('AL', 'Albania'),
-    ('DZ', 'Algeria'),
-    ('AS', 'American Samoa'),
-    ('AD', 'Andorra'),
-    ('AO', 'Angola'),
-    ('AI', 'Anguilla'),
-    ('AQ', 'Antarctica'),
-    ('AG', 'Antigua and Barbuda'),
-    ('AR', 'Argentina'),
-    ('AM', 'Armenia'),
-    ('AW', 'Aruba'),
-    ('AU', 'Australia'),
-    ('AT', 'Austria'),
-    ('AZ', 'Azerbaijan'),
-    ('BS', 'Bahamas'),
-    ('BH', 'Bahrain'),
-    ('BD', 'Bangladesh'),
-    ('BB', 'Barbados'),
-    ('BY', 'Belarus'),
-    ('BE', 'Belgium'),
-    ('BZ', 'Belize'),
-    ('BJ', 'Benin'),
-    ('BM', 'Bermuda'),
-    ('BT', 'Bhutan'),
-    ('BO', 'Bolivia (Plurinational State of)'),
-    ('BQ', 'Bonaire, Sint Eustatius and Saba'),
-    ('BA', 'Bosnia and Herzegovina'),
-    ('BW', 'Botswana'),
-    ('BV', 'Bouvet Island'),
-    ('BR', 'Brazil'),
-    ('IO', 'British Indian Ocean Territory'),
-    ('BN', 'Brunei Darussalam'),
-    ('BG', 'Bulgaria'),
-    ('BF', 'Burkina Faso'),
-    ('BI', 'Burundi'),
-    ('CV', 'Cabo Verde'),
-    ('KH', 'Cambodia'),
-    ('CM', 'Cameroon'),
-    ('CA', 'Canada'),
-    ('KY', 'Cayman Islands'),
-    ('CF', 'Central African Republic'),
-    ('TD', 'Chad'),
-    ('CL', 'Chile'),
-    ('CN', 'China'),
-    ('CX', 'Christmas Island'),
-    ('CC', 'Cocos (Keeling) Islands'),
-    ('CO', 'Colombia'),
-    ('KM', 'Comoros'),
-    ('CG', 'Congo'),
-    ('CD', 'Congo, Democratic Republic of the'),
-    ('CK', 'Cook Islands'),
-    ('CR', 'Costa Rica'),
-    ('HR', 'Croatia'),
-    ('CU', 'Cuba'),
-    ('CW', 'Curaçao'),
-    ('CY', 'Cyprus'),
-    ('CZ', 'Czechia'),
-    ('DK', 'Denmark'),
-    ('DJ', 'Djibouti'),
-    ('DM', 'Dominica'),
-    ('DO', 'Dominican Republic'),
-    ('EC', 'Ecuador'),
-    ('EG', 'Egypt'),
-    ('SV', 'El Salvador'),
-    ('GQ', 'Equatorial Guinea'),
-    ('ER', 'Eritrea'),
-    ('EE', 'Estonia'),
-    ('SZ', 'Eswatini'),
-    ('ET', 'Ethiopia'),
-    ('FK', 'Falkland Islands (Malvinas)'),
-    ('FO', 'Faroe Islands'),
-    ('FJ', 'Fiji'),
-    ('FI', 'Finland'),
-    ('FR', 'France'),
-    ('GF', 'French Guiana'),
-    ('PF', 'French Polynesia'),
-    ('TF', 'French Southern Territories'),
-    ('GA', 'Gabon'),
-    ('GM', 'Gambia'),
-    ('GE', 'Georgia'),
-    ('DE', 'Germany'),
-    ('GH', 'Ghana'),
-    ('GI', 'Gibraltar'),
-    ('GR', 'Greece'),
-    ('GL', 'Greenland'),
-    ('GD', 'Grenada'),
-    ('GP', 'Guadeloupe'),
-    ('GU', 'Guam'),
-    ('GT', 'Guatemala'),
-    ('GG', 'Guernsey'),
-    ('GN', 'Guinea'),
-    ('GW', 'Guinea-Bissau'),
-    ('GY', 'Guyana'),
-    ('HT', 'Haiti'),
-    ('HM', 'Heard Island and McDonald Islands'),
-    ('VA', 'Holy See'),
-    ('HN', 'Honduras'),
-    ('HK', 'Hong Kong'),
-    ('HU', 'Hungary'),
-    ('IS', 'Iceland'),
-    ('IN', 'India'),
-    ('ID', 'Indonesia'),
-    ('IR', 'Iran (Islamic Republic of)'),
-    ('IQ', 'Iraq'),
-    ('IE', 'Ireland'),
-    ('IM', 'Isle of Man'),
-    ('IL', 'Israel'),
-    ('IT', 'Italy'),
-    ('JM', 'Jamaica'),
-    ('JP', 'Japan'),
-    ('JE', 'Jersey'),
-    ('JO', 'Jordan'),
-    ('KZ', 'Kazakhstan'),
-    ('KE', 'Kenya'),
-    ('KI', 'Kiribati'),
-    ('KP', 'Korea (Democratic Peoples Republic of)'),
-    ('KR', 'Korea, Republic of'),
-    ('KW', 'Kuwait'),
-    ('KG', 'Kyrgyzstan'),
-    ('LA', 'Lao Peoples Democratic Republic'),
-    ('LV', 'Latvia'),
-    ('LB', 'Lebanon'),
-    ('LS', 'Lesotho'),
-    ('LR', 'Liberia'),
-    ('LY', 'Libya'),
-    ('LI', 'Liechtenstein'),
-    ('LT', 'Lithuania'),
-    ('LU', 'Luxembourg'),
-    ('MO', 'Macao'),
-    ('MG', 'Madagascar'),
-    ('MW', 'Malawi'),
-    ('MY', 'Malaysia'),
-    ('MV', 'Maldives'),
-    ('ML', 'Mali'),
-    ('MT', 'Malta'),
-    ('MH', 'Marshall Islands'),
-    ('MQ', 'Martinique'),
-    ('MR', 'Mauritania'),
-    ('MU', 'Mauritius'),
-    ('YT', 'Mayotte'),
-    ('MX', 'Mexico'),
-    ('FM', 'Micronesia (Federated States of)'),
-    ('MD', 'Moldova (Republic of)'),
-    ('MC', 'Monaco'),
-    ('MN', 'Mongolia'),
-    ('ME', 'Montenegro'),
-    ('MS', 'Montserrat'),
-    ('MA', 'Morocco'),
-    ('MZ', 'Mozambique'),
-    ('MM', 'Myanmar'),
-    ('NA', 'Namibia'),
-    ('NR', 'Nauru'),
-    ('NP', 'Nepal'),
-    ('NL', 'Netherlands'),
-    ('NC', 'New Caledonia'),
-    ('NZ', 'New Zealand'),
-    ('NI', 'Nicaragua'),
-    ('NE', 'Niger'),
-    ('NG', 'Nigeria'),
-    ('NU', 'Niue'),
-    ('NF', 'Norfolk Island'),
-    ('MK', 'North Macedonia'),
-    ('MP', 'Northern Mariana Islands'),
-    ('NO', 'Norway'),
-    ('OM', 'Oman'),
-    ('PK', 'Pakistan'),
-    ('PW', 'Palau'),
-    ('PS', 'Palestine, State of'),
-    ('PA', 'Panama'),
-    ('PG', 'Papua New Guinea'),
-    ('PY', 'Paraguay'),
-    ('PE', 'Peru'),
-    ('PH', 'Philippines'),
-    ('PN', 'Pitcairn'),
-    ('PL', 'Poland'),
-    ('PT', 'Portugal'),
-    ('PR', 'Puerto Rico'),
-    ('QA', 'Qatar'),
-    ('RE', 'Réunion'),
-    ('RO', 'Romania'),
-    ('RU', 'Russian Federation'),
-    ('RW', 'Rwanda'),
-    ('BL', 'Saint Barthélemy'),
-    ('SH', 'Saint Helena, Ascension and Tristan da Cunha'),
-    ('KN', 'Saint Kitts and Nevis'),
-    ('LC', 'Saint Lucia'),
-    ('MF', 'Saint Martin (French part)'),
-    ('PM', 'Saint Pierre and Miquelon'),
-    ('VC', 'Saint Vincent and the Grenadines'),
-    ('WS', 'Samoa'),
-    ('SM', 'San Marino'),
-    ('ST', 'Sao Tome and Principe'),
-    ('SA', 'Saudi Arabia'),
-    ('SN', 'Senegal'),
-    ('RS', 'Serbia'),
-    ('SC', 'Seychelles'),
-    ('SL', 'Sierra Leone'),
-    ('SG', 'Singapore'),
-    ('SX', 'Sint Maarten (Dutch part)'),
-    ('SK', 'Slovakia'),
-    ('SI', 'Slovenia'),
-    ('SB', 'Solomon Islands'),
-    ('SO', 'Somalia'),
-    ('ZA', 'South Africa'),
-    ('GS', 'South Georgia and the South Sandwich Islands'),
-    ('SS', 'South Sudan'),
-    ('ES', 'Spain'),
-    ('LK', 'Sri Lanka'),
-    ('SD', 'Sudan'),
-    ('SR', 'Suriname'),
-    ('SE', 'Sweden'),
-    ('CH', 'Switzerland'),
-    ('SY', 'Syrian Arab Republic'),
-    ('TW', 'Taiwan, Province of China'),
-    ('TJ', 'Tajikistan'),
-    ('TZ', 'Tanzania, United Republic of'),
-    ('TH', 'Thailand'),
-    ('TL', 'Timor-Leste'),
-    ('TG', 'Togo'),
-    ('TK', 'Tokelau'),
-    ('TO', 'Tonga'),
-    ('TT', 'Trinidad and Tobago'),
-    ('TN', 'Tunisia'),
-    ('TR', 'Türkiye'),
-    ('TM', 'Turkmenistan'),
-    ('TC', 'Turks and Caicos Islands'),
-    ('TV', 'Tuvalu'),
-    ('UG', 'Uganda'),
-    ('UA', 'Ukraine'),
-    ('AE', 'United Arab Emirates'),
-    ('GB', 'United Kingdom of Great Britain and Northern Ireland'),
-    ('US', 'United States of America'),
-    ('UM', 'United States Minor Outlying Islands'),
-    ('UY', 'Uruguay'),
-    ('UZ', 'Uzbekistan'),
-    ('VU', 'Vanuatu'),
-    ('VE', 'Venezuela (Bolivarian Republic of)'),
-    ('VN', 'Viet Nam'),
-    ('VG', 'Virgin Islands (British)'),
-    ('VI', 'Virgin Islands (U.S.)'),
-    ('WF', 'Wallis and Futuna'),
-    ('EH', 'Western Sahara'),
-    ('YE', 'Yemen'),
-    ('ZM', 'Zambia'),
-    ('ZW', 'Zimbabwe');
-
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AF', 'Afghanistan', 'Афганистан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AX', 'Åland Islands', 'Аландские острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AL', 'Albania', 'Албания');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DZ', 'Algeria', 'Алжир');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AS', 'American Samoa', 'Американское Самоа');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AD', 'Andorra', 'Андорра');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AO', 'Angola', 'Ангола');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AI', 'Anguilla', 'Ангилья');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AQ', 'Antarctica', 'Антарктида');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AG', 'Antigua and Barbuda', 'Антигуа и Барбуда');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AR', 'Argentina', 'Аргентина');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AM', 'Armenia', 'Армения');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AW', 'Aruba', 'Аруба');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AU', 'Australia', 'Австралия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AT', 'Austria', 'Австрия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AZ', 'Azerbaijan', 'Азербайджан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BS', 'Bahamas', 'Багамы');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BH', 'Bahrain', 'Бахрейн');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BD', 'Bangladesh', 'Бангладеш');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BB', 'Barbados', 'Барбадос');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BY', 'Belarus', 'Беларусь');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BE', 'Belgium', 'Бельгия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BZ', 'Belize', 'Белиз');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BJ', 'Benin', 'Бенин');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BM', 'Bermuda', 'Бермуды');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BT', 'Bhutan', 'Бутан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BO', 'Bolivia (Plurinational State of)', 'Боливия (Многонациональное Государство)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BQ', 'Bonaire, Sint Eustatius and Saba', 'Бонэйр, Синт-Эстатиус и Саба');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BA', 'Bosnia and Herzegovina', 'Босния и Герцеговина');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BW', 'Botswana', 'Ботсвана');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BV', 'Bouvet Island', 'Остров Буве');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BR', 'Brazil', 'Бразилия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IO', 'British Indian Ocean Territory', 'Британская территория в Индийском океане');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BN', 'Brunei Darussalam', 'Бруней-Даруссалам');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BG', 'Bulgaria', 'Болгария');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BF', 'Burkina Faso', 'Буркина-Фасо');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BI', 'Burundi', 'Бурунди');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CV', 'Cabo Verde', 'Кабо-Верде');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KH', 'Cambodia', 'Камбоджа');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CM', 'Cameroon', 'Камерун');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CA', 'Canada', 'Канада');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KY', 'Cayman Islands', 'Каймановы острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CF', 'Central African Republic', 'Центральноафриканская Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TD', 'Chad', 'Чад');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CL', 'Chile', 'Чили');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CN', 'China', 'Китай');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CX', 'Christmas Island', 'Остров Рождества');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CC', 'Cocos (Keeling) Islands', 'Кокосовые (Килинг) острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CO', 'Colombia', 'Колумбия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KM', 'Comoros', 'Коморы');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CG', 'Congo', 'Конго');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CD', 'Congo, Democratic Republic of the', 'Демократическая Республика Конго');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CK', 'Cook Islands', 'Острова Кука');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CR', 'Costa Rica', 'Коста-Рика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HR', 'Croatia', 'Хорватия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CU', 'Cuba', 'Куба');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CW', 'Curaçao', 'Кюрасао');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CY', 'Cyprus', 'Кипр');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CZ', 'Czechia', 'Чехия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DK', 'Denmark', 'Дания');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DJ', 'Djibouti', 'Джибути');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DM', 'Dominica', 'Доминика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DO', 'Dominican Republic', 'Доминиканская Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('EC', 'Ecuador', 'Эквадор');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('EG', 'Egypt', 'Египет');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SV', 'El Salvador', 'Сальвадор');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GQ', 'Equatorial Guinea', 'Экваториальная Гвинея');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ER', 'Eritrea', 'Эритрея');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('EE', 'Estonia', 'Эстония');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SZ', 'Eswatini', 'Эсватини');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ET', 'Ethiopia', 'Эфиопия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FK', 'Falkland Islands (Malvinas)', 'Фолклендские (Мальвинские) острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FO', 'Faroe Islands', 'Фарерские острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FJ', 'Fiji', 'Фиджи');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FI', 'Finland', 'Финляндия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FR', 'France', 'Франция');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GF', 'French Guiana', 'Французская Гвиана');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PF', 'French Polynesia', 'Французская Полинезия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TF', 'French Southern Territories', 'Французские Южные территории');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GA', 'Gabon', 'Габон');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GM', 'Gambia', 'Гамбия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GE', 'Georgia', 'Грузия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('DE', 'Germany', 'Германия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GH', 'Ghana', 'Гана');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GI', 'Gibraltar', 'Гибралтар');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GR', 'Greece', 'Греция');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GL', 'Greenland', 'Гренландия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GD', 'Grenada', 'Гренада');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GP', 'Guadeloupe', 'Гваделупа');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GU', 'Guam', 'Гуам');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GT', 'Guatemala', 'Гватемала');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GG', 'Guernsey', 'Гернси');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GN', 'Guinea', 'Гвинея');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GW', 'Guinea-Bissau', 'Гвинея-Бисау');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GY', 'Guyana', 'Гайана');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HT', 'Haiti', 'Гаити');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HM', 'Heard Island and McDonald Islands', 'Остров Херд и острова Макдональд');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VA', 'Holy See', 'Святейший Престол');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HN', 'Honduras', 'Гондурас');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HK', 'Hong Kong', 'Гонконг');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('HU', 'Hungary', 'Венгрия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IS', 'Iceland', 'Исландия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IN', 'India', 'Индия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ID', 'Indonesia', 'Индонезия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IR', 'Iran (Islamic Republic of)', 'Иран (Исламская Республика)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IQ', 'Iraq', 'Ирак');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IE', 'Ireland', 'Ирландия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IM', 'Isle of Man', 'Остров Мэн');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IL', 'Israel', 'Израиль');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('IT', 'Italy', 'Италия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('JM', 'Jamaica', 'Ямайка');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('JP', 'Japan', 'Япония');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('JE', 'Jersey', 'Джерси');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('JO', 'Jordan', 'Иордания');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KZ', 'Kazakhstan', 'Казахстан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KE', 'Kenya', 'Кения');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KI', 'Kiribati', 'Кирибати');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KP', 'Korea (Democratic Peoples Republic of)', 'КНДР');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KR', 'Korea, Republic of', 'Республика Корея');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KW', 'Kuwait', 'Кувейт');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KG', 'Kyrgyzstan', 'Киргизия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LA', 'Lao Peoples Democratic Republic', 'Лаосская Народно-Демократическая Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LV', 'Latvia', 'Латвия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LB', 'Lebanon', 'Ливан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LS', 'Lesotho', 'Лесото');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LR', 'Liberia', 'Либерия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LY', 'Libya', 'Ливия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LI', 'Liechtenstein', 'Лихтенштейн');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LT', 'Lithuania', 'Литва');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LU', 'Luxembourg', 'Люксембург');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MO', 'Macao', 'Макао');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MG', 'Madagascar', 'Мадагаскар');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MW', 'Malawi', 'Малави');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MY', 'Malaysia', 'Малайзия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MV', 'Maldives', 'Мальдивы');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ML', 'Mali', 'Мали');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MT', 'Malta', 'Мальта');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MH', 'Marshall Islands', 'Маршалловы Острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MQ', 'Martinique', 'Мартиника');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MR', 'Mauritania', 'Мавритания');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MU', 'Mauritius', 'Маврикий');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('YT', 'Mayotte', 'Майотта');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MX', 'Mexico', 'Мексика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('FM', 'Micronesia (Federated States of)', 'Микронезия (Федеративные Штаты)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MD', 'Moldova (Republic of)', 'Молдова (Республика)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MC', 'Monaco', 'Монако');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MN', 'Mongolia', 'Монголия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ME', 'Montenegro', 'Черногория');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MS', 'Montserrat', 'Монтсеррат');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MA', 'Morocco', 'Марокко');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MZ', 'Mozambique', 'Мозамбик');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MM', 'Myanmar', 'Мьянма');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NA', 'Namibia', 'Намибия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NR', 'Nauru', 'Науру');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NP', 'Nepal', 'Непал');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NL', 'Netherlands', 'Нидерланды');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NC', 'New Caledonia', 'Новая Каледония');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NZ', 'New Zealand', 'Новая Зеландия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NI', 'Nicaragua', 'Никарагуа');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NE', 'Niger', 'Нигер');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NG', 'Nigeria', 'Нигерия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NU', 'Niue', 'Ниуэ');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NF', 'Norfolk Island', 'Остров Норфолк');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MK', 'North Macedonia', 'Северная Македония');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MP', 'Northern Mariana Islands', 'Северные Марианские острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('NO', 'Norway', 'Норвегия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('OM', 'Oman', 'Оман');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PK', 'Pakistan', 'Пакистан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PW', 'Palau', 'Палау');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PS', 'Palestine, State of', 'Государство Палестина');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PA', 'Panama', 'Панама');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PG', 'Papua New Guinea', 'Папуа — Новая Гвинея');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PY', 'Paraguay', 'Парагвай');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PE', 'Peru', 'Перу');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PH', 'Philippines', 'Филиппины');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PN', 'Pitcairn', 'Питкэрн');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PL', 'Poland', 'Польша');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PT', 'Portugal', 'Португалия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PR', 'Puerto Rico', 'Пуэрто-Рико');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('QA', 'Qatar', 'Катар');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('RE', 'Réunion', 'Реюньон');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('RO', 'Romania', 'Румыния');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('RU', 'Russian Federation', 'Российская Федерация');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('RW', 'Rwanda', 'Руанда');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('BL', 'Saint Barthélemy', 'Сен-Бартелеми');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SH', 'Saint Helena, Ascension and Tristan da Cunha', 'Острова Святой Елены, Вознесения и Тристан-да-Кунья');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('KN', 'Saint Kitts and Nevis', 'Сент-Китс и Невис');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LC', 'Saint Lucia', 'Сент-Люсия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('MF', 'Saint Martin (French part)', 'Сен-Мартен (французская часть)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('PM', 'Saint Pierre and Miquelon', 'Сен-Пьер и Микелон');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VC', 'Saint Vincent and the Grenadines', 'Сент-Винсент и Гренадины');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('WS', 'Samoa', 'Самоа');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SM', 'San Marino', 'Сан-Марино');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ST', 'Sao Tome and Principe', 'Сан-Томе и Принсипи');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SA', 'Saudi Arabia', 'Саудовская Аравия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SN', 'Senegal', 'Сенегал');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('RS', 'Serbia', 'Сербия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SC', 'Seychelles', 'Сейшельские Острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SL', 'Sierra Leone', 'Сьерра-Леоне');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SG', 'Singapore', 'Сингапур');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SX', 'Sint Maarten (Dutch part)', 'Синт-Мартен (нидерландская часть)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SK', 'Slovakia', 'Словакия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SI', 'Slovenia', 'Словения');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SB', 'Solomon Islands', 'Соломоновы Острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SO', 'Somalia', 'Сомали');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ZA', 'South Africa', 'Южно-Африканская Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GS', 'South Georgia and the South Sandwich Islands', 'Южная Георгия и Южные Сандвичевы острова');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SS', 'South Sudan', 'Южный Судан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ES', 'Spain', 'Испания');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('LK', 'Sri Lanka', 'Шри-Ланка');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SD', 'Sudan', 'Судан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SR', 'Suriname', 'Суринам');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SE', 'Sweden', 'Швеция');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('CH', 'Switzerland', 'Швейцария');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('SY', 'Syrian Arab Republic', 'Сирийская Арабская Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TW', 'Taiwan, Province of China', 'Тайвань (провинция Китая)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TJ', 'Tajikistan', 'Таджикистан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TZ', 'Tanzania, United Republic of', 'Танзания, Объединенная Республика');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TH', 'Thailand', 'Таиланд');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TL', 'Timor-Leste', 'Тимор-Лесте');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TG', 'Togo', 'Того');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TK', 'Tokelau', 'Токелау');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TO', 'Tonga', 'Тонга');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TT', 'Trinidad and Tobago', 'Тринидад и Тобаго');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TN', 'Tunisia', 'Тунис');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TR', 'Türkiye', 'Турция');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TM', 'Turkmenistan', 'Туркменистан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TC', 'Turks and Caicos Islands', 'Теркс и Кайкос');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('TV', 'Tuvalu', 'Тувалу');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('UG', 'Uganda', 'Уганда');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('UA', 'Ukraine', 'Украина');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('AE', 'United Arab Emirates', 'Объединенные Арабские Эмираты');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('GB', 'United Kingdom of Great Britain and Northern Ireland', 'Соединенное Королевство Великобритании и Северной Ирландии');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('US', 'United States of America', 'Соединенные Штаты Америки');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('UM', 'United States Minor Outlying Islands', 'Внешние малые острова США');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('UY', 'Uruguay', 'Уругвай');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('UZ', 'Uzbekistan', 'Узбекистан');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VU', 'Vanuatu', 'Вануату');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VE', 'Venezuela (Bolivarian Republic of)', 'Венесуэла (Боливарианская Республика)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VN', 'Viet Nam', 'Вьетнам');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VG', 'Virgin Islands (British)', 'Виргинские острова (Британские)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('VI', 'Virgin Islands (U.S.)', 'Виргинские острова (США)');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('WF', 'Wallis and Futuna', 'Уоллис и Футуна');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('EH', 'Western Sahara', 'Западная Сахара');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('YE', 'Yemen', 'Йемен');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ZM', 'Zambia', 'Замбия');
+INSERT INTO data.country (c_iso2, c_name, c_name_ru) VALUES ('ZW', 'Zimbabwe', 'Зимбабве');
