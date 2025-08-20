@@ -2,6 +2,8 @@ services:
   ozi-postgres:
     volumes:
       - ozi_pgdata_volume:/var/lib/postgresql/data
+      - ./init_test_data.sql:/docker-entrypoint-initdb.d/99_init_test_data.sql:ro
+      
 
   ozi-etl:
     build:
