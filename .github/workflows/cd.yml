@@ -35,7 +35,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} " \
           cd ${PROJECT_DIR} && \
-          git pull && \
+          git pull --rebase && \
           docker compose up -d --build && \
           docker image prune -a -f \
         "
