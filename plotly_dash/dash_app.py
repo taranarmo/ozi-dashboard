@@ -10,7 +10,7 @@ import random
 # Global variables for caching
 last_data_fetch_time = None
 cached_df = None
-country_names_ru = {} # New global variable for Russian country names
+country_names_ru = {}
 CACHE_TTL_SECONDS = 60 # Cache will be considered stale after 60 seconds
 
 def fetch_data():
@@ -31,14 +31,14 @@ def fetch_data():
         f"{os.environ.get('DASH_DB_NAME', 'exampledb')}"
     )
     engine = sqlalchemy.create_engine(db_url)
-    
+
     # Fetch country statistics data
-    query_stats = """SELECT 
+    query_stats = """SELECT
                 cs_country_iso2,
                 cs_stats_timestamp,
                 cs_asns_ris,
                 cs_asns_stats
-             FROM data.country_stat 
+             FROM data.country_stat
              ORDER BY cs_stats_timestamp;"""
     df = pd.read_sql(query_stats, engine)
 
@@ -46,7 +46,7 @@ def fetch_data():
     query_countries = "SELECT c_iso2, c_name_ru FROM data.country;"
     df_countries = pd.read_sql(query_countries, engine)
     engine.dispose()
-    
+
     # Populate country_names_ru dictionary
     country_names_ru = {row['c_iso2']: row['c_name_ru'] for index, row in df_countries.iterrows()}
 
@@ -75,7 +75,7 @@ print(df_melted.info())
 
 
 # Layout for Page 1 (Original Dashboard)
-def layout_page1():
+def layout_page1_content():
     return html.Div([
         html.H1("Country Statistics Time Series - Page 1"),
         html.Div([
@@ -97,7 +97,7 @@ def layout_page1():
     ])
 
 # Layout for Page 2 (Copy of Original Dashboard, can be modified later)
-def layout_page2():
+def layout_page2_content():
     # Create dropdown options with Russian names
     dropdown_options = []
     for country_iso in df['cs_country_iso2'].unique():
@@ -130,7 +130,8 @@ app.layout = html.Div([
         dcc.Link('Go to Page 2', href='/page2'),
         html.Span(' (e.g., /page2/US)', style={'fontSize': '0.8em', 'color': '#888'}),
     ], style={'padding': '20px'}),
-    html.Div(id='page-content')
+    html.Div(id='page-1-container', children=layout_page1_content(), style={'display': 'none'}),
+    html.Div(id='page-2-container', children=layout_page2_content(), style={'display': 'none'}),
 ])
 
 # Update the callback for Page 1
@@ -196,15 +197,23 @@ def update_graph_page2(n_intervals, selected_country): # Changed argument name
 
     return fig
 
-@app.callback(Output('page-content', 'children'),
-              Input('url', 'pathname'))
+@app.callback(
+    Output('page-1-container', 'style'),
+    Output('page-2-container', 'style'),
+    Input('url', 'pathname')
+)
 def display_page(pathname):
+    style_page1 = {'display': 'none'}
+    style_page2 = {'display': 'none'}
+
     if pathname == '/page1':
-        return layout_page1()
+        style_page1 = {'display': 'block'}
     elif pathname.startswith('/page2'):
-        return layout_page2()
+        style_page2 = {'display': 'block'}
     else:
-        return layout_page1() # Default to page 1
+        style_page1 = {'display': 'block'} # Default to page 1
+
+    return style_page1, style_page2
 
 # New callback to update dropdown based on URL
 @app.callback(
@@ -219,9 +228,6 @@ def set_dropdown_value_from_url(pathname):
             if country_code in df['cs_country_iso2'].unique():
                 return country_code
     return None # Default or no country selected from URL
-
-
-
 
 
 if __name__ == "__main__":
